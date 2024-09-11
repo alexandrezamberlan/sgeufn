@@ -22,4 +22,4 @@ Uma vez com conta no GitHub, criar repositório ou projeto. Criar README, gitign
     1) atualizar o pip: python -m pip install --upgrade pip
     2) criar a venv:    python -m venv venv
     3) ativar a venv:   venv\Scripts\activate
-    4)
+    4) instalar requirements.txt: python -m pip install -r requirements.txt
