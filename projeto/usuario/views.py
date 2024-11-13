@@ -139,5 +139,5 @@ class UsuarioRegisterActivateView(RedirectView):
         self.object.is_active = True
         self.object.save()
         login(self.request, self.object)
-        messages.success(self.request, 'Obrigado por acessar o Sistema de Avaliação Online de Artigos - SAOA. Esta é a sua área restrita de acompanhamento de Submissões e Avaliações de trabalhos.')
+        messages.success(self.request, 'Obrigado por acessar o Sistema de Gestão de Eventos da UFN - SGEUFN. Esta é a sua área restrita.')
         return reverse('appmembro_home')

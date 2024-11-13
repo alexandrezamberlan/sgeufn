@@ -13,7 +13,7 @@
     2) criar a pasta para receber o repositório
         - Políticas ou boas práticas da Infraestrutura UFN
             1) sistemas web devem estar em /var/www
-            2) nome da pasta do sistema deve ser saoa.lapinf.ufn.edu.br
+            2) nome da pasta do sistema deve ser sgeufn.lapinf.ufn.edu.br
     3) clonar o projeto do github no servidor
     4) criar a venv
         - usar virtualenv: virtualenv -p python3.10 venv (exceção pq o servidor contém o python 2.7)
@@ -25,25 +25,25 @@
 
 ### GUNICORN 
 
-    - criar o arquivo /etc/systemd/system/saoa.service
+    - criar o arquivo /etc/systemd/system/sgeufn.service
 
 ```
 [Unit]
-Description=saoa daemon
+Description=sgeufn daemon
 After=network.target
 
 [Service]
 User=alexz
 Group=www-data
-WorkingDirectory=/var/www/saoa.lapinf.ufn.edu.br/saoa/projeto
-ExecStart=/var/www/saoa.lapinf.ufn.edu.br/saoa/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/saoa.lapinf.ufn.edu.br/saoa/projeto/saoa.sock projeto.wsgi:application
+WorkingDirectory=/var/www/sgeufn.lapinf.ufn.edu.br/sgeufn/projeto
+ExecStart=/var/www/sgeufn.lapinf.ufn.edu.br/sgeufn/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/sgeufn.lapinf.ufn.edu.br/sgeufn/projeto/sgeufn.sock projeto.wsgi:application
 ```
 
     - iniciar o parser gunicorn:
-        - sudo systemctl start saoa
+        - sudo systemctl start sgeufn
 
     - adicionar o sistema como serviço reconhecido no sistema:
-        - sudo systemctl enable saoa
+        - sudo systemctl enable sgeufn
 
 
 ### NGINX
@@ -51,16 +51,16 @@ ExecStart=/var/www/saoa.lapinf.ufn.edu.br/saoa/venv/bin/gunicorn --access-logfil
 Para que o Nginx sirva esse conteúdo, é necessário criar um bloco de servidor com as diretivas corretas. 
 Em vez de modificar o arquivo de configuração padrão diretamente, vamos criar um novo em 
 
-    - /etc/nginx/sites-available/saoa.lapinf.ufn.edu.br
+    - /etc/nginx/sites-available/sgeufn.lapinf.ufn.edu.br
  
-    - sudo vim /etc/nginx/sites-available/saoa.lapinf.ufn.edu.br
+    - sudo vim /etc/nginx/sites-available/sgeufn.lapinf.ufn.edu.br
 
 
 Cole dentro o seguinte bloco de configuração, que é similar ao padrão, mas atualizado para nosso novo diretório e nome de domínio:
  
 ```
 server {
-        server_name saoa.lapinf.ufn.edu.br www.saoa.lapinf.ufn.edu.br;
+        server_name sgeufn.lapinf.ufn.edu.br www.sgeufn.lapinf.ufn.edu.br;
         client_body_in_file_only clean;
         client_body_buffer_size 32K;
         client_max_body_size 2512M;
@@ -76,13 +76,13 @@ server {
                 expires 30d;
                 access_log off;
                 break;
-                alias /var/www/saoa.lapinf.ufn.edu.br/saoa/projeto/projeto/static;
+                alias /var/www/sgeufn.lapinf.ufn.edu.br/sgeufn/projeto/projeto/static;
         }
 
         location / {
                 client_max_body_size 2048M;
                 include proxy_params;
-                proxy_pass http://unix:/var/www/saoa.lapinf.ufn.edu.br/saoa/projeto/saoa.sock;
+                proxy_pass http://unix:/var/www/sgeufn.lapinf.ufn.edu.br/sgeufn/projeto/sgeufn.sock;
         }
 } 
 ```
@@ -90,7 +90,7 @@ server {
 Observe que atualizamos a configuração root para corresponder ao nosso novo diretório e 
 server_name ao nosso nome de domínio. A seguir, vamos ativar o arquivo através da criação de um link dele para o diretório sites-enabled, a partir do qual o Nginx lê durante a inicialização:
  
-    - sudo ln -s /etc/nginx/sites-available/saoa.lapinf.ufn.edu.br /etc/nginx/sites-enabled/
+    - sudo ln -s /etc/nginx/sites-available/sgeufn.lapinf.ufn.edu.br /etc/nginx/sites-enabled/
  
 Depois, teste para certificar-se de que não existem erros de sintaxe em quaisquer de seus arquivos do Nginx:
  
@@ -104,7 +104,7 @@ Salve e feche o arquivo quando tiver terminado. Se não houver problemas, reinic
 
 ### Obtendo um Certificado SSL
  
-    - sudo certbot --nginx -d saoa.lapinf.ufn.edu.br -d www.saoa.lapinf.ufn.edu.br
+    - sudo certbot --nginx -d sgeufn.lapinf.ufn.edu.br -d www.sgeufn.lapinf.ufn.edu.br
  
 Se isso for bem sucedido, o certbot perguntará como você gostaria de definir suas configurações de HTTPS. Usa 2 para sempre redirecionar para SSL
 
@@ -147,11 +147,11 @@ IMPORTANT NOTES:
 PARA VISUALIZAR, SE NECESSÁRIO, OS USUÁRIOS DO MYSQL:
     - SELECT user FROM mysql.user;
 
-    - CREATE DATABASE saoa_db;
+    - CREATE DATABASE sgeufn_db;
 
-    - CREATE USER 'saoa'@'localhost' IDENTIFIED BY 'senhaDesejada';
+    - CREATE USER 'sgeufn'@'localhost' IDENTIFIED BY 'senhaDesejada';
 
-    - GRANT ALL PRIVILEGES ON saoa_db.* TO 'saoa'@'localhost' IDENTIFIED BY 'senhaDesejada';
+    - GRANT ALL PRIVILEGES ON sgeufn_db.* TO 'sgeufn'@'localhost' IDENTIFIED BY 'senhaDesejada';
 
 ### Rodar migrates
 
@@ -179,7 +179,7 @@ u.save()
 
 No arquivo .env adicionar:
 
-    - DATABASE_URL=mysql://saoa:senhaEscolhida$@127.0.0.1:3306/saoa_db
+    - DATABASE_URL=mysql://sgeufn:senhaEscolhida$@127.0.0.1:3306/sgeufn_db
 
 
 
