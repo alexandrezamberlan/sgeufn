@@ -2,3 +2,72 @@
 Sistema Web Python-Django que gerencia eventos da Universidade Franciscana, controlando inscrições, presenças e gerando atestados.
 
 Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que alunos dos cursos da área de Computação podem praticar o desenvolvimento de sistema Web Python-Django.
+
+## Estruturação
+
+- apps
+    - usuario
+        - tipos: administrador, coordenador de evento, participante
+        - nome
+        - email (chave primária)
+        - celular
+        - cpf
+        - instituição (não tem vinculo com app instituição) - pedir pra não usar sigla
+        - assinatura (imagem da assinatura)
+        - is_active
+        - slug
+
+        Obs.:
+            - usuário faz autocadastro (exceto administrador)
+                - colocar campo de aceite dos termos de uso
+    
+    - instituição
+        - nome
+        - sigla (opcional)
+        - cidade
+        - estado
+        - país
+        - is_active
+        - slug
+
+    - evento 
+        - nome ou título
+        - tipo (relação com app tipo de evento - palestra, minicurso, sarau, ...)
+        - carga horária
+        - instituição (relação com app instituição)
+        - local (descrição completa - textfield)
+        - lotação
+        - total de inscritos e vagas restantes ??? property
+        - data do evento
+        - coordenador do evento (relação com app usuario) - DEVE SER TIPO COORDENADOR EM USUÁRIO
+        - valor participação ???
+        - pedir frequencia na entrada (boolean)
+        - pedir frequencia na saida (boolean)
+        - is_active
+        - slug
+        
+    - inscricao
+        - usuário do tipo participante
+        - evento (relação com app evento)
+        - data e hora da inscrição (capturado automático)
+        - esta_pago ??? property (enviado por email quando pago)
+        - codigo_matricula (enviado por email)
+
+    - frequencia
+        - evento
+        - inscricao via codigo_matricula (relação com app inscrição)
+        - verificar se há frequencia de entrada e/ou saída
+        - validar se já 'bateu' a frequencia de entrada ou de saída (em período)
+
+    - atestado
+        - evento (nome, tipo, carga horária (total ou real), instituição, local, data, coordenador do evento (nome e de assinatura))
+        - número do atestado
+        - enviar por email
+        - reenviar por email
+        
+
+Sugestões de CSS
+    - https://bootswatch.com/3/
+
+Icons bootstrap - https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp
+
