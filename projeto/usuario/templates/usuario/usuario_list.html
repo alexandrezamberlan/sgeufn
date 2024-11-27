@@ -10,15 +10,10 @@
 		<div class="panel-body">
 		<form class="form">
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 					{% bootstrap_field form.tipo  %}
 				</div>	
-				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-					{% bootstrap_field form.titulacao  %}
-				</div>	
-				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-					{% bootstrap_field form.area  %}
-				</div>			  				
+					  				
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 					<br>
 					<button type="submit" class="btn btn-success btn-md"  style="width: 100%;">{% bootstrap_icon 'search' %} Buscar</button>
@@ -61,9 +56,9 @@
 						
 						<td class="text-center">
 							{% if usuario.is_active %}
-								{% bootstrap_icon 'thumbs-up' size='sm' %}
+								<span class="label label-success">SIM</span>
 							{% else %}
-								{% bootstrap_icon 'thumbs-down' size='sm' %}
+								<span class="label label-danger">NÃO</span>
 							{% endif %}
 						</td>
 						<td>{{ usuario.last_login|date:"d/m/Y H:i" }}</td>

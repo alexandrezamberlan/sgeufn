@@ -46,24 +46,16 @@ class UsuarioListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
 
         if form.is_valid():            
             tipo = form.cleaned_data.get('tipo')
-            titulacao = form.cleaned_data.get('titulacao')
-            area = form.cleaned_data.get('area')
-                        
+                       
             if tipo:
                 qs = qs.filter(tipo=tipo)
-
-            if titulacao:
-                qs = qs.filter(titulacao=titulacao)
-
-            if area:
-                qs = qs.filter(area=area)
             
         return qs
 
 
 class UsuarioCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
     model = Usuario
-    fields = ['tipo', 'nome', 'eh_avaliador', 'titulacao', 'area', 'instituicao', 'celular', 'cpf', 'email', 'password', 'aceita_termo', 'is_active']
+    fields = ['tipo', 'nome', 'instituicao', 'celular', 'cpf', 'email', 'password', 'aceita_termo', 'is_active']
     success_url = 'usuario_list'
     
     def get_success_url(self):
@@ -73,7 +65,7 @@ class UsuarioCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
 
 class UsuarioUpdateView(LoginRequiredMixin, StaffRequiredMixin, UpdateView):
     model = Usuario
-    fields = ['tipo', 'nome', 'eh_avaliador', 'titulacao', 'area', 'instituicao', 'celular', 'cpf', 'email', 'is_active']
+    fields = ['tipo', 'nome', 'instituicao', 'celular', 'cpf', 'email', 'is_active']
     success_url = 'usuario_list'
     
     def get_success_url(self):

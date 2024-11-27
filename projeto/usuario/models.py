@@ -45,7 +45,7 @@ class Usuario(AbstractBaseUser):
     TIPOS_USUARIOS = (
         ('ADMINISTRADOR', 'Administrador'),
         ('COORDENADOR', 'Coordenador de Evento' ),
-        ('MEMBRO', 'Membro' ),        
+        ('PARTICIPANTE', 'Participante' ),        
     )
    
     USERNAME_FIELD = 'email'

@@ -6,7 +6,7 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
 ## Estruturação
 
 - apps
-    - usuario
+    - (OK)usuario
         - tipos: administrador, coordenador de evento, participante
         - nome
         - email (chave primária)
@@ -21,7 +21,7 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
             - usuário faz autocadastro (exceto administrador)
                 - colocar campo de aceite dos termos de uso
     
-    - instituição
+    - (OK)instituição
         - nome
         - sigla (opcional)
         - cidade
