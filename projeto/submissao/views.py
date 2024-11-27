@@ -62,7 +62,6 @@ class SubmissaoListView(LoginRequiredMixin, ListView):
     
 class SubmissaoCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateView):
     model = Submissao
-    # fields = ['nome', 'tipo', 'instituicao', 'coordenador', 'coordenador_suplente', 'data_inicio', 'data_limite_trabalhos', 'modelo_artigo', 'arquivo_modelo', 'is_active']
     form_class = SubmissaoForm
     success_url = 'submissao_list'
     
@@ -73,7 +72,6 @@ class SubmissaoCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateVi
     
 class SubmissaoUpdateView(LoginRequiredMixin, CoordenadorRequiredMixin, UpdateView):
     model = Submissao
-    # fields = ['nome', 'tipo', 'instituicao', 'coordenador', 'coordenador_suplente', 'data_inicio', 'data_limite_trabalhos', 'modelo_artigo', 'arquivo_modelo', 'is_active']
     form_class = SubmissaoForm
     success_url = 'submissao_coordenador_list'
     

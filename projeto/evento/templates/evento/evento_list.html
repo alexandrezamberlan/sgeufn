@@ -33,12 +33,8 @@
 				<th>Evento</th>
 				<th>Coordenação</th>
 				<th class="text-center">Site</th>
-				<th>Email comissão</th>
-				<th class="text-center">Templates</th>
-				<th class="text-center">Data submissão</th>
-				<th class="text-center">Data divulgação</th>
-				<th class="text-center">Data reenvio</th>
-				<th class="text-center">Resultados publicados?</th>
+				<th class="text-center">Data evento</th>
+				<th class="text-center">Data limite inscrição</th>								
 				<th class="text-center">Ativo</th>
 				<th class="text-center">Editar</th>
 				<th class="text-center">Excluir</th>
@@ -51,10 +47,7 @@
 							<small>{{ evento.tipo }} | {{ evento.instituicao }}</small>
 						</td>
 						<td>
-							Responsável: {{ evento.coordenador }}<br>
-							{% if evento.coordenador_suplente %}
-								<small> Suplente: {{evento.coordenador_suplente}} </small>
-							{% endif %}
+							Responsável: {{ evento.coordenador }}<br>							
 						</td>	
 						<td class="text-center">
 							{% if evento.site %}
@@ -67,41 +60,21 @@
 								</a>
 							{% endif %}
 						</td>	
-						<td>
-							{{  evento.email }}
-						</td>
+						
+						
 						<td class="text-center">
-							{% if evento.arquivo_modelo %} 
-								<a href="{{ evento.arquivo_modelo.url }}" target="_blank" class="btn btn-sm btn-info">
-									{% bootstrap_icon 'download' %}
-								</a>
-							{% else %}
-								<a href="" target="_blank" class="btn btn-sm btn-warning disabled">
-									{% bootstrap_icon 'download' %}
-								</a>
-							{% endif %}
-						</td>
-						<td class="text-center">
-							{{ evento.data_limite_trabalhos|date:'d/m/Y' }}
+							{{ evento.data_inicio|date:'d/m/Y' }}
 						</td>											
 						<td class="text-center">
-							{{ evento.data_divulgacao_trabalhos_aprovados|date:'d/m/Y' }}
+							{{ evento.data_inscricao|date:'d/m/Y' }}
 						</td>
-						<td class="text-center">
-							{{ evento.data_limite_reenvio_trabalhos_corrigidos|date:'d/m/Y' }}
-						</td>
-						<td class="text-center">
-							{% if evento.publicado %}
-								SIM
-							{% else %}
-								NÃO
-							{% endif %}
-						</td>
+						
+						
 						<td class="text-center">
 							{% if evento.is_active %}
-								{% bootstrap_icon 'thumbs-up' size='sm' %}
+								<span class="label label-success">SIM</span>
 							{% else %}
-								{% bootstrap_icon 'thumbs-down' size='sm' %}
+								<span class="label label-danger">NÃO</span>
 							{% endif %}
 						</td>
 						<td class="text-center">

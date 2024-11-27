@@ -7,44 +7,44 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
 
 - apps
     - (OK)usuario
-        - tipos: administrador, coordenador de evento, participante
-        - nome
-        - email (chave primária)
-        - celular
-        - cpf
-        - instituição (não tem vinculo com app instituição) - pedir pra não usar sigla
+        - (OK)tipos: administrador, coordenador de evento, participante
+        - (OK)nome
+        - (OK)email (chave primária)
+        - (OK)celular
+        - (OK)cpf
+        - (OK)instituição (não tem vinculo com app instituição) - pedir pra não usar sigla
         - assinatura (imagem da assinatura)
-        - is_active
-        - slug
+        - (OK)is_active
+        - (OK)slug
 
         Obs.:
-            - usuário faz autocadastro (exceto administrador)
-                - colocar campo de aceite dos termos de uso
+            - (OK)usuário faz autocadastro (exceto administrador)
+                - (OK)colocar campo de aceite dos termos de uso
     
     - (OK)instituição
-        - nome
-        - sigla (opcional)
-        - cidade
-        - estado
-        - país
-        - is_active
-        - slug
+        - (OK)nome
+        - (OK)sigla (opcional)
+        - (OK)cidade
+        - (OK)estado
+        - (OK)país
+        - (OK)is_active
+        - (OK)slug
 
     - evento 
-        - nome ou título
-        - tipo (relação com app tipo de evento - palestra, minicurso, sarau, ...)
+        - (OK)nome ou título
+        - (OK)tipo (relação com app tipo de evento - palestra, minicurso, sarau, ...)
         - carga horária
-        - instituição (relação com app instituição)
+        - (OK)instituição (relação com app instituição)
         - local (descrição completa - textfield)
         - lotação
         - total de inscritos e vagas restantes ??? property
-        - data do evento
-        - coordenador do evento (relação com app usuario) - DEVE SER TIPO COORDENADOR EM USUÁRIO
+        - (OK)data do evento
+        - (OK)coordenador do evento (relação com app usuario) - DEVE SER TIPO COORDENADOR EM USUÁRIO
         - valor participação ???
         - pedir frequencia na entrada (boolean)
         - pedir frequencia na saida (boolean)
-        - is_active
-        - slug
+        - (OK)is_active
+        - (OK)slug
         
     - inscricao
         - usuário do tipo participante

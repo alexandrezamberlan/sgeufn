@@ -55,7 +55,6 @@ class EventoListView(LoginRequiredMixin, ListView):
 
 class EventoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
     model = Evento
-    # fields = ['nome', 'tipo', 'descricao', 'site', 'instituicao', 'coordenador', 'coordenador_suplente', 'email', 'data_inicio', 'data_limite_trabalhos', 'data_divulgacao_trabalhos_aprovados', 'data_limite_reenvio_trabalhos_corrigidos', 'modelo_artigo', 'arquivo_modelo', 'publicado', 'is_active']
     form_class = EventoForm
     success_url = 'evento_list'
     
@@ -66,7 +65,6 @@ class EventoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
 
 class EventoUpdateView(LoginRequiredMixin, CoordenadorRequiredMixin, UpdateView):
     model = Evento
-    # fields = ['nome', 'tipo', 'descricao', 'site', 'instituicao', 'coordenador', 'coordenador_suplente', 'email', 'data_inicio', 'data_limite_trabalhos', 'data_divulgacao_trabalhos_aprovados', 'data_limite_reenvio_trabalhos_corrigidos', 'modelo_artigo', 'arquivo_modelo', 'publicado', 'is_active']
     form_class = EventoForm
     success_url = 'evento_list'
 
