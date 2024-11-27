@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import AvaliacaoListView, AvaliacaoAndamentoListView, MinhaAvaliacaoListView, AvaliacaoMinhaCoordenacaoListView #, AvaliacaoPdfView
+from .views import AvaliacaoListView, AvaliacaoAndamentoListView, MinhaAvaliacaoListView, AvaliacaoMinhaCoordenacaoListView
 from .views import AvaliacaoUpdateView, AvaliacaoDeleteView, AvaliacaoCreateView, AvaliacaoDetailView, AvaliacaoImpressaoListView
-from .views import AvaliacaoMinhasAndamentoListView#, AvaliacaoTermoBancaPdfView, AvaliacaoTermoBibliotecaPdfView
-from .views import MinhaAvaliacaoResponsavelUpdateView, MinhaAvaliacaoSuplenteUpdateView, MinhaAvaliacaoConvidadoUpdateView
+from .views import AvaliacaoMinhasAndamentoListView
+from .views import MinhaAvaliacaoResponsavelUpdateView, MinhaAvaliacaoSuplenteUpdateView
 
 urlpatterns = [
     path('<slug:slug>/avaliacao-parecer-liberado/', AvaliacaoDetailView.as_view(), name='avaliacao_parecer_detail'),
