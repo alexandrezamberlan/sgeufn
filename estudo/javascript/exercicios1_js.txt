@@ -1,0 +1,9 @@
+a) Organização do código - boas práticas de separação de código
+1) html - pastaHtml -> código fonte
+2) javascript - pastaJS -> código fonte
+
+
+b) Inserir várias funções no mesmo arquivo js.
+    1) whatsapp
+    2) validar que dois campos tenham o mesmo conteúdo
+    3) no form criado, adicionar um campo para nome completo. Criar uma função JS que pegue o sobrenome da pessoa e crie o email sobrenome@ufn.edu.br.
