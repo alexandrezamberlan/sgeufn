@@ -66,8 +66,25 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         - reenviar por email
         
 
-Sugestões de CSS
+## Sugestões de CSS
     - https://bootswatch.com/3/
+    - Icons bootstrap 
+        - https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp
 
-Icons bootstrap - https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp
+## .env
 
+SECRET_KEY='aoabb!bk-g5s0uk49ecc#%3#3+is(&3+)@ny%3yo0ct0481q43'
+DEBUG=True
+STATIC_URL=/static/
+
+DOMINIO_URL='localhost:8000'
+
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_USE_STARTTLS = False
