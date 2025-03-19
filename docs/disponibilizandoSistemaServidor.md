@@ -19,6 +19,7 @@
         - usar virtualenv: virtualenv -p python3.10 venv (exceção pq o servidor contém o python 2.7)
     5) ativar venv
         - source venv/bin/activate (exceção pq é um servidor linux)
+        - venv\Scripts\activate (windows)
     6) instalar pacotes
 
 ## Passos de configuração (Linux)
