@@ -3,6 +3,12 @@ Sistema Web Python-Django que gerencia eventos da Universidade Franciscana, cont
 
 Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que alunos dos cursos da área de Computação podem praticar o desenvolvimento de sistema Web Python-Django.
 
+## Integrantes
+    - Camille Rodrigues - Sistemas de Informação
+    - Bruno Difante - Ciência da Computação
+    - Gabriel Morais - Ciência da Computação
+    - Pedro Canabarro - Ciência da Computação
+
 ## Estruturação
 
 - apps
