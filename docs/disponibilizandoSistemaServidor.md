@@ -1,6 +1,6 @@
-# Disponibilizando no servidor Linux
+# Disponibilizando no servidor Linux e Windows
 
-## Necessidade de serviços instalados:
+## Necessidade de serviços instalados Linux:
     1) nginx
     2) gunicorn
     3) mysql
@@ -8,7 +8,7 @@
     5) python
     6) git
 
-## Primeiros passos:
+## Primeiros passos (Linux e Windows):
     1) acessar o servidor via ssh
     2) criar a pasta para receber o repositório
         - Políticas ou boas práticas da Infraestrutura UFN
@@ -21,7 +21,7 @@
         - source venv/bin/activate (exceção pq é um servidor linux)
     6) instalar pacotes
 
-## Passos de configuração
+## Passos de configuração (Linux)
 
 ### GUNICORN 
 
