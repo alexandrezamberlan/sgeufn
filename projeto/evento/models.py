@@ -29,15 +29,21 @@ class Evento(models.Model):
     
     data_divulgacao_trabalhos_aprovados = models.DateField('Data de divulgação dos trabalhos aprovados *', null=True, blank=False, max_length=10, help_text='Use dd/mm/aaaa')
     data_limite_reenvio_trabalhos_corrigidos = models.DateField('Data de reenvio de trabalhos aprovados e corrigidos *', null=True, blank=False, max_length=10, help_text='Use dd/mm/aaaa')
+    
     coordenador = models.ForeignKey('usuario.Usuario', verbose_name= 'Coordenador responsável *', on_delete=models.PROTECT, related_name='coordenador')
+    
     coordenador_suplente = models.ForeignKey('usuario.Usuario', verbose_name= 'Coordenador suplente', on_delete=models.PROTECT, related_name='coordenador_suplente', null=True, blank=True)
-    email = models.EmailField('Email oficial da comissão científica *', max_length=100,help_text='Campo obrigatório. Email para contato dos membros que estão submetendo trabalhos.', null=True, blank=False)
+    email = models.EmailField('Email oficial da comissão científica', max_length=100,help_text='Campo opcional, caso o evento seja de submissão de trabalhos.', null=True, blank=True)
+    
     modelo_artigo = models.CharField('Qual o modelo para artigos? ', max_length=150, help_text='Informe o modelo, como ABNT, SBC, IEEE')
     arquivo_modelo = models.FileField('Carregue arquivo zipado com modelos', null=True, blank=True, upload_to='midias', help_text='Utilize arquivo compactado do tipo zip')
+    
     publicado = models.BooleanField('PUBLICAR RESULTADOS APÓS AVALIAÇÕES?', default=False, help_text='Se marcada a caixa, os resultados das avaliações serão exibidos aos autores de trabalhos')
     
     data_inscricao = models.DateField('Data limite de inscrição ao evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
     carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(12)], null=True, blank=False, default = 1)    
+    local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
+    lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=True)    
 
     is_active = models.BooleanField('Ativo', default=True, help_text='Se ativo, o evento está liberado para chamada de artigos')    
     slug = models.SlugField('Hash',max_length= 200,null=True,blank=True)

@@ -10,7 +10,7 @@ class EventoForm(forms.ModelForm):
     
     class Meta:
         model = Evento
-        fields = ['nome', 'tipo', 'descricao', 'carga_horaria', 'site', 'instituicao', 'coordenador', 'email', 'data_inicio', 'data_inscricao', 'is_active']
+        fields = ['nome', 'tipo', 'descricao', 'carga_horaria', 'local', 'lotacao', 'site', 'instituicao', 'coordenador', 'email', 'data_inicio', 'data_inscricao', 'is_active']
 
     def __init__(self, usuario=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

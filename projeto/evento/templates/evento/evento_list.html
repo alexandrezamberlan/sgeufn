@@ -31,6 +31,7 @@
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
+				<th>Local</th>
 				<th>Coordenação</th>
 				<th class="text-center">Site</th>
 				<th class="text-center">Data evento</th>
@@ -45,6 +46,16 @@
 						<td>
 							{{ evento.nome }}<br>
 							<small>{{ evento.tipo }} | {{ evento.instituicao }}</small>
+						</td>
+						<td>
+							{% if evento.local %}
+								{{ evento.local }} | <small><b>Lotação:</b> {{ evento.lotacao }} lugares</small>
+								
+							{% else %}
+								<span class="label label-warning">
+									Não informado
+								</span>
+							{% endif %}
 						</td>
 						<td>
 							Responsável: {{ evento.coordenador }}<br>							

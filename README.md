@@ -12,7 +12,7 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
 ## Estruturação
 
 - apps
-    - (OK)usuario
+    - usuario
         - (OK)tipos: administrador, coordenador de evento, participante
         - (OK)nome
         - (OK)email (chave primária)
@@ -26,6 +26,7 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         Obs.:
             - (OK)usuário faz autocadastro (exceto administrador)
                 - (OK)colocar campo de aceite dos termos de uso
+                - verificar se está mandando por email a ativação do usuário
     
     - (OK)instituição
         - (OK)nome
@@ -39,10 +40,10 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
     - evento 
         - (OK)nome ou título
         - (OK)tipo (relação com app tipo de evento - palestra, minicurso, sarau, ...)
-        - carga horária
+        - (OK)carga horária
         - (OK)instituição (relação com app instituição)
-        - local (descrição completa - textfield)
-        - lotação
+        - (OK)local (descrição completa - textfield)
+        - (OK)lotação
         - total de inscritos e vagas restantes ??? property
         - (OK)data do evento
         - (OK)coordenador do evento (relação com app usuario) - DEVE SER TIPO COORDENADOR EM USUÁRIO
