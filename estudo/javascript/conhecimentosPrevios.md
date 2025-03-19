@@ -21,7 +21,11 @@
   - solicitar pull request
 
 ## Venvs ou Virtual Environmets
-  python -m venv
+  - python -m venv
+
+## PIP - gerenciador de pacotes no ecossistema Python
+  - https://www.w3schools.com/python/python_pip.asp
+
 
 ## Javascript e forms html
   - organização dos códigos
