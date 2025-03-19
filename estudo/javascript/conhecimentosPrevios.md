@@ -20,6 +20,9 @@
   - criar branch
   - solicitar pull request
 
+## Venvs ou Virtual Environmets
+  python -m venv
+
 ## Javascript e forms html
   - organização dos códigos
 
