@@ -7,9 +7,7 @@ from django.db.models import Q
 from django.urls import reverse
 #from django.utils.translation import ugettext_lazy as _
 
-from avaliacao.models import Avaliacao
 from evento.models import Evento
-from submissao.models import Submissao
 
 from datetime import timedelta, datetime
 

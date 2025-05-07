@@ -54,11 +54,13 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         - (OK)slug
         
     - inscricao
-        - usuário do tipo participante
-        - evento (relação com app evento)
-        - data e hora da inscrição (capturado automático)
-        - esta_pago ??? property (enviado por email quando pago)
-        - codigo_matricula (enviado por email)
+        - (OK)usuário do tipo participante - SE O PARTICIPANTE SE LOGA, É AUTOMATICO A ESCOLHA DO PARTICIPANTE
+        - (OK)evento (relação com app evento)
+        - (OK)data e hora da inscrição (capturado automático)
+        - ??? ACHO QUE NAO - esta_pago ??? property (enviado por email quando pago)
+        - (OK)codigo_matricula (enviado por email)
+        - (OK)is_active
+        - (OK)slug
 
     - frequencia
         - evento
