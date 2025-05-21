@@ -19,7 +19,7 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         - (OK)celular
         - (OK)cpf
         - (OK)instituição (não tem vinculo com app instituição) - pedir pra não usar sigla
-        - assinatura (imagem da assinatura)
+        - FOTO PERFIL
         - (OK)is_active
         - (OK)slug
 
@@ -47,7 +47,6 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         - total de inscritos e vagas restantes ??? property
         - (OK)data do evento
         - (OK)coordenador do evento (relação com app usuario) - DEVE SER TIPO COORDENADOR EM USUÁRIO
-        - valor participação ???
         - pedir frequencia na entrada (boolean)
         - pedir frequencia na saida (boolean)
         - (OK)is_active
@@ -57,16 +56,15 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
         - (OK)usuário do tipo participante - SE O PARTICIPANTE SE LOGA, É AUTOMATICO A ESCOLHA DO PARTICIPANTE
         - (OK)evento (relação com app evento)
         - (OK)data e hora da inscrição (capturado automático)
-        - ??? ACHO QUE NAO - esta_pago ??? property (enviado por email quando pago)
         - (OK)codigo_matricula (enviado por email)
         - (OK)is_active
         - (OK)slug
 
     - frequencia
         - evento
-        - inscricao via codigo_matricula (relação com app inscrição)
-        - verificar se há frequencia de entrada e/ou saída
-        - validar se já 'bateu' a frequencia de entrada ou de saída (em período)
+        - inscricao via codigo_matricula (DIGITADO OU LIDO POR QRCODE) OU reconhecimento facial (relação com app inscrição)
+        - se o usuário fizer frequencia pelo app, puxar a localização e bater com a localização do evento
+        
 
     - atestado
         - evento (nome, tipo, carga horária (total ou real), instituição, local, data, coordenador do evento (nome e de assinatura))

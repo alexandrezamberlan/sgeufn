@@ -19,6 +19,7 @@ class Inscricao(models.Model):
     
 
     class Meta:
+        unique_together     =   ['participante','evento']
         ordering            =   ['-is_active','evento','participante']
         verbose_name        =   'inscrição'
         verbose_name_plural =   'inscrições'

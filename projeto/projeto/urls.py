@@ -12,6 +12,7 @@ urlpatterns = [
     
     path('aviso/', include('aviso.urls')), 
     path('evento/', include('evento.urls')), 
+    path('frequencia/', include('frequencia.urls')), 
     path('instituicao/', include('instituicao.urls')), 
     path('inscricao/', include('inscricao.urls')), 
     path('tipo_evento/', include('tipo_evento.urls')), 

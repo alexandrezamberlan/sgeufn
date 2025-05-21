@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+	{% bootstrap_icon 'check' %} Frequências
+{% endblock %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<form class="form">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					{% bootstrap_field form.pesquisa  %}
+				</div>	
+				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+					<br>
+					<button type="submit" class="btn btn-success btn-md"  style="width: 100%;">{% bootstrap_icon 'search' %} Buscar</button>
+				</div>			
+				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+					<br>
+					<a href="{% url 'frequencia_create' %}" class="btn btn-md btn-primary" style="width: 100%;">{% bootstrap_icon 'record' %} Gerar frequência</a>
+				</div>			
+			</div>
+		</form>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<th>Inscrição</th>				
+				<th>Data e hora frequência</th>								
+				<th class="text-center">Excluir</th>
+			</thead>
+
+			<tbody>
+				{% for frequencia in object_list %}
+					<tr>
+						<td>
+							{{ frequencia.inscricao }}							
+						</td>
+						<td>
+							{{ frequencia.data_hora_frequencia|date:'d/m/Y' }}<br>
+							{{ frequencia.data_hora_frequencia|date:'H:m' }}
+						</td>						
+						
+						<td class="text-center">
+							{% bootstrap_button content='' href=frequencia.get_delete_url button_type='link' icon='trash' button_class='btn btn-danger' size='sm' %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<th colspan="3">
+					Total de registros: {{ object_list|length }}
+				</th>
+			</tfoot>
+		</table>
+	</div>
+{% endblock %}
