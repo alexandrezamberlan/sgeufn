@@ -86,20 +86,15 @@ DEBUG=True
 
 STATIC_URL=/static/
 
-DOMINIO_URL='localhost:8000'
-
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-
-EMAIL_HOST = 'smtp.gmail.com'
+DOMINIO_URL='http://localhost:8000'
+GERADORSQL_URL=''
 
 EMAIL_HOST_USER = ''
-
-EMAIL_HOST_PASSWORD = ''
-
-EMAIL_PORT = 587
-
+EMAIL_BACKEND='gmailapi_backend.mail.GmailBackend'
+GMAIL_API_CLIENT_ID=''
+GMAIL_API_CLIENT_SECRET=''
+GMAIL_API_REFRESH_TOKEN=''
+EMAIL_REPLY_TO = ''
 EMAIL_USE_TLS = True
-
 EMAIL_USE_SSL = False
-
 EMAIL_USE_STARTTLS = False

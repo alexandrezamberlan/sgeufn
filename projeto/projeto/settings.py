@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'mail_templated',
     'widget_tweaks',
     
+    'gmailapi_backend',
+    
     'appmembro',
     
     'aviso',
@@ -161,10 +163,8 @@ DOMINIO_URL = config("DOMINIO_URL")
 
 # Configuração do email
 EMAIL_BACKEND = config('EMAIL_BACKEND')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT',cast=int)
+GMAIL_API_CLIENT_ID = config('GMAIL_API_CLIENT_ID')
+GMAIL_API_CLIENT_SECRET = config('GMAIL_API_CLIENT_SECRET')
+GMAIL_API_REFRESH_TOKEN = config('GMAIL_API_REFRESH_TOKEN')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL',cast=bool)
-EMAIL_USE_STARTTLS = config('EMAIL_USE_STARTTLS',cast=bool)
+EMAIL_REPLY_TO = config('EMAIL_REPLY_TO')
