@@ -30,7 +30,7 @@
 				<th>Datas importantes</th>
 				<th class="text-center">Site</th>
 				<th class="text-center">Inscrever-se</th>
-				<th class="text-center">Atestado</th>
+				{% comment %} <th class="text-center">Atestado</th> {% endcomment %}
 			</thead>
 			<tbody>
 				{% for evento in object_list %}
@@ -71,7 +71,7 @@
 								</a>
 							{% endif %}
 						</td>	
-						<td  class="text-center">
+						{% comment %} <td  class="text-center">
 							{% if False %}
 								<a href="" target="_blank" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'print' %}
@@ -83,7 +83,7 @@
 									{% bootstrap_icon 'print' %}
 								</a>
 							{% endif %}
-						</td>											
+						</td>											 {% endcomment %}
 					</tr>
 				{% endfor %}
 			</tbody>
