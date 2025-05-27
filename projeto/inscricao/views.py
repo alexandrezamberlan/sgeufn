@@ -58,6 +58,17 @@ class InscricaoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
     def get_success_url(self):
         messages.success(self.request, 'Inscrição realizada com sucesso na plataforma!')
         return reverse(self.success_url)
+    
+    def form_valid(self, form):
+        formulario = form.save(commit=False)
+        
+        if formulario.evento.quantidade_vagas <= 0:
+            messages.error(self.request,"Não há mais vagas para este evento. Inscrição NÃO realizada. Aguarde liberar uma vaga!!!")  
+            return super().form_invalid(form)
+        
+        formulario.save()
+
+        return super().form_valid(form)   
 
 
 # class InscricaoUpdateView(LoginRequiredMixin, StaffRequiredMixin, UpdateView):
