@@ -60,12 +60,12 @@
 							{% endif %}
 						</td>	
 						<td  class="text-center">
-							{% if evento.site %}
-								<a href="{{ evento.site }}" target="_blank" class="btn btn-sm btn-primary">
+							{% if evento.pode_inscrever_se %}
+								<a href="" target="_blank" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'record' %}
 								</a>
 							{% else %}
-								<a href="" target="_blank" class="btn btn-sm btn-warning disabled">
+								<a href="" class="btn btn-sm btn-warning" title="Inscrições encerradas ou não há mais vagas">
 									{% bootstrap_icon 'record' %}
 								</a>
 							{% endif %}

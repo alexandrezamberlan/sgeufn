@@ -26,16 +26,15 @@
 		</div>
 	</div>
 
-	
 	<div class="table-responsive">
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
 				<th>Local</th>
+				<th class="text-center">Vagas | Inscritos</th>
 				<th>Coordenação</th>
 				<th class="text-center">Site</th>
-				<th class="text-center">Data evento</th>
-				<th class="text-center">Data limite inscrição</th>								
+				<th>Datas importantes</th>
 				<th class="text-center">Ativo</th>
 				<th class="text-center">Editar</th>
 				<th class="text-center">Excluir</th>
@@ -49,7 +48,7 @@
 						</td>
 						<td>
 							{% if evento.local %}
-								{{ evento.local }} | <small><b>Lotação:</b> {{ evento.lotacao }} lugares</small>
+								{{ evento.local }} 
 								
 							{% else %}
 								<span class="label label-warning">
@@ -57,8 +56,17 @@
 								</span>
 							{% endif %}
 						</td>
+						<td class="text-center">
+							{% if evento.lotacao %}
+								{{ evento.lotacao }} | 
+							{% else %}
+								<span class="label label-warning">
+									Não informado
+								</span>
+							{% endif %}
+							{{ evento.quantidade_inscritos }}
 						<td>
-							Responsável: {{ evento.coordenador }}<br>							
+							{{ evento.coordenador }}
 						</td>	
 						<td class="text-center">
 							{% if evento.site %}
@@ -71,16 +79,10 @@
 								</a>
 							{% endif %}
 						</td>	
-						
-						
-						<td class="text-center">
-							{{ evento.data_inicio|date:'d/m/Y' }}
+						<td>
+							<b>Data evento:</b> {{ evento.data_inicio|date:'d/m/Y' }}<br>
+							<b>Data limite inscrição:</b> {{ evento.data_inscricao|date:'d/m/Y' }}
 						</td>											
-						<td class="text-center">
-							{{ evento.data_inscricao|date:'d/m/Y' }}
-						</td>
-						
-						
 						<td class="text-center">
 							{% if evento.is_active %}
 								<span class="label label-success">SIM</span>
