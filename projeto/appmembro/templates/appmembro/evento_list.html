@@ -26,12 +26,9 @@
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
-				<th>Email comissão</th>
 				<th class="text-center">Site</th>
-				<th class="text-center">Templates</th>
-				<th class="text-center">Data limite submissão</th>
-				<th class="text-center">Data divulgação resultados</th>
-				<th class="text-center">Data reenvio trabalho corrigido</th>
+				<th class="text-center">Data limite inscrição</th>
+				<th class="text-center">Data evento</th>
 			</thead>
 			<tbody>
 				{% for evento in object_list %}
@@ -39,9 +36,6 @@
 						<td>
 							{{ evento.nome }}<br>
 							<small>{{ evento.tipo }} | {{ evento.instituicao }}</small>
-						</td>
-						<td>
-							{{  evento.email }}
 						</td>
 						<td  class="text-center">
 							{% if evento.site %}
@@ -55,34 +49,18 @@
 							{% endif %}
 						</td>	
 						<td class="text-center">
-							{% if evento.arquivo_modelo %} 
-								<a href="{{ evento.arquivo_modelo.url }}" target="_blank" class="btn btn-sm btn-info">
-									{% bootstrap_icon 'download' %}
-								</a>
-							{% else %}
-								<a href="" target="_blank" class="btn btn-sm btn-warning disabled">
-									{% bootstrap_icon 'download' %}
-								</a>
-							{% endif %}
-						</td>
-						<td class="text-center">
-							<b>
-								
-							</b>
-						</td>	
-						<td class="text-center">
-							{{ evento.data_divulgacao_trabalhos_aprovados|date:'d/m/Y' }}
+							{{ evento.data_inscricao|date:'d/m/Y' }}
 						</td>	
 						<td class="text-center">
 							<b>
-								
+								{{ evento.data_inicio|date:'d/m/Y' }}
 							</b>
 						</td>											
 					</tr>
 				{% endfor %}
 			</tbody>
 			<tfoot>
-				<th colspan="7">
+				<th colspan="4">
 					Total de registros: {{ object_list|length }}
 				</th>
 			</tfoot>

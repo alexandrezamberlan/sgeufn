@@ -8,14 +8,14 @@
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge" /><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block bootstrap3_title %}SGEUFN | UFN</title>
-    <link rel = "icon" href = "{% static 'core/img/favicon.svg' %}" type = "image/x-icon">
+    <link rel = "icon" href = "{% static 'core/img/iconeSGE.png' %}" type = "image/x-icon">
        
     {% endblock %}
 
 </head>
 
 {% block bootstrap3_content %}
-    {% if user.tipo == 'MEMBRO' %}
+    {% if user.tipo == 'PARTICIPANTE' %}
         {% include 'appmembro/includes/_menu_principal.html' %}
     {% elif user.tipo == 'COORDENADOR' or user.tipo == 'ADMINISTRADOR' %}
         {% include 'core/includes/_menu_principal.html' %}

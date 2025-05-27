@@ -11,9 +11,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{% url 'appmembro_home' %}">
-        <img src="{% static 'core/img/logo_branco_saoa_horizontal.svg' %}"
-      class="img-fluid" style="max-width: 60px;">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{% static 'core/img/iconeSGE.png' %}" class="img-fluid" style="max-width: 35px;">
       </a>
     </div>
 
@@ -23,23 +22,14 @@
         <li class=""><a href="{% url 'appmembro_home' %}"> {% bootstrap_icon 'home' %} Home <span class="sr-only">(current)</span></a></li>
         <li class=""><a href="{% url 'appmembro_dados_update' %}">{% bootstrap_icon 'user' %} Meus dados</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'list-alt' %} Minhas Submissões <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'pencil' %} Minhas Participações <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li class=""><a href="{% url 'appmembro_evento_list' %}">Eventos Ativos  <span class="sr-only">(current)</span></a></li>
-            <li class=""><a href="{% url 'appmembro_submissao_list' %}">Submissões <span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="">Eventos Ativos <span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="">Inscrições <span class="sr-only">(current)</span></a></li>
           </ul>
         </li>
         
-        <li class=""><a href="{% url 'appmembro_minha_avaliacao_list' %}"> {% bootstrap_icon 'check' %} Minhas Avaliações <span class="sr-only">(current)</span></a></li>
-        
-        
-        {% comment %} <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'cog' %} Meus Eventos Coordenados <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="">Submissões</a></li>
-            <li><a href="">Avaliações</a></li>
-          </ul>
-        </li> {% endcomment %}
+        <li class=""><a href=""> {% bootstrap_icon 'print' %} Atestados <span class="sr-only">(current)</span></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
