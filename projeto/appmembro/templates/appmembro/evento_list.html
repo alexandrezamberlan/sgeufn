@@ -26,16 +26,27 @@
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
+				<th>Local</th>
+				<th>Datas importantes</th>
 				<th class="text-center">Site</th>
-				<th class="text-center">Data limite inscrição</th>
-				<th class="text-center">Data evento</th>
+				<th class="text-center">Inscrever-se</th>
 			</thead>
 			<tbody>
 				{% for evento in object_list %}
 					<tr>
 						<td>
 							{{ evento.nome }}<br>
-							<small>{{ evento.tipo }} | {{ evento.instituicao }}</small>
+							<small>
+								{{ evento.tipo }} | {{ evento.instituicao }}. <b>Carga horária: {{ evento.carga_horaria }} h </b>
+							</small>
+						</td>
+						<td>
+							{{ evento.local }}<br>
+							<small>Responsável: {{ evento.coordenador }}</small>
+						</td>
+						<td>							
+							<b>Data evento: </b>{{ evento.data_inicio|date:'d/m/Y' }}<br>
+							<b>Data limite inscrição: </b>{{ evento.data_inscricao|date:'d/m/Y' }}
 						</td>
 						<td  class="text-center">
 							{% if evento.site %}
@@ -48,19 +59,22 @@
 								</a>
 							{% endif %}
 						</td>	
-						<td class="text-center">
-							{{ evento.data_inscricao|date:'d/m/Y' }}
-						</td>	
-						<td class="text-center">
-							<b>
-								{{ evento.data_inicio|date:'d/m/Y' }}
-							</b>
-						</td>											
+						<td  class="text-center">
+							{% if evento.site %}
+								<a href="{{ evento.site }}" target="_blank" class="btn btn-sm btn-primary">
+									{% bootstrap_icon 'record' %}
+								</a>
+							{% else %}
+								<a href="" target="_blank" class="btn btn-sm btn-warning disabled">
+									{% bootstrap_icon 'record' %}
+								</a>
+							{% endif %}
+						</td>												
 					</tr>
 				{% endfor %}
 			</tbody>
 			<tfoot>
-				<th colspan="4">
+				<th colspan="5">
 					Total de registros: {{ object_list|length }}
 				</th>
 			</tfoot>
