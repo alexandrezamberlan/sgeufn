@@ -61,9 +61,11 @@
 						</td>	
 						<td  class="text-center">
 							{% if evento.pode_inscrever_se %}
-								<a href="{% url 'appmembro_inscricao_create' %}" class="btn btn-sm btn-primary">
+								{% comment %} <a href="{% url 'appmembro_inscricao_create' %}" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'record' %}
-								</a>
+								</a> {% endcomment %}
+								
+								{% bootstrap_button content='' href=evento.get_inscricao_create_url button_type='link' icon='record' button_class='btn btn-primary' size='sm' %}
 							{% else %}
 								<a href="" class="btn btn-sm btn-warning" title="Inscrições encerradas ou não há mais vagas">
 									{% bootstrap_icon 'record' %}

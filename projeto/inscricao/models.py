@@ -35,7 +35,6 @@ class Inscricao(models.Model):
         
         #rotina para enviar por email a confirmação de inscrição com o código de matrícula gerado
         
-        
         super(Inscricao, self).save(*args, **kwargs)
 
     @property
@@ -50,7 +49,3 @@ class Inscricao(models.Model):
     @property
     def get_appmembro_delete_url(self):
         return reverse('appmembro_inscricao_delete', kwargs={'slug': self.slug})
-
-    # @property
-    # def get_submissao_create_url(self):
-    #     return '%s?usuario_id=%d' % (reverse('submissao_create'), self.id)

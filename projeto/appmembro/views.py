@@ -104,25 +104,29 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
     def get_initial(self):
         initials = super().get_initial()
         initials['usuario'] = Usuario.objects.get(id=self.request.user.id)
+        # initials['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
         return initials
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
-    #     return context
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
+        return context
 
     def form_valid(self, form):
+        print('********************** ENTRANDO NO FORM VALID **********************')
         try:
             formulario = form.save(commit=False)
 
-            # formulario.evento = Evento.objects.get(id=self.request.GET.get('evento_id'))
+            formulario.participante = self.request.user
+            formulario.evento = Evento.objects.get(id=self.request.GET.get('evento_id'))
+            
+            print('**********************', formulario.participante)
+            print('**********************', formulario.evento)
             
             if formulario.evento.quantidade_vagas <= 0:
                 messages.error(self.request,"Não há mais vagas para este evento. Inscrição NÃO realizada. Aguarde liberar uma vaga!!!")  
                 return super().form_invalid(form)
             
-            formulario.participante = self.request.user
 
             formulario.save()
             

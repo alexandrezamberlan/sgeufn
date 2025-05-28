@@ -24,8 +24,12 @@
     {% bootstrap_alert error 'danger' %}
   {% endfor %}
 
-  {% bootstrap_form form %}
-
+  {% comment %} {% bootstrap_form form %} {% endcomment %}
+  <br>
+  <h4>
+    Você está fazendo inscrição no evento: <small> {{ object.evento }} {{ evento }} </small>
+  </h4>
+  <br>
   <button id="btnInscrever" type="button" class="btn btn-default" onclick="inscrever();">Inscrever</button>
   <a href="javascript:history.go(-1);" class="btn btn-warning" role="button">Voltar</a>
 </form>
