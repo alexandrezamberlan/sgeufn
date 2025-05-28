@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
+import os
+
 from django.contrib import messages
+from django.db.models import ProtectedError
 
 from django.db.models import Q
 
@@ -84,19 +87,21 @@ class InscricaoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
 class InscricaoDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
     model = Inscricao
     success_url = 'inscricao_list'
+    template_name = 'inscricao/inscricao_confirm_delete.html'
 
     def get_success_url(self):
         messages.success(self.request, 'Inscrição removida com sucesso na plataforma!')
         return reverse(self.success_url) 
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         Call the delete() method on the fetched object and then redirect to the
         success URL. If the object is protected, send an error message.
         """
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        try:
+        try:           
+            self.object = self.get_object()
+            self.object.delete()
+            success_url = self.get_success_url()
             self.object.delete()
         except Exception as e:
             messages.error(request, 'Há dependências ligadas à essa Inscrição, permissão negada!')

@@ -82,7 +82,7 @@ class UsuarioDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
         return reverse(self.success_url)
 
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         Call the delete() method on the fetched object and then redirect to the
         success URL. If the object is protected, send an error message.
@@ -90,7 +90,7 @@ class UsuarioDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
         try:
             self.get_object().delete()
         except Exception as e:
-            messages.error(request, f'Há dependências ligadas a esse Usuário, permissão negada! Erro: {e}')
+            messages.error(request, f'Há dependências ligadas a esse Usuário, permissão negada!')
         return redirect(self.success_url)
 
 

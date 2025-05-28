@@ -82,5 +82,5 @@ class Evento(models.Model):
     
     @property
     def pode_inscrever_se(self):
-        return self.data_inscricao >= timezone.now().date() and self.quantidade_vagas > 0
+        return self.data_inscricao >= self.get_data_atual and self.quantidade_vagas > 0
 

@@ -105,37 +105,43 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         initials = super().get_initial()
         initials['usuario'] = Usuario.objects.get(id=self.request.user.id)
         return initials
-    
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     context['atleta'] = Usuario.objects.get(id=self.request.user.id)
+    #     context['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
     #     return context
+
 
     def form_valid(self, form):
         try:
             formulario = form.save(commit=False)
+
+            # formulario.evento = Evento.objects.get(id=self.request.GET.get('evento_id'))
             
             if formulario.evento.quantidade_vagas <= 0:
                 messages.error(self.request,"Não há mais vagas para este evento. Inscrição NÃO realizada. Aguarde liberar uma vaga!!!")  
                 return super().form_invalid(form)
+            
+            formulario.participante = self.request.user
 
             formulario.save()
             
             try:
-                """ enviar e-mail para atleta """
+                """ enviar e-mail para participante """
                 if not formulario.participante.email:
                     raise
                 message = EmailMessage('usuario/email/inscricao_participante.html', {'inscricao': formulario, 'site': settings.DOMINIO_URL},
-                        settings.EMAIL_HOST_USER, to=[formulario.atleta.email])
+                        settings.EMAIL_HOST_USER, to=[formulario.participante.email])
                 message.send()
             except Exception as e:
                 # alterar para outro tipo de requisição http
-                messages.warning(self.request, f"SEM NOTIFICAÇÃO POR EMAIL AO PARTICIPANTE!! Erro: {e}")
+                # messages.warning(self.request, f"SEM NOTIFICAÇÃO POR EMAIL AO PARTICIPANTE!! Erro: {e}")
+                messages.warning(self.request, f"SEM NOTIFICAÇÃO POR EMAIL AO PARTICIPANTE!!")
 
             return super().form_valid(form)
 
         except Exception as e:
-            messages.error(self.request, 'Erro ao inscrever-se no evento. Verifique se você já não está inscrito neste evento')
+            messages.error(self.request, 'Erro ao inscrever-se no evento. Verifique se você já não está inscrito neste evento!')
             return super().form_invalid(form)
     
     def get_success_url(self):
@@ -152,15 +158,14 @@ class InscricaoDeleteView(LoginRequiredMixin, MembroRequiredMixin, DeleteView):
         messages.success(self.request, 'Inscrição, para o evento, removida com sucesso na plataforma!')
         return reverse(self.success_url)
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         Call the delete() method on the fetched object and then redirect to the
         success URL. If the object is protected, send an error message.
         """
-        self.object = self.get_object()
-        
         try:
+            self.object = self.get_object()
             self.object.delete()
         except Exception as e:
-            messages.error(request, f'Já não é mais possível cancelar a inscrição, permissão negada! Erro: {e}')
+            messages.error(request, f'Há dependências ligadas à essa Inscrição, permissão negada!')
         return redirect(self.success_url)

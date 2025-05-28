@@ -7,6 +7,8 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
     - Camille Rodrigues - Sistemas de Informação
     - Bruno Difante - Ciência da Computação
     - Gabriel Morais - Ciência da Computação
+    - Guilherme Henriques - Ciência da Computação
+    - Guilherme Scher - Ciência da Computação
     - Pedro Canabarro - Ciência da Computação
 
 ## Estruturação

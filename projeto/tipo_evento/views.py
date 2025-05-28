@@ -78,14 +78,13 @@ class TipoEventoDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
         messages.success(self.request, 'Tipo de evento removido com sucesso na plataforma!')
         return reverse(self.success_url) 
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         Call the delete() method on the fetched object and then redirect to the
         success URL. If the object is protected, send an error message.
-        """
-        self.object = self.get_object()
-        success_url = self.get_success_url()
+        """        
         try:
+            self.object = self.get_object()
             self.object.delete()
         except Exception as e:
             messages.error(request, 'Há dependências ligadas à esse tipo de evento, permissão negada!')

@@ -61,7 +61,7 @@
 						</td>	
 						<td  class="text-center">
 							{% if evento.pode_inscrever_se %}
-								<a href="" class="btn btn-sm btn-primary">
+								<a href="{% url 'appmembro_inscricao_create' %}" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'record' %}
 								</a>
 							{% else %}
