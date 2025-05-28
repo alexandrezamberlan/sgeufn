@@ -30,7 +30,6 @@
 				<th>Datas importantes</th>
 				<th class="text-center">Site</th>
 				<th class="text-center">Inscrever-se</th>
-				{% comment %} <th class="text-center">Atestado</th> {% endcomment %}
 			</thead>
 			<tbody>
 				{% for evento in object_list %}
@@ -71,19 +70,6 @@
 								</a>
 							{% endif %}
 						</td>	
-						{% comment %} <td  class="text-center">
-							{% if False %}
-								<a href="" target="_blank" class="btn btn-sm btn-primary">
-									{% bootstrap_icon 'print' %}
-								</a>
-								<br>
-								Data e hora frequência: {{ evento.data_frequencia|date:'d/m/Y H:i' }}
-							{% else %}
-								<a href="" class="btn btn-sm btn-warning" title="Você não participou deste evento">
-									{% bootstrap_icon 'print' %}
-								</a>
-							{% endif %}
-						</td>											 {% endcomment %}
 					</tr>
 				{% endfor %}
 			</tbody>

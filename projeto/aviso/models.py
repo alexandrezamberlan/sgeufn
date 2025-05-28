@@ -26,7 +26,7 @@ class Aviso(models.Model):
     data = models.DateField('Data do aviso', auto_now=True)
     destinatario = models.CharField('Destinatários *', max_length=20, choices=DESTINO, default="TODOS")
     enviado = models.BooleanField('Selecione para enviar aviso por email aos destinatários', default=False, help_text='Se marcado, aviso é enviado uma vez aos detinatários ativos')
-    is_active = models.BooleanField('Selecione para publicar na home dos usuários o aviso', default=True, help_text='Se ativo, o aviso aparece na home de atletas')
+    is_active = models.BooleanField('Selecione para publicar na home dos usuários o aviso', default=True, help_text='Se ativo, o aviso aparece na home dos participantes')
     
     slug = models.SlugField('Hash',max_length= 200,null=True,blank=True)
 

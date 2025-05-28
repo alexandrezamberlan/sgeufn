@@ -1,5 +1,7 @@
 from django import forms
 
+from evento.models import Evento
+from inscricao.models import Inscricao
 from usuario.models import Usuario
 
 
@@ -17,3 +19,10 @@ class MembroCreateForm(forms.ModelForm):
         fields = ['nome','instituicao', 'email', 'celular', 'cpf']
 
 
+class InscricaoForm(forms.ModelForm):
+    evento = forms.ModelChoiceField(label='Evento', queryset=Evento.eventos_ativos_data_aberta.all())
+    
+    class Meta:
+        model = Inscricao
+        fields = ['evento']
+        

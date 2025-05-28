@@ -45,3 +45,9 @@ class Inscricao(models.Model):
     @property
     def get_delete_url(self):
         return reverse('inscricao_delete', kwargs={'slug': self.slug})
+    
+    # appatleta
+    @property
+    def get_appmembro_delete_url(self):
+        return reverse('appmembro_inscricao_delete', kwargs={'slug': self.slug})
+    

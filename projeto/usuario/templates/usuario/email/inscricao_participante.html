@@ -1,0 +1,22 @@
+{% extends "mail_templated/base.tpl" %}
+{% load bootstrap3 %}
+
+{% block subject %}
+    SGE: inscrição realizada!!
+{% endblock %}
+
+{% block html %}
+    <p>Olá <strong>{{ inscricao.participante.nome }}</strong>!!<br><br>
+
+        Sua inscrição foi realizada com sucesso no evento: {{ inscricao.evento }}.
+        <br>
+        <b>Código da inscrição:</b> {{ inscricao.codigo_matricula }}<br>
+    </p>
+    <br>
+    <p>***** MENSAGEM GERADA AUTOMATICAMENTE. NÃO RESPONDA. *****</p>
+    <hr>
+    <p><small>Desenvolvido pelo Laboratório de Práticas da Computação UFN em Parceria com ER Clinic - Direitos Reservados</small></p>
+{% endblock %}
+
+
+

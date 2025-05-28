@@ -1,0 +1,32 @@
+{% extends 'appmembro/base.html' %}
+{% load bootstrap3 %}
+
+{% block actions %}
+{% endblock %}
+
+{% block title %}
+{% bootstrap_icon 'plus' %} Inscrição
+{% endblock %}
+
+{% block content %}
+
+<script>
+  function inscrever(){
+      $("#btnInscrever").html('Aguarde...').attr('disabled', true);
+      $("#formInscricao").submit();
+  }
+</script>
+
+<form id="formInscricao" class="form" role="form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {% for error in form.non_field_errors %}
+    {% bootstrap_alert error 'danger' %}
+  {% endfor %}
+
+  {% bootstrap_form form %}
+
+  <button id="btnInscrever" type="button" class="btn btn-default" onclick="inscrever();">Inscrever</button>
+  <a href="javascript:history.go(-1);" class="btn btn-warning" role="button">Voltar</a>
+</form>
+{% endblock %}
