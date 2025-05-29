@@ -101,8 +101,6 @@ class InscricaoDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
         try:           
             self.object = self.get_object()
             self.object.delete()
-            success_url = self.get_success_url()
-            self.object.delete()
         except Exception as e:
             messages.error(request, 'Há dependências ligadas à essa Inscrição, permissão negada!')
         return redirect(self.success_url)

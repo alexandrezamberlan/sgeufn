@@ -86,4 +86,4 @@ class Evento(models.Model):
 
     @property
     def get_inscricao_create_url(self):
-        return '%s?evento_id=%d' % (reverse('appmembro_inscricao_create'), self.id)
+        return '%s?evento_slug=%s' % (reverse('appmembro_inscricao_create'), self.slug)

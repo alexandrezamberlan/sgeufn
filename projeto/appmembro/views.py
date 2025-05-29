@@ -103,13 +103,13 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
     
     def get_initial(self):
         initials = super().get_initial()
-        initials['usuario'] = Usuario.objects.get(id=self.request.user.id)
-        # initials['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
+        initials['usuario'] = Usuario.objects.get(slug=self.request.user.slug)
+        initials['evento'] = Evento.objects.get(slug=self.request.GET.get('evento_slug'))
         return initials
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['evento'] = Evento.objects.get(id=self.request.GET.get('evento_id'))
+        context['evento'] = Evento.objects.get(slug=self.request.GET.get('evento_slug'))
         return context
 
     def form_valid(self, form):
@@ -118,7 +118,7 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
             formulario = form.save(commit=False)
 
             formulario.participante = self.request.user
-            formulario.evento = Evento.objects.get(id=self.request.GET.get('evento_id'))
+            formulario.evento = Evento.objects.get(slug=self.request.GET.get('evento_slug'))
             
             print('**********************', formulario.participante)
             print('**********************', formulario.evento)

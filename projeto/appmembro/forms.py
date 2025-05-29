@@ -24,5 +24,5 @@ class InscricaoForm(forms.ModelForm):
     
     class Meta:
         model = Inscricao
-        fields = []
+        fields = ['evento']
         
