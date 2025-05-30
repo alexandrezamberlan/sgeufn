@@ -17,6 +17,7 @@
 	  		<thead>
 				<th>Evento</th>
 				<th class="text-center">Atestado</th>
+				<th class="text-center">Realizar frequência</th>
 				<th class="text-center">Apagar inscrição</th>
 	  		</thead>
 	  		<tbody>
@@ -27,7 +28,7 @@
 							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
 						</td>
 						<td  class="text-center">
-							{% if True %}
+							{% if False %}
 								<a href="" target="_blank" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'print' %}
 								</a>
@@ -38,8 +39,17 @@
 								<a href="" class="btn btn-sm btn-warning" title="Você não participou deste evento">
 									{% bootstrap_icon 'print' %}
 								</a>
-								<br>
-								Sem frequência 
+								{% comment %} <br>
+								Sem frequência  {% endcomment %}
+							{% endif %}
+						</td>
+						<td  class="text-center">
+							{% if inscricao.evento.frequencia_liberada %}
+								{% bootstrap_button content='' href=incricao.get_frequencia_create_url button_type='link' icon='record' button_class='btn btn-primary' size='sm' %}			
+							{% else %}
+								<a href="" class="btn btn-sm btn-warning" title="Aguarde liberação de frequência e código de acesso">
+									{% bootstrap_icon 'record' %}
+								</a>
 							{% endif %}
 						</td>
 						<td class="text-center">
@@ -57,7 +67,7 @@
 				{% endfor %}
 	  		</tbody>
 			<tfoot>
-				<th colspan="3">
+				<th colspan="4">
 					Total de registros: {{ object_list|length }}
 				</th>
 			</tfoot>

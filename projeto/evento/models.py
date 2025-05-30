@@ -36,7 +36,10 @@ class Evento(models.Model):
     carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(12)], null=True, blank=False, default = 1)    
     local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
     lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=True)    
-
+    
+    frequencia_liberada = models.BooleanField('Libera a frequência', default=False, help_text='Se liberada, o evento permite que os participantes solicitem a frequência')    
+    codigo_frequencia = models.CharField('Código de frequência', max_length=20, null=True, blank=False, help_text='Código que será utilizado para solicitar a frequência do evento. Deve ser informado ao participante no final do evento.')
+    
     is_active = models.BooleanField('Ativo', default=True, help_text='Se ativo, o evento está liberado para chamada de artigos')    
     slug = models.SlugField('Hash',max_length= 200,null=True,blank=True)
 

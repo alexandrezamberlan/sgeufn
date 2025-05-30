@@ -32,9 +32,7 @@ class Inscricao(models.Model):
             self.slug = gerar_hash()
         
         self.codigo_matricula = gerar_chave_codigo_matricula(self.participante.email + self.evento.nome)
-        
-        #rotina para enviar por email a confirmação de inscrição com o código de matrícula gerado
-        
+ 
         super(Inscricao, self).save(*args, **kwargs)
 
     @property
@@ -49,3 +47,7 @@ class Inscricao(models.Model):
     @property
     def get_appmembro_delete_url(self):
         return reverse('appmembro_inscricao_delete', kwargs={'slug': self.slug})
+
+    @property
+    def get_frequencia_create_url(self):
+        return '%s?inscricao_slug=%s' % (reverse('appmembro_frequencia_create'), self.slug)

@@ -36,6 +36,7 @@
 				<th class="text-center">Site</th>
 				<th>Datas importantes</th>
 				<th class="text-center">Ativo</th>
+				<th class="text-center">Frequência | Código</th>
 				<th class="text-center">Editar</th>
 				<th class="text-center">Excluir</th>
 			</thead>
@@ -88,6 +89,17 @@
 								<span class="label label-success">SIM</span>
 							{% else %}
 								<span class="label label-danger">NÃO</span>
+							{% endif %}
+						</td>
+						<td class="text-center">
+							{% if evento.frequencia_liberada %}
+								<span class="label label-success">LIBERADA</span>
+							{% else %}
+								<span class="label label-danger">BLOQUEADA</span>
+							{% endif %}
+							<br>
+							{% if evento.codigo_frequencia %}
+								<b>{{ evento.codigo_frequencia }}</b>		
 							{% endif %}
 						</td>
 						<td class="text-center">
