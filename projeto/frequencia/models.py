@@ -8,7 +8,7 @@ from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
 
 class Frequencia(models.Model):           
-    inscricao = models.ForeignKey('inscricao.Inscricao', verbose_name='Inscrição do evento *', unique=True, on_delete=models.PROTECT, related_name='inscricao')
+    inscricao = models.ForeignKey('inscricao.Inscricao', verbose_name='Inscrição do evento *', on_delete=models.PROTECT, related_name='inscricao')
     data_hora_frequencia = models.DateTimeField(auto_now_add=True)
 
     slug = models.SlugField('Hash',max_length= 200,null=True,blank=True)
