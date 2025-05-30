@@ -8,7 +8,9 @@
 {% block html %}
     <p>Olá <strong>{{ inscricao.participante.nome }}</strong>!!<br><br>
 
-        Sua inscrição foi realizada com sucesso no evento: {{ inscricao.evento }}.
+        Sua inscrição foi realizada com sucesso no evento: {{ inscricao.evento.nome }}.<br>
+        <b>Data do evento:</b> {{ inscricao.evento.data_inicio|date:"d/m/Y" }}<br>
+        <b>Local do evento:</b> {{ inscricao.evento.local }}<br>
         <br>
         <b>Código da inscrição:</b> {{ inscricao.codigo_matricula }}<br>
     </p>
