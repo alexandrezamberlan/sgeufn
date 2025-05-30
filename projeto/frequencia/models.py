@@ -18,6 +18,7 @@ class Frequencia(models.Model):
 
     class Meta:
         ordering            =   ['inscricao']
+        unique_together     =   ['inscricao']
         verbose_name        =   'frequência'
         verbose_name_plural =   'frequências'
 

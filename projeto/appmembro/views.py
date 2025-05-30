@@ -19,6 +19,7 @@ from utils.decorators import LoginRequiredMixin, MembroRequiredMixin
 
 from aviso.models import Aviso
 from evento.models import Evento
+from frequencia.models import Frequencia
 from inscricao.models import Inscricao
 from usuario.models import Usuario
 
@@ -99,7 +100,7 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
     model = Inscricao
     template_name = 'appmembro/inscricao_form.html'
     form_class = InscricaoForm
-    success_url = 'appmembro_inscricao_list'
+    success_url = 'appmembro_evento_list'
     
     def get_initial(self):
         initials = super().get_initial()
@@ -113,21 +114,16 @@ class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        print('********************** ENTRANDO NO FORM VALID **********************')
         try:
             formulario = form.save(commit=False)
 
             formulario.participante = self.request.user
             formulario.evento = Evento.objects.get(slug=self.request.GET.get('evento_slug'))
             
-            print('**********************', formulario.participante)
-            print('**********************', formulario.evento)
-            
             if formulario.evento.quantidade_vagas <= 0:
                 messages.error(self.request,"Não há mais vagas para este evento. Inscrição NÃO realizada. Aguarde liberar uma vaga!!!")  
                 return super().form_invalid(form)
             
-
             formulario.save()
             
             try:
@@ -173,3 +169,38 @@ class InscricaoDeleteView(LoginRequiredMixin, MembroRequiredMixin, DeleteView):
         except Exception as e:
             messages.error(request, f'Há dependências ligadas à essa Inscrição, permissão negada!')
         return redirect(self.success_url)
+    
+    
+class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
+    model = Frequencia
+    template_name = 'appmembro/frequencia_form.html'
+    fields = ['inscricao']
+    success_url = 'appmembro_inscricao_list'
+    
+    def get_initial(self):
+        initials = super().get_initial()
+        initials['inscricao'] = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+        return initials
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inscricao'] = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+        return context
+
+    def form_valid(self, form):
+        try:
+            formulario = form.save(commit=False)
+            formulario.inscricao = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+            
+            formulario.save()
+
+            return super().form_valid(form)
+
+        except Exception as e:
+            messages.error(self.request, 'Erro ao registrar frequência. Verifique se você já não realizaou a frequência neste evento!')
+            return super().form_invalid(form)
+    
+    def get_success_url(self):
+        messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
+        return reverse(self.success_url)
+    

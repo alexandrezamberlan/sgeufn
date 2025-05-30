@@ -8,7 +8,7 @@ from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
 
 class Inscricao(models.Model):       
-    participante = models.ForeignKey('usuario.Usuario', unique=True, verbose_name='Participante', on_delete=models.PROTECT, related_name='participante')
+    participante = models.ForeignKey('usuario.Usuario', verbose_name='Participante', on_delete=models.PROTECT, related_name='participante')
     evento = models.ForeignKey('evento.Evento', verbose_name= 'Evento', on_delete=models.PROTECT, related_name='evento')
     data_hora_inscricao = models.DateTimeField(auto_now_add=True)
     codigo_matricula = models.CharField('Código matrícula gerado por hash *', max_length=20)
@@ -43,7 +43,6 @@ class Inscricao(models.Model):
     def get_delete_url(self):
         return reverse('inscricao_delete', kwargs={'slug': self.slug})
     
-    # appatleta
     @property
     def get_appmembro_delete_url(self):
         return reverse('appmembro_inscricao_delete', kwargs={'slug': self.slug})
