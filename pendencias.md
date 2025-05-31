@@ -10,3 +10,4 @@
 
 8) quando cadastrar um evento a data de inscrição deve ser menor ou igual a data do evento
 9) no evento, criar o campo hora do início do evento e trabalhar na msg de envio para o membro que realizou inscrição via email
+10) quando evento inativo, não lista-lo para inscrição ou na geração de frequencia
