@@ -4,6 +4,8 @@ from django.db import models
 from django.urls import reverse
 
 
+from frequencia.models import Frequencia
+
 from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
 
@@ -50,3 +52,11 @@ class Inscricao(models.Model):
     @property
     def get_frequencia_create_url(self):
         return '%s?inscricao_slug=%s' % (reverse('appmembro_frequencia_create'), self.slug)
+    
+    @property
+    def frequencia(self):
+        try:
+            print(Frequencia.objects.get(inscricao=self).data_hora_frequencia)
+            return Frequencia.objects.get(inscricao=self).data_hora_frequencia
+        except Inscricao.DoesNotExist:
+            return None

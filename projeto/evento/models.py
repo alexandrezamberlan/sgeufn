@@ -28,7 +28,7 @@ class Evento(models.Model):
     site = models.URLField('Site do evento', max_length=100, help_text='Informe o site oficial do evento', null=True, blank=True)   
     instituicao = models.ForeignKey('instituicao.Instituicao', verbose_name= 'Instituição responsável pelo evento *', on_delete=models.PROTECT, related_name='instituicao')
     data_inicio = models.DateField('Data do evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
-    
+    hora_inicio = models.TimeField('Hora de início do evento *', help_text='Use hh:mm', null=True, blank=False)
     coordenador = models.ForeignKey('usuario.Usuario', verbose_name= 'Coordenador responsável *', on_delete=models.PROTECT, related_name='coordenador')
     email = models.EmailField('Email oficial da organização', max_length=100,help_text='Campo opcional, caso o evento seja de submissão de trabalhos.', null=True, blank=True)
     

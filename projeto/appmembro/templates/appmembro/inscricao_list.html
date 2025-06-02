@@ -28,13 +28,12 @@
 							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
 						</td>
 						<td  class="text-center">
-							{% if False %}
+							{% if inscricao.frequencia %}
 								<a href="" target="_blank" class="btn btn-sm btn-primary">
 									{% bootstrap_icon 'print' %}
 								</a>
 								<br>
-								Frequência em: data e hora 
-								{% comment %} {{ inscricao.data_hora_inscricao|date:'d/m/Y H:i' }} {% endcomment %}
+								Frequência em: {{ inscricao.frequencia|date:'d/m/Y H:i' }}<br>
 							{% else %}
 								<a href="" class="btn btn-sm btn-warning" title="Você não participou deste evento">
 									{% bootstrap_icon 'print' %}
@@ -44,7 +43,7 @@
 							{% endif %}
 						</td>
 						<td  class="text-center">
-							{% if inscricao.evento.frequencia_liberada %}
+							{% if inscricao.evento.frequencia_liberada and not inscricao.frequencia %}
 								{% bootstrap_button content='' href=inscricao.get_frequencia_create_url button_type='link' icon='record' button_class='btn btn-primary' size='sm' %}			
 							{% else %}
 								<a href="" class="btn btn-sm btn-warning" title="Aguarde liberação de frequência e código de acesso">
