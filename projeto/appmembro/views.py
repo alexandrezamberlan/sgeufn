@@ -23,7 +23,7 @@ from frequencia.models import Frequencia
 from inscricao.models import Inscricao
 from usuario.models import Usuario
 
-from .forms import MembroCreateForm, InscricaoForm
+from .forms import MembroCreateForm, InscricaoForm, FrequenciaForm
 from evento.forms import BuscaEventoForm
 # from inscricao.forms import BuscaInscricaoForm
 
@@ -174,7 +174,8 @@ class InscricaoDeleteView(LoginRequiredMixin, MembroRequiredMixin, DeleteView):
 class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
     model = Frequencia
     template_name = 'appmembro/frequencia_form.html'
-    fields = ['inscricao']
+    # fields = ['inscricao','codigo_frequencia']
+    form_class = FrequenciaForm
     success_url = 'appmembro_inscricao_list'
     
     def get_initial(self):
@@ -191,6 +192,10 @@ class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         try:
             formulario = form.save(commit=False)
             formulario.inscricao = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+            
+            if formulario.inscricao.evento.codigo_frequencia != formulario.codigo_frequencia:
+                messages.error(self.request, 'Código de frequência inválido. Verifique o código informado!')
+                return super().form_invalid(form)
             
             formulario.save()
 

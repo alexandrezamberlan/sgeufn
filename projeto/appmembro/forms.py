@@ -1,6 +1,7 @@
 from django import forms
 
 from evento.models import Evento
+from frequencia.models import Frequencia
 from inscricao.models import Inscricao
 from usuario.models import Usuario
 
@@ -26,3 +27,9 @@ class InscricaoForm(forms.ModelForm):
         model = Inscricao
         fields = ['evento']
         
+        
+class FrequenciaForm(forms.ModelForm):
+    
+    class Meta:
+        model = Frequencia
+        fields = ['inscricao', 'codigo_frequencia']

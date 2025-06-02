@@ -10,6 +10,7 @@ from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 class Frequencia(models.Model):           
     inscricao = models.ForeignKey('inscricao.Inscricao', verbose_name='Inscrição do evento *', on_delete=models.PROTECT, related_name='inscricao')
     data_hora_frequencia = models.DateTimeField(auto_now_add=True)
+    codigo_frequencia = models.CharField('Código de frequência', max_length=20, null=True, blank=True, help_text='Use o código de frequência informado pela organização do evento.')
 
     slug = models.SlugField('Hash',max_length= 200,null=True,blank=True)
 
@@ -18,7 +19,7 @@ class Frequencia(models.Model):
 
     class Meta:
         ordering            =   ['inscricao']
-        unique_together     =   ['inscricao']
+        unique_together     =   ['inscricao','codigo_frequencia']
         verbose_name        =   'frequência'
         verbose_name_plural =   'frequências'
 
