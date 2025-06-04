@@ -1,0 +1,31 @@
+{% extends 'core/impressoes/base.html' %}
+
+{% block content %}
+<h1 style="text-align: center;">ATESTADO DE PARTICIPAÇÃO</h1>
+<br>
+<br>
+<br>
+
+<p style="text-align: justify;">
+    Atestamos que <b>{{ object.inscricao.participante.nome }}</b>  participou do evento <b>{{ object.inscricao.evento.titulo }}</b>,
+    realizado no dia <b>{{ object.inscricao.evento.data_inicio|date:"d/m/Y" }}</b>, às <b>{{ object.inscricao.evento.hora_inicio|time:"H:i" }}</b>,
+    no local <b>{{ object.inscricao.evento.local.nome }}</b>, situado em <b>{{ object.inscricao.evento.local.endereco }}</b>.
+    O evento foi promovido pela Universidade Franciscana, através do Laboratório de Práticas da Computação - LAPINF.
+</p>
+                                                                                                                                                         
+<p style="text-align: center;">
+    Santa Maria, {% if object.inscricao.data_inscricao %} {{ object.inscricao.data_inscricao|date:"d/m/Y" }} 
+                 {% endif %}
+</p>
+<br>
+<br>
+<p style="text-align: justify;">
+    O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos | SGEUFN, no momento em que o 
+    participante confirma sua presença no evento.
+</p>
+
+<div style="page-break-after: always;"></div>
+<br>
+<br>
+<br>
+{% endblock %}

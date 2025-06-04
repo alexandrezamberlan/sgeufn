@@ -60,3 +60,7 @@ class Inscricao(models.Model):
             return Frequencia.objects.get(inscricao=self).data_hora_frequencia
         except Inscricao.DoesNotExist:
             return None
+        
+    @property
+    def get_atestado_impressao_url(self):
+        return reverse('atestado_pdf', kwargs={'slug': self.slug})

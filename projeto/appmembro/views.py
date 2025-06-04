@@ -1,17 +1,18 @@
 from __future__ import unicode_literals
 
-from datetime import timedelta, datetime
 
 from django.conf import settings
 from django.contrib import messages
 from django.db.models import Q
-from django.http import Http404
 from django.shortcuts import redirect
-from django.utils import timezone
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
+
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 from mail_templated import EmailMessage
 
@@ -209,3 +210,18 @@ class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
         return reverse(self.success_url)
     
+    
+class InscricaoPdfView(LoginRequiredMixin, DetailView):
+    model = Inscricao
+    template_name = 'appmembro/impressoes/atestado_pdf.html'
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        html_string = render_to_string(self.template_name, context)
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="atestado.pdf"'
+        return response
