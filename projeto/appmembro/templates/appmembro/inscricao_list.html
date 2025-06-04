@@ -29,9 +29,9 @@
 						</td>
 						<td  class="text-center">
 							{% if inscricao.frequencia %}
-								<a href="" target="_blank" class="btn btn-sm btn-primary">
-									{% bootstrap_icon 'print' %}
-								</a>
+								<span data-toggle="tooltip" title="Excluir inscrição">
+									{% bootstrap_button content='' href=inscricao.get_visualiza_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+								</span>
 								<br>
 								Frequência em: {{ inscricao.frequencia|date:'d/m/Y H:i' }}<br>
 							{% else %}

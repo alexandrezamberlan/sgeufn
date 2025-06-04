@@ -3,7 +3,7 @@ from django.urls import path
 
 # from core.views import HomeRedirectView
 
-from .views import (DadosMembroUpdateView, FrequenciaCreateView, InscricaoPdfView,
+from .views import (DadosMembroUpdateView, FrequenciaCreateView, InscricaoPdfView, InscricaoDetailView,
                     EventoListView,  InscricaoListView, InscricaoCreateView, InscricaoDeleteView,
                     HomeView, AboutView)
 
@@ -15,6 +15,7 @@ urlpatterns = [
    path('minhas-frequencias/cad/', FrequenciaCreateView.as_view(), name='appmembro_frequencia_create'),
    path('minhas-inscricoes', InscricaoListView.as_view(), name='appmembro_inscricao_list'),
    path('minhas-inscricoes/cad/', InscricaoCreateView.as_view(), name='appmembro_inscricao_create'),
+   path('<slug:slug>/detalhes/', InscricaoDetailView.as_view(), name='appmembro_inscricao_detail'),
    path('<slug:slug>/delete/', InscricaoDeleteView.as_view(), name='appmembro_inscricao_delete'), 
    
    path('eventos/', EventoListView.as_view(), name='appmembro_evento_list'),

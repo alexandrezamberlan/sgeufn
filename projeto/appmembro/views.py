@@ -225,3 +225,8 @@ class InscricaoPdfView(LoginRequiredMixin, DetailView):
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = 'inline; filename="atestado.pdf"'
         return response
+
+
+class InscricaoDetailView(LoginRequiredMixin, DetailView):
+    model = Inscricao
+    template_name = 'appmembro/inscricao_detail.html'
