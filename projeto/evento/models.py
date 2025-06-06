@@ -87,8 +87,15 @@ class Evento(models.Model):
         return 0
     
     @property
-    def pode_inscrever_se(self):
+    def pode_inscrever_se(self): 
         return self.data_inscricao >= self.get_data_atual and self.quantidade_vagas > 0
+    
+    
+    # def pode_inscrever_se(self, usuario):
+    #     inscrito = self.inscricao_set.filter(usuario=usuario).exists()
+    #     prazo_valido = self.data_inscricao >= self.get_data_atual()
+    #     vagas_disponiveis = self.quantidade_vagas > 0
+    #     return prazo_valido and vagas_disponiveis and not inscrito
 
     @property
     def get_inscricao_create_url(self):

@@ -1,9 +1,8 @@
 from __future__ import unicode_literals
 
 import locale
-from datetime import datetime
 
-
+from django.contrib.staticfiles import finders
 
 from django.conf import settings
 from django.contrib import messages
@@ -16,19 +15,17 @@ from django.views.generic.base import TemplateView
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-#from weasyprint import HTML
 
 from django.http import HttpResponse
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-
 
 from mail_templated import EmailMessage
 
@@ -42,7 +39,6 @@ from usuario.models import Usuario
 
 from .forms import MembroCreateForm, InscricaoForm, FrequenciaForm
 from evento.forms import BuscaEventoForm
-# from inscricao.forms import BuscaInscricaoForm
 
 
 class HomeView(LoginRequiredMixin, MembroRequiredMixin, TemplateView):
@@ -244,7 +240,7 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         styles = getSampleStyleSheet()
 
-        caminho_imagem = "projeto\\appmembro\logoUFN_hor.jpg"
+        caminho_imagem = finders.find('core/img/logo_ufn.png')
 
         imagem = Image(caminho_imagem, width=220,height=100)
         
@@ -289,7 +285,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
             fontName='Helvetica'
         )
 
-    
         story.append(imagem)
         # Título do documento
         story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", title_style))
@@ -304,15 +299,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         hora_inicio = getattr(inscricao.evento, 'hora_inicio', None)
         hora_inicio_str = hora_inicio.strftime('%H:%M') if hora_inicio else 'N/A'
 
-        # Local do evento (assumindo que existe um campo local)
-        #local_nome = getattr(inscricao.evento.local, 'local', None)
-        #local_nome_str = inscricao.evento.local if local_nome and hasattr(local_nome, 'nome') else 'N/A'
-        #instituicao = inscricao.evento.instituicao if local_nome and hasattr(local_nome, 'instituicao') else 'N/A'
-        
-        #print(f'local evento {local_nome}')
-        #print(f'instituicao {instituicao}')
-
-
         texto_atestado = f"""
         Atestamos que <b>{inscricao.participante.nome}</b> participou do evento <b>{evento_titulo}</b>, 
         realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b>, 
@@ -325,8 +311,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         story.append(Paragraph(texto_atestado, justify_style))
         story.append(Spacer(1, 40))
 
-
-        
         data_texto = f"Santa Maria, { inscricao.evento.data_inicio.strftime('%d de %B de %Y')}."
         story.append(Paragraph(data_texto, right_style))
         story.append(Spacer(1, 60))
@@ -339,7 +323,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         story.append(Paragraph(texto_final, justify_style))
         story.append(Spacer(1, 40))
-        
         
         # Rodapé com informações do sistema
         story.append(Spacer(1, 30))
@@ -366,6 +349,8 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         doc.build(story)
         
         return response
+
+
 class InscricaoDetailView(LoginRequiredMixin, DetailView):
     model = Inscricao
     template_name = 'appmembro/inscricao_detail.html'
