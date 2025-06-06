@@ -1,5 +1,9 @@
 from __future__ import unicode_literals
 
+import locale
+from datetime import datetime
+
+
 
 from django.conf import settings
 from django.contrib import messages
@@ -13,6 +17,18 @@ from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 #from weasyprint import HTML
+
+from django.http import HttpResponse
+from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
+from reportlab.lib.units import inch
+from reportlab.lib import colors
+
 
 from mail_templated import EmailMessage
 
@@ -210,23 +226,146 @@ class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
         return reverse(self.success_url)
     
-    
-class InscricaoPdfView(LoginRequiredMixin, DetailView):
+
+class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
     model = Inscricao
-    template_name = 'appmembro/impressoes/atestado_pdf.html'
     
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
+        locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+        inscricao = self.get_object()
+        
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="atestado_participacao_{inscricao.participante.nome}_{inscricao.evento.nome}.pdf"'
+        
+        doc = SimpleDocTemplate(response, pagesize=A4, 
+                              topMargin=1*inch, bottomMargin=1*inch,
+                              leftMargin=1*inch, rightMargin=1*inch)
+        story = []
+        
+        styles = getSampleStyleSheet()
 
-        html_string = render_to_string(self.template_name, context)
-        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+        caminho_imagem = "projeto\\appmembro\logoUFN_hor.jpg"
 
-        response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename="atestado.pdf"'
+        imagem = Image(caminho_imagem, width=220,height=100)
+        
+        # Estilo do título
+        title_style = ParagraphStyle(
+            'CustomTitle',
+            parent=styles['Heading1'],
+            fontSize=20,
+            spaceAfter=40,
+            spaceBefore=40,
+            alignment=TA_CENTER,
+            fontName='Helvetica-Bold'
+        )
+        
+        # Estilo para texto justificado
+        justify_style = ParagraphStyle(
+            'JustifyStyle',
+            parent=styles['Normal'],
+            fontSize=12,
+            spaceAfter=10,
+            alignment=TA_JUSTIFY,
+            fontName='Helvetica',
+            leading=18
+        )
+        
+        # Estilo para texto centralizado
+        center_style = ParagraphStyle(
+            'CenterStyle',
+            parent=styles['Normal'],
+            fontSize=12,
+            spaceAfter=10,
+            alignment=TA_CENTER,
+            fontName='Helvetica'
+        )
+
+        right_style = ParagraphStyle(
+            'RightStyle',
+            parent=styles['Normal'],
+            fontSize=12,
+            spaceAfter=10,
+            alignment=TA_RIGHT,
+            fontName='Helvetica'
+        )
+
+    
+        story.append(imagem)
+        # Título do documento
+        story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", title_style))
+        story.append(Spacer(1, 30))
+        
+        # Texto principal do atestado
+        participante_nome = inscricao.participante.nome
+        evento_titulo = getattr(inscricao.evento, 'titulo', inscricao.evento.nome)  # Usar titulo se existir, senão nome
+        
+        # Formatação das datas e horários
+        data_inicio = inscricao.evento.data_inicio.strftime('%d/%m/%Y') if inscricao.evento.data_inicio else 'N/A'
+        hora_inicio = getattr(inscricao.evento, 'hora_inicio', None)
+        hora_inicio_str = hora_inicio.strftime('%H:%M') if hora_inicio else 'N/A'
+
+        # Local do evento (assumindo que existe um campo local)
+        #local_nome = getattr(inscricao.evento.local, 'local', None)
+        #local_nome_str = inscricao.evento.local if local_nome and hasattr(local_nome, 'nome') else 'N/A'
+        #instituicao = inscricao.evento.instituicao if local_nome and hasattr(local_nome, 'instituicao') else 'N/A'
+        
+        #print(f'local evento {local_nome}')
+        #print(f'instituicao {instituicao}')
+
+
+        texto_atestado = f"""
+        Atestamos que <b>{inscricao.participante.nome}</b> participou do evento <b>{evento_titulo}</b>, 
+        realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b>, 
+        no local <b>{inscricao.evento.local}</b>, situado em <b>{inscricao.evento.instituicao}</b>. 
+        O referido evento teve carga horária total de <b>{ inscricao.evento.carga_horaria }</b> 
+        horas e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>
+        O código de inscrição para validação do atestado é <b>{ inscricao.codigo_matricula }</b>.
+        """
+        
+        story.append(Paragraph(texto_atestado, justify_style))
+        story.append(Spacer(1, 40))
+
+
+        
+        data_texto = f"Santa Maria, { inscricao.evento.data_inicio.strftime('%d de %B de %Y')}."
+        story.append(Paragraph(data_texto, right_style))
+        story.append(Spacer(1, 60))
+        
+        # Texto final explicativo
+        texto_final = """
+        O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos | SGEUFN, 
+        no momento em que o participante confirma sua presença no evento.
+        """
+        
+        story.append(Paragraph(texto_final, justify_style))
+        story.append(Spacer(1, 40))
+        
+        
+        # Rodapé com informações do sistema
+        story.append(Spacer(1, 30))
+        
+        footer_style = ParagraphStyle(
+            'FooterStyle',
+            parent=styles['Normal'],
+            fontSize=9,
+            alignment=TA_LEFT,
+            fontName='Helvetica-Oblique',
+            textColor=colors.grey
+        )
+        
+        rodape_texto = f"""
+        ___________________________________________________<br/>
+        Universidade Franciscana<br/>
+        Rua dos Andradas, 1614 – Santa Maria – RS<br/>
+        CEP 97010-032 - https://sge.lapinf.ufn.edu.br
+        """
+        
+        story.append(Paragraph(rodape_texto, footer_style))
+        
+        # Constrói o PDF
+        doc.build(story)
+        
         return response
-
-
 class InscricaoDetailView(LoginRequiredMixin, DetailView):
     model = Inscricao
     template_name = 'appmembro/inscricao_detail.html'

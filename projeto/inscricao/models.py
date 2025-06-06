@@ -62,8 +62,8 @@ class Inscricao(models.Model):
             return None
         
     @property
-    def get_atestado_impressao_url(self):
-        return reverse('atestado_pdf', kwargs={'slug': self.slug})
+    def get_gera_atestado_url(self):
+        return reverse('appmembro_inscricao_pdf', kwargs={'slug': self.slug})
     
     @property
     def get_visualiza_atestado_url(self):
