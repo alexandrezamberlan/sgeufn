@@ -240,7 +240,7 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         styles = getSampleStyleSheet()
 
-        caminho_imagem = finders.find('core/img/logo_ufn.png')
+        caminho_imagem = finders.find('core/img/logoUFN_hor.jpg')
 
         imagem = Image(caminho_imagem, width=220,height=100)
         
