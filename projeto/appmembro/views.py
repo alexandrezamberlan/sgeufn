@@ -301,10 +301,12 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
 
         texto_atestado = f"""
         Atestamos que <b>{inscricao.participante.nome}</b> participou do evento <b>{evento_titulo}</b>, 
-        realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b>, 
+        realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b> horas, 
         no local <b>{inscricao.evento.local}</b>, situado em <b>{inscricao.evento.instituicao}</b>. 
         O referido evento teve carga horária total de <b>{ inscricao.evento.carga_horaria }</b> 
-        horas e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>
+        hora(s) e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>.
+        <br/>
+        <br/>
         O código de inscrição para validação do atestado é <b>{ inscricao.codigo_matricula }</b>.
         """
         
@@ -325,7 +327,7 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         story.append(Spacer(1, 40))
         
         # Rodapé com informações do sistema
-        story.append(Spacer(1, 30))
+        story.append(Spacer(1, 20))
         
         footer_style = ParagraphStyle(
             'FooterStyle',
