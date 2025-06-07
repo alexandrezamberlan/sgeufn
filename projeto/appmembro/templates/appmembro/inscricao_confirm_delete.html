@@ -10,7 +10,7 @@
   {% csrf_token %}
   <p>Você tem certeza que deseja excluir a inscrição no "Evento: {{ object.evento }}"?</p>
   {% buttons submit='Confirmar' %}
-    {% bootstrap_button content='Cancelar' href="javascript:history.go(-1);" button_type='link' button_class='btn btn-default' size='md' %}
+    {% bootstrap_button content='Cancelar' href="javascript:history.go(-1);" button_type='link' button_class='btn btn-warning' size='md' %}
   {% endbuttons %}
 </form>
 {% endblock %}

@@ -142,3 +142,7 @@ class Usuario(AbstractBaseUser):
     @property
     def total_eventos_coordenados(self):                
         return Evento.objects.filter(coordenador = self).count()
+    
+    @property
+    def total_eventos_coordenados_ativos(self):                
+        return Evento.objects.filter(coordenador = self, is_active=True).count()

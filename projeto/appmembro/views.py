@@ -353,6 +353,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         return response
 
 
-class InscricaoDetailView(LoginRequiredMixin, DetailView):
+class InscricaoDetailView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
     model = Inscricao
     template_name = 'appmembro/inscricao_detail.html'

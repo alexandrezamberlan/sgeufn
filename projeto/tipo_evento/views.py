@@ -18,7 +18,7 @@ from .models import TipoEvento
 from .forms import BuscaTipoEventoForm
 
 
-class TipoEventoListView(LoginRequiredMixin, ListView):
+class TipoEventoListView(LoginRequiredMixin, StaffRequiredMixin, ListView):
     model = TipoEvento
 
     def get_context_data(self, **kwargs):

@@ -18,7 +18,7 @@ from .models import Instituicao
 from .forms import BuscaInstituicaoForm
 
 
-class InstituicaoListView(LoginRequiredMixin, ListView):
+class InstituicaoListView(LoginRequiredMixin, StaffRequiredMixin, ListView):
     model = Instituicao
 
     def get_context_data(self, **kwargs):
