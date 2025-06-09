@@ -241,8 +241,10 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         styles = getSampleStyleSheet()
 
         caminho_imagem = finders.find('core/img/logoUFN_hor.jpg')
+        caminho_imagem_lap = finders.find('core/img/logo_lapinf_hor.png')
 
         imagem = Image(caminho_imagem, width=220,height=100)
+        imagem_lap = Image(caminho_imagem_lap, width=220,height=75)
         
         # Estilo do título
         title_style = ParagraphStyle(
@@ -284,14 +286,16 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
             alignment=TA_RIGHT,
             fontName='Helvetica'
         )
-
-        story.append(imagem)
+        
+        # colocar logo da UFN ao lado do logo do LAP
+        # story.append(imagem)
+        story.append(imagem_lap)
+        
         # Título do documento
         story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", title_style))
-        story.append(Spacer(1, 30))
+        story.append(Spacer(1, 20))
         
         # Texto principal do atestado
-        participante_nome = inscricao.participante.nome
         evento_titulo = getattr(inscricao.evento, 'titulo', inscricao.evento.nome)  # Usar titulo se existir, senão nome
         
         # Formatação das datas e horários
@@ -306,7 +310,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         O referido evento teve carga horária total de <b>{ inscricao.evento.carga_horaria }</b> 
         hora(s) e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>.
         <br/>
-        <br/>
         O código de inscrição para validação do atestado é <b>{ inscricao.codigo_matricula }</b>.
         """
         
@@ -315,11 +318,11 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
 
         data_texto = f"Santa Maria, { inscricao.evento.data_inicio.strftime('%d de %B de %Y')}."
         story.append(Paragraph(data_texto, right_style))
-        story.append(Spacer(1, 60))
+        story.append(Spacer(1, 50))
         
         # Texto final explicativo
         texto_final = """
-        <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos | SGEUFN, 
+        <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos (SGEUFN), 
         no momento em que o participante confirma sua presença no evento. Para validar a autenticidade
         deste atestado, utilize o código de inscrição fornecido acima no formulário de validação do SGEUFN.</i>
         """
