@@ -319,8 +319,9 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         # Texto final explicativo
         texto_final = """
-        O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos | SGEUFN, 
-        no momento em que o participante confirma sua presença no evento.
+        <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos | SGEUFN, 
+        no momento em que o participante confirma sua presença no evento. Para validar a autenticidade
+        deste atestado, utilize o código de inscrição fornecido acima no formulário de validação do SGEUFN.</i>
         """
         
         story.append(Paragraph(texto_final, justify_style))
@@ -340,7 +341,7 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         rodape_texto = f"""
         ___________________________________________________<br/>
-        Universidade Franciscana<br/>
+        Laboratório de Práticas Computação UFN<br/>
         Rua dos Andradas, 1614 – Santa Maria – RS<br/>
         CEP 97010-032 - https://sge.lapinf.ufn.edu.br
         """
