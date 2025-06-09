@@ -127,18 +127,6 @@ class Usuario(AbstractBaseUser):
     def total_eventos_ativos(self):
         return Evento.objects.filter(is_active=True).count()
     
-    # @property
-    # def total_submissoes_atencao(self):        
-    #     return Submissao.objects.filter(Q(evento__coordenador = self) & Q(avaliacao = None)).count()
-    
-    # @property
-    # def total_avaliacoes_atencao(self):                
-    #     return Avaliacao.objects.filter(Q(submissao__evento__coordenador = self) & Q(submissao__status ='EM AVALIAÇÃO')).count()
-
-    # @property
-    # def total_submissoes_incompletas_atencao(self):                
-    #     return Submissao.objects.filter(Q(evento__coordenador = self) & Q(status = 'APROVADO') ).count()
-
     @property
     def total_eventos_coordenados(self):                
         return Evento.objects.filter(coordenador = self).count()

@@ -114,7 +114,6 @@ class UsuarioRegisterView(CreateView):
             return reverse('usuario_register_success_falha_email') 
         
 
-
 class UsuarioRegisterSuccessView(TemplateView):
     template_name= 'usuario/usuario_register_success.html'
 

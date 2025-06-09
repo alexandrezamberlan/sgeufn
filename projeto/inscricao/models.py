@@ -11,7 +11,7 @@ from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
 class Inscricao(models.Model):       
     participante = models.ForeignKey('usuario.Usuario', verbose_name='Participante', on_delete=models.PROTECT, related_name='participante')
-    evento = models.OneToOneField('evento.Evento', verbose_name= 'Evento', on_delete=models.PROTECT, related_name='evento')
+    evento = models.ForeignKey('evento.Evento', verbose_name= 'Evento', on_delete=models.PROTECT, related_name='evento')
     data_hora_inscricao = models.DateTimeField(auto_now_add=True)
     codigo_matricula = models.CharField('Código matrícula gerado por hash *', max_length=20)
     is_active = models.BooleanField('Ativo', default=True, help_text='Se ativo, a inscrição pode ser usada no sistema')
@@ -21,7 +21,7 @@ class Inscricao(models.Model):
     
 
     class Meta:
-        unique_together     =   ['participante','evento']
+        unique_together     =   ['evento','participante']
         ordering            =   ['-is_active','evento','participante']
         verbose_name        =   'inscrição'
         verbose_name_plural =   'inscrições'
@@ -56,7 +56,6 @@ class Inscricao(models.Model):
     @property
     def frequencia(self):
         try:
-            # print(Frequencia.objects.get(inscricao=self).data_hora_frequencia)
             return Frequencia.objects.get(inscricao=self).data_hora_frequencia
         except Inscricao.DoesNotExist:
             return None

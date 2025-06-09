@@ -11,11 +11,11 @@ from django.views.generic.edit import CreateView, DeleteView
 
 from django.urls import reverse
 
-from utils.decorators import LoginRequiredMixin, StaffRequiredMixin
+from utils.decorators import LoginRequiredMixin, CoordenadorRequiredMixin
 
 from .models import Frequencia
 
-from .forms import BuscaFrequenciaForm
+from .forms import BuscaFrequenciaForm, FrequenciaForm
 
 
 class FrequenciaListView(LoginRequiredMixin, ListView):
@@ -32,7 +32,11 @@ class FrequenciaListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self):                
-        qs = super().get_queryset().all()        
+        qs = super().get_queryset().all()       
+        
+        if self.request.user.tipo == 'COORDENADOR':
+            qs = qs.filter(inscricao__evento__coordenador=self.request.user)
+         
         
         if self.request.GET:
             #quando ja tem dados filtrando
@@ -50,17 +54,21 @@ class FrequenciaListView(LoginRequiredMixin, ListView):
         return qs
  
 
-class FrequenciaCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
+class FrequenciaCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateView):
     model = Frequencia
-    fields = ['inscricao']
+    # fields = ['inscricao']
+    form_class = FrequenciaForm
     success_url = 'frequencia_list'
+    
+    def get_form(self, form_class=None):
+        return FrequenciaForm(usuario_logado=self.request.user, data=self.request.POST or None)
     
     def get_success_url(self):
         messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
         return reverse(self.success_url)
 
 
-class FrequenciaDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
+class FrequenciaDeleteView(LoginRequiredMixin, CoordenadorRequiredMixin, DeleteView):
     model = Frequencia
     success_url = 'frequencia_list'
 

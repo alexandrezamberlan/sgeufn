@@ -35,7 +35,6 @@ class TipoEvento(models.Model):
         self.descricao = self.descricao.upper()           
         super(TipoEvento, self).save(*args, **kwargs)
         
-
     @property
     def get_absolute_url(self):
         return reverse('tipo_evento_update', kwargs={'slug': self.slug})

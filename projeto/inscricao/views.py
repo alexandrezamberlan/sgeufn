@@ -14,11 +14,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.urls import reverse
 
-from utils.decorators import LoginRequiredMixin, StaffRequiredMixin
+from utils.decorators import LoginRequiredMixin, StaffRequiredMixin, CoordenadorRequiredMixin
 
 from .models import Inscricao
 
-from .forms import BuscaInscricaoForm
+from .forms import BuscaInscricaoForm, InscricaoForm
 
 
 class InscricaoListView(LoginRequiredMixin, ListView):
@@ -35,7 +35,11 @@ class InscricaoListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self):                
-        qs = super().get_queryset().all()        
+        qs = Inscricao.objects.all() #trouxe todas as inscrições
+        qs = qs.filter(Q(evento__is_active=True))
+
+        if self.request.user.tipo == 'COORDENADOR':
+            qs = qs.filter(evento__coordenador=self.request.user) 
         
         if self.request.GET:
             #quando ja tem dados filtrando
@@ -53,10 +57,14 @@ class InscricaoListView(LoginRequiredMixin, ListView):
         return qs
  
 
-class InscricaoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
+class InscricaoCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateView):
     model = Inscricao
-    fields = ['evento', 'participante', 'is_active']
+    # fields = ['evento', 'participante', 'is_active']
+    form_class = InscricaoForm
     success_url = 'inscricao_list'
+    
+    def get_form(self, form_class=None):
+        return InscricaoForm(usuario_logado=self.request.user, data=self.request.POST or None)
     
     def get_success_url(self):
         messages.success(self.request, 'Inscrição realizada com sucesso na plataforma!')
@@ -74,17 +82,7 @@ class InscricaoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
         return super().form_valid(form)   
 
 
-# class InscricaoUpdateView(LoginRequiredMixin, StaffRequiredMixin, UpdateView):
-#     model = Inscricao
-#     fields = ['participante', 'evento', 'is_active']
-#     success_url = 'inscricao_list'
-    
-#     def get_success_url(self):
-#         messages.success(self.request, 'Instituição atualizada com sucesso na plataforma!')
-#         return reverse(self.success_url) 
-
-
-class InscricaoDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
+class InscricaoDeleteView(LoginRequiredMixin, CoordenadorRequiredMixin, DeleteView):
     model = Inscricao
     success_url = 'inscricao_list'
     template_name = 'inscricao/inscricao_confirm_delete.html'
