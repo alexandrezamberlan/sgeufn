@@ -26,6 +26,7 @@
 	  		<thead>
 				<th>Evento</th>
 				<th>Participante</th>
+				<th class="text-center">Baixar Atestado</th>
 				<th class="text-center">Atestado Autenticado</th>
 	  		</thead>
 	  		<tbody>
@@ -42,6 +43,17 @@
 							{{ inscricao.participante }}<br>
 							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
 						</td>
+						<td class="text-center">
+							{% if inscricao.frequencia %}
+								<span data-toggle="tooltip" title="Imprimir PDF">
+									{% bootstrap_button content='' href=inscricao.get_gera_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+								</span>
+							{% else %}
+								<a href="" class="btn btn-sm btn-warning" title="Frequência não realizada">
+									{% bootstrap_icon 'print' %}
+								</a>
+							{% endif %}
+						</td>
 						<td  class="text-center">
 							{% if inscricao.frequencia %}
 								<a href="" class="btn btn-sm btn-success">
@@ -54,6 +66,14 @@
 							{% endif %}
 						</td>
 					</tr>
+				{% empty %}
+					{% if request.GET %}
+					<td colspan="3" class="text-center">
+						<div class="alert alert-info">
+							Não há atestado para o código de verificação informado.
+						</div>
+					</td>
+					{% endif %}
 				{% endfor %}
 	  		</tbody>			
 		</table>
