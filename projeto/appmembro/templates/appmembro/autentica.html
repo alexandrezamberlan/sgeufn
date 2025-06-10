@@ -1,0 +1,61 @@
+{% extends 'appmembro/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+	{% bootstrap_icon 'check' %} Autenticar Atestado
+{% endblock %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<form class="form">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					{% bootstrap_field form.pesquisa  %}
+				</div>	
+				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+					<br>
+					<button type="submit" class="btn btn-success btn-md"  style="width: 100%;">{% bootstrap_icon 'search' %} Validar</button>
+				</div>					
+			</div>
+		</form>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-hover">
+	  		<thead>
+				<th>Evento</th>
+				<th>Participante</th>
+				<th class="text-center">Atestado Autenticado</th>
+	  		</thead>
+	  		<tbody>
+	  			{% for inscricao in object_list %}
+					<tr>
+						<td>
+							{{ inscricao.evento.nome }}<br>
+							<small>
+								Instituição: {{ inscricao.evento.instituicao }} | Data: {{ inscricao.evento.data_inicio|date:"d/m/Y" }} |
+								Carga horária: {{ inscricao.evento.carga_horaria }} hora(s)
+							</small>
+						</td>
+						<td>
+							{{ inscricao.participante }}<br>
+							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
+						</td>
+						<td  class="text-center">
+							{% if inscricao.frequencia %}
+								<a href="" class="btn btn-sm btn-success">
+									SIM
+								</a>
+							{% else %}
+								<a href="" class="btn btn-sm btn-danger">
+									NÃO
+								</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+	  		</tbody>			
+		</table>
+	</div>
+{% endblock %}

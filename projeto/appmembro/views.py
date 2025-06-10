@@ -37,7 +37,7 @@ from frequencia.models import Frequencia
 from inscricao.models import Inscricao
 from usuario.models import Usuario
 
-from .forms import MembroCreateForm, InscricaoForm, FrequenciaForm
+from .forms import MembroCreateForm, InscricaoForm, FrequenciaForm, AutenticaForm
 from evento.forms import BuscaEventoForm
 
 
@@ -360,3 +360,38 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
 class InscricaoDetailView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
     model = Inscricao
     template_name = 'appmembro/inscricao_detail.html'
+    
+    
+class AutenticaListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
+    model = Inscricao
+    template_name = 'appmembro/autentica.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET:
+            #quando ja tem dados filtrando
+            context['form'] = AutenticaForm(data=self.request.GET)
+        else:
+            #quando acessa sem dados filtrando
+            context['form'] = AutenticaForm()
+        return context
+
+    def get_queryset(self):                
+        
+        qs = None
+        
+        if self.request.GET:
+            #quando ja tem dados filtrando
+            form = AutenticaForm(data=self.request.GET)
+        else:
+            #quando acessa sem dados filtrando
+            form = AutenticaForm()
+
+        if form.is_valid():            
+            pesquisa = form.cleaned_data.get('pesquisa')            
+                        
+            if pesquisa:
+                qs = super().get_queryset().filter()
+                qs = qs.filter(codigo_matricula=pesquisa)   
+            
+        return qs

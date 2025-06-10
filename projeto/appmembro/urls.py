@@ -5,7 +5,7 @@ from django.urls import path
 
 from .views import (DadosMembroUpdateView, FrequenciaCreateView, InscricaoPdfView, InscricaoDetailView,
                     EventoListView,  InscricaoListView, InscricaoCreateView, InscricaoDeleteView,
-                    HomeView, AboutView)
+                    HomeView, AboutView, AutenticaListView)
 
 urlpatterns = [
    path('home', HomeView.as_view(), name='appmembro_home'), 
@@ -24,5 +24,7 @@ urlpatterns = [
    path('inscricao/<slug:slug>/pdf/', InscricaoPdfView.as_view(), name='appmembro_inscricao_pdf'),
    
    path('eventos/', EventoListView.as_view(), name='appmembro_evento_list'),
+   
+   path('autenticacao', AutenticaListView.as_view(), name='appmembro_autentica'),
 
 ]

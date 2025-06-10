@@ -33,3 +33,6 @@ class FrequenciaForm(forms.ModelForm):
     class Meta:
         model = Frequencia
         fields = ['inscricao', 'codigo_frequencia']
+        
+class AutenticaForm(forms.Form):        
+    pesquisa = forms.CharField(label='Código de verificação/matrícula', required=False)
