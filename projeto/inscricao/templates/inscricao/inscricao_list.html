@@ -32,6 +32,7 @@
 			<thead>
 				<th>Evento</th>
 				<th>Participante</th>								
+				<th class="text-center">Atestado gerado</th>
 				<th>Data e hora inscrição</th>							
 				<th class="text-center">Ativo</th>
 				{% comment %} <th class="text-center">Editar</th> {% endcomment %}
@@ -49,8 +50,21 @@
 							{{ inscricao.participante }}<br>
 							Código matrícula: <small><b> {{ inscricao.codigo_matricula }} </b></small>
 						</td>
+						<td class="text-center">
+							{% if inscricao.frequencia %}								
+								<span data-toggle="tooltip" title="Imprimir PDF">
+									{% bootstrap_button content='' href=inscricao.get_gera_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+								</span>
+								<br>
+								<small>Frequência em:<br> {{ inscricao.frequencia|date:'d/m/Y | H:i' }}</small><br>
+							{% else %}
+								<a href="" class="btn btn-sm btn-warning" title="Frequência não realizada">
+									{% bootstrap_icon 'print' %}
+								</a>
+							{% endif %}
+						</td>
 						<td>
-							{{ inscricao.data_hora_inscricao|date:'d/m/Y' }}<br>
+							{{ inscricao.data_hora_inscricao|date:'d/m/Y' }} | 
 							{{ inscricao.data_hora_inscricao|date:'H:i' }}
 						</td>																		
 						<td class="text-center">
