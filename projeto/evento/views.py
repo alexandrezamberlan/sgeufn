@@ -48,7 +48,7 @@ class EventoListView(LoginRequiredMixin, ListView):
             pesquisa = form.cleaned_data.get('pesquisa')            
                         
             if pesquisa:
-                qs = qs.filter(Q(coordenador__nome__icontains=pesquisa) | Q(nome__icontains=pesquisa) | Q(descricao__icontains=pesquisa))    
+                qs = qs.filter(Q(coordenador__nome__icontains=pesquisa) | Q(nome__icontains=pesquisa) | Q(descricao__icontains=pesquisa) | Q(tipo__descricao__icontains=pesquisa) | Q(local__icontains=pesquisa) | Q(instituicao__nome__icontains=pesquisa))
             
         return qs
  

@@ -22,12 +22,12 @@ class Inscricao(models.Model):
 
     class Meta:
         unique_together     =   ['evento','participante']
-        ordering            =   ['-is_active','evento','participante']
+        ordering            =   ['-is_active','evento','participante__nome']
         verbose_name        =   'inscrição'
         verbose_name_plural =   'inscrições'
 
     def __str__(self):
-        return '%s | %s - %s' % (self.participante, self.evento, self.codigo_matricula)
+        return '%s | %s - %s' % (self.participante, self.evento.nome, self.evento.data_inicio.strftime("%d/%m/%Y"))
         
     def save(self, *args, **kwargs):        
         if not self.slug:

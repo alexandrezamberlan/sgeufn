@@ -23,7 +23,7 @@ class EventoAtivoComDataAbertaManager(models.Manager):
 
 
 class Evento(models.Model):       
-    nome = models.CharField('Nome do evento *', unique=True, db_index=True, max_length=150, help_text='* Campo obrigatório')
+    nome = models.CharField('Nome do evento *', db_index=True, max_length=150, help_text='* Campo obrigatório')
     descricao = models.TextField('Descrição do evento', null=True, blank=True, max_length=500 ,help_text='Coque aqui uma descrição do evento para ajudar os autores a submeterem seus trabalhos')
     tipo = models.ForeignKey('tipo_evento.TipoEvento', verbose_name= 'Tipo do evento *', on_delete=models.PROTECT, related_name='tipo_evento')
     site = models.URLField('Site do evento', max_length=100, help_text='Informe o site oficial do evento', null=True, blank=True)   
@@ -37,7 +37,7 @@ class Evento(models.Model):
     data_inscricao = models.DateField('Data limite de inscrição ao evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
     carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(12)], null=True, blank=False, default = 1)    
     local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
-    lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=True)    
+    lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=False)    
     
     frequencia_liberada = models.BooleanField('Libera a frequência', default=False, help_text='Se liberada, o evento permite que os participantes solicitem a frequência')    
     codigo_frequencia = models.CharField('Código de frequência', max_length=20, null=True, blank=False, help_text='Código que será utilizado para solicitar a frequência do evento. Deve ser informado ao participante no final do evento.')
@@ -50,6 +50,7 @@ class Evento(models.Model):
     eventos_ativos_data_aberta = EventoAtivoComDataAbertaManager()
 
     class Meta:
+        unique_together     =   ['nome', 'data_inicio']
         ordering            =   ['-is_active','-data_inscricao','nome']
         verbose_name        =   'evento'
         verbose_name_plural =   'eventos'
