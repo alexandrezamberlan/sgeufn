@@ -21,7 +21,7 @@ class Aviso(models.Model):
         ('MEMBRO', 'Membro' ),        
     )    
     
-    titulo = models.CharField('Título do aviso *', unique=True, max_length=100, db_index=True, help_text='* Campos obrigatórios')
+    titulo = models.CharField('Título do aviso *', unique=True, max_length=100, help_text='* Campos obrigatórios')
     texto = models.TextField('Texto da notícia *', max_length=500, help_text='Máximo de 500 caracteres')
     data = models.DateField('Data do aviso', auto_now=True)
     destinatario = models.CharField('Destinatários *', max_length=20, choices=DESTINO, default="TODOS")

@@ -10,8 +10,6 @@
 
 11) vai ser permitido apagar uma frequencia que foi gerado atestado?
 
-
-
 12) app usuário inserir pesquisa livre
 
 13) no app aviso, trocar membro para participante
