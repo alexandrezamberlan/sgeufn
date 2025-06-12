@@ -16,9 +16,9 @@ class EventoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if usuario and usuario.tipo == 'COORDENADOR':
             self.fields['nome'].widget.attrs['readonly'] = 'readonly'
-            self.fields['tipo'].widget.attrs['readonly'] = 'readonly'
-            self.fields['instituicao'].widget.attrs['readonly'] = 'readonly'
-            self.fields['coordenador'].widget.attrs['readonly'] = 'readonly'
+            self.fields['tipo'].widget.attrs['disabled'] = 'disabled'
+            self.fields['instituicao'].widget.attrs['disabled'] = 'disabled'
+            self.fields['coordenador'].widget.attrs['disabled'] = 'disabled'
             self.fields['is_active'].widget.attrs['disabled'] = 'disabled'
 
 
