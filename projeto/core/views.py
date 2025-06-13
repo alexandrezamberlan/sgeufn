@@ -6,7 +6,7 @@ from django.views.generic import RedirectView
 
 from aviso.models import Aviso
 
-from utils.decorators import LoginRequiredMixin, StaffRequiredMixin
+from utils.decorators import LoginRequiredMixin,  CoordenadorRequiredMixin
 
 class HomeRedirectView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, **kwargs):

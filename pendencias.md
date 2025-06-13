@@ -22,9 +22,8 @@
 
 16) no app frequencia, cadastro frequencia adm, melhorar o listbox.... ordenar por nome e depois evento - customizar
 
-17) na visao coordenador, permitir acesso ao Eu Coordenador
-
-
-18) padronizar botao sair para tipos de usuários
 
 19) na visão do coordenador, rever geral.... readonly do update de evento - problema em listbox
+    - quando salve, o atributo ativo é desmarcado.... REVER....
+
+20) quando logado com participante....http://localhost:8000/membro/home se trocar para http://localhost:8000/home, troca para a área do administrador.... REVER
