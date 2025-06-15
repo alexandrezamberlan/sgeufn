@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     
-    path('membro/', include('appmembro.urls')), 
+    path('participante/', include('appmembro.urls')), 
     
     path('aviso/', include('aviso.urls')), 
     path('evento/', include('evento.urls')), 
@@ -17,8 +17,7 @@ urlpatterns = [
     path('instituicao/', include('instituicao.urls')), 
     path('inscricao/', include('inscricao.urls')), 
     path('tipo_evento/', include('tipo_evento.urls')), 
-    path('usuario/', include('usuario.urls')),   
-    
+    path('usuario/', include('usuario.urls')), 
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
