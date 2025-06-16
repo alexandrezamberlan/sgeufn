@@ -8,10 +8,9 @@
 
 8) quando cadastrar um evento a data de inscrição deve ser menor ou igual a data do evento
 
-11) vai ser permitido apagar uma frequencia que foi gerado atestado?
+11) vai ser permitido apagar uma frequencia que foi gerado atestado? pelo adm ou coord.
 
 12) app usuário inserir pesquisa livre
-
 
 14) implementar minhas inscrições para coordenador de evento
 
@@ -27,6 +26,4 @@
 
 20) quando logado com participante....http://localhost:8000/membro/home se trocar para http://localhost:8000/home, troca para a área do administrador.... REVER
 
-21) o evento nao tem palestrante ou instrutor?
-
-22) fazer minhas inscrições e meus atestados do coordenador
+21) o evento nao tem palestrante ou instrutor? nome completo e email para atestado
