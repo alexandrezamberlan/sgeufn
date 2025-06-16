@@ -25,12 +25,12 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">{% bootstrap_icon 'pencil' %} Eu coordenador <span
-                            class="caret"></span></a>
+                       aria-expanded="false">{% bootstrap_icon 'edit' %} Eu participante <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'appmembro_dados_update' %}">{% bootstrap_icon 'user' %} Dados pessoais</a></li>
-                        <li><a href="">{% bootstrap_icon 'glass' %} Eventos disponíveis</a></li>
-                        <li><a href="">{% bootstrap_icon 'pencil' %} Minhas inscrições e atestados</a></li>
+                        <li><a href="{% url 'appmembro_evento_list' %}">{% bootstrap_icon 'glass' %} Eventos disponíveis</a></li>
+                        <li><a href="{% url 'appmembro_inscricao_list' %}">{% bootstrap_icon 'pencil' %} Minhas inscrições e atestados</a></li>
+                        <li><a href="{% url 'appmembro_autentica' %}">{% bootstrap_icon 'check' %} Autenticar atestados</a></li>
                     </ul>
                 </li>
 
