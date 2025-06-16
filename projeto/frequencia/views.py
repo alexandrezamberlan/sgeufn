@@ -18,7 +18,7 @@ from .models import Frequencia
 from .forms import BuscaFrequenciaForm, FrequenciaForm
 
 
-class FrequenciaListView(LoginRequiredMixin, ListView):
+class FrequenciaListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
     model = Frequencia
 
     def get_context_data(self, **kwargs):

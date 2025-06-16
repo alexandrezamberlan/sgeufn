@@ -30,8 +30,7 @@
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
-				<th>Local</th>
-				<th class="text-center">Vagas | Inscritos</th>
+				<th>Vagas | Inscritos</th>
 				<th>Coordenação</th>
 				<th class="text-center">Site</th>
 				<th>Datas importantes</th>
@@ -45,19 +44,23 @@
 					<tr>
 						<td>
 							{{ evento.nome }}<br>
-							<small>{{ evento.tipo }} | {{ evento.instituicao }}</small>
+							<small>{{ evento.tipo }} | 
+								{% if evento.instituicao.sigla %}
+									{{ evento.instituicao.sigla }}
+								{% else %}
+									{{ evento.instituicao.nome }}
+								{% endif %} | 
+								<b>Local: </b> 
+								{% if evento.local %}
+									{{ evento.local }} 
+								{% else %}
+									<span class="label label-warning">
+										Não informado
+									</span>
+								{% endif %}
+							</small>
 						</td>
 						<td>
-							{% if evento.local %}
-								{{ evento.local }} 
-								
-							{% else %}
-								<span class="label label-warning">
-									Não informado
-								</span>
-							{% endif %}
-						</td>
-						<td class="text-center">
 							{% if evento.lotacao %}
 								{{ evento.lotacao }} | 
 							{% else %}
@@ -68,7 +71,10 @@
 							{{ evento.quantidade_inscritos }}
 						<td>
 							{{ evento.grupo }}<br>
-							<small>{{ evento.coordenador }}</small>
+							<small>
+								{{ evento.coordenador.nome }}<br>
+								{{ evento.coordenador.email }}
+							</small>
 						</td>	
 						<td class="text-center">
 							{% if evento.site %}
@@ -82,9 +88,9 @@
 							{% endif %}
 						</td>	
 						<td>
-							<b>Data evento:</b> {{ evento.data_inicio|date:'d/m/Y' }}<br>
-							<b>Hora evento:</b> {{ evento.hora_inicio|time:'H:i' }}<br>
-							<b>Data limite inscrição:</b> {{ evento.data_inscricao|date:'d/m/Y' }}
+							<b>Data:</b> {{ evento.data_inicio|date:'d/m/Y' }}<br>
+							<b>Hora:</b> {{ evento.hora_inicio|time:'H:i' }}<br>
+							<b>Limite inscrição:</b> {{ evento.data_inscricao|date:'d/m/Y' }}
 						</td>											
 						<td class="text-center">
 							{% if evento.is_active %}

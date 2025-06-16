@@ -15,10 +15,10 @@ from utils.decorators import LoginRequiredMixin, StaffRequiredMixin, Coordenador
 
 from .models import Evento
 
-from .forms import BuscaEventoForm, EventoForm
+from .forms import BuscaEventoForm, EventoForm, EventoCoordenadorForm
 
 
-class EventoListView(LoginRequiredMixin, ListView):
+class EventoListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
     model = Evento
 
     def get_context_data(self, **kwargs):
@@ -67,11 +67,16 @@ class EventoUpdateView(LoginRequiredMixin, CoordenadorRequiredMixin, UpdateView)
     model = Evento
     form_class = EventoForm
     success_url = 'evento_list'
+    
+    def get_form_class(self):
+        if self.request.user.tipo == 'COORDENADOR':
+            return EventoCoordenadorForm
+        return super().get_form_class()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = EventoForm(usuario=self.request.user, instance=self.object)
-        return context
+    def get_template_names(self):
+        if self.request.user.tipo == 'COORDENADOR':
+            return 'evento/evento_coordenador_form.html'
+        return super().get_template_names()
 
     def get_success_url(self):
         messages.success(self.request, 'Evento atualizado com sucesso na plataforma!')

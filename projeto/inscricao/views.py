@@ -21,7 +21,7 @@ from .models import Inscricao
 from .forms import BuscaInscricaoForm, InscricaoForm
 
 
-class InscricaoListView(LoginRequiredMixin, ListView):
+class InscricaoListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
     model = Inscricao
 
     def get_context_data(self, **kwargs):

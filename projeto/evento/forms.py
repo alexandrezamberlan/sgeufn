@@ -12,14 +12,11 @@ class EventoForm(forms.ModelForm):
         model = Evento
         fields = ['nome', 'tipo', 'descricao', 'carga_horaria', 'local', 'lotacao', 'site', 'grupo', 'instituicao', 'coordenador', 'email', 'data_inicio', 'hora_inicio', 'data_inscricao', 'frequencia_liberada', 'codigo_frequencia', 'is_active']
 
-    def __init__(self, usuario=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if usuario and usuario.tipo == 'COORDENADOR':
-            self.fields['nome'].widget.attrs['readonly'] = 'readonly'
-            self.fields['tipo'].widget.attrs['disabled'] = 'disabled'
-            self.fields['instituicao'].widget.attrs['disabled'] = 'disabled'
-            self.fields['coordenador'].widget.attrs['disabled'] = 'disabled'
-            self.fields['is_active'].widget.attrs['disabled'] = 'disabled'
+class EventoCoordenadorForm(forms.ModelForm):
+    class Meta:
+        model = Evento
+        fields = ['descricao', 'carga_horaria', 'local', 'lotacao', 'site', 'email', 'hora_inicio', 'data_inscricao', 'frequencia_liberada', 'codigo_frequencia']
+
 
 
 class BuscaEventoForm(forms.Form):        

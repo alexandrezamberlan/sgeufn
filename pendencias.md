@@ -27,3 +27,7 @@
     - quando salve, o atributo ativo é desmarcado.... REVER....
 
 20) quando logado com participante....http://localhost:8000/membro/home se trocar para http://localhost:8000/home, troca para a área do administrador.... REVER
+
+21) o evento nao tem palestrante ou instrutor?
+
+22) fazer minhas inscrições e meus atestados do coordenador

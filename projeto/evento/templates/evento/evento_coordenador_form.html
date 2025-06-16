@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load bootstrap3 %}
+
+{% block actions %}
+{% endblock %}
+
+{% block title %}
+	{% bootstrap_icon 'glass' %} Cadastro de evento
+{% endblock %}
+
+{% block content %}
+<form class="form" role="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% for error in form.non_field_errors %}
+      {% bootstrap_alert error 'danger' %}
+    {% endfor %}
+    <div class="row">
+      <hr>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-2">
+        <b>Evento:</b> {{ object.nome }}<br>
+        <small><b>Tipo:</b> {{ object.tipo }} | <b>Data evento:</b> {{ object.data_inicio|date:'d/m/Y' }}<br></small>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-2">
+        <b>Responsável:</b> {{ object.coordenador.nome }}<br>
+        <small><b>Grupo ou Setor:</b> {{ object.grupo }}</small>
+      </div>      
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-2">
+        <b>Instituição:</b> {{ object.instituicao }}
+      </div>
+    </div>
+    <hr>
+    
+    {% bootstrap_form form %}
+
+    {% buttons submit='Gravar' %}
+       <a href="javascript:history.go(-1);" class="btn btn-warning" role="button">Voltar</a>
+    {% endbuttons %}
+</form>
+{% endblock %}
