@@ -28,8 +28,9 @@
                        aria-expanded="false">{% bootstrap_icon 'pencil' %} Eu coordenador <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'appmembro_dados_update' %}">{% bootstrap_icon 'user' %} Dados pessoais</a>
-                        </li>
+                        <li><a href="{% url 'appmembro_dados_update' %}">{% bootstrap_icon 'user' %} Dados pessoais</a></li>
+                        <li><a href="">{% bootstrap_icon 'glass' %} Eventos disponíveis</a></li>
+                        <li><a href="">{% bootstrap_icon 'pencil' %} Minhas inscrições e atestados</a></li>
                     </ul>
                 </li>
 
@@ -47,17 +48,7 @@
                         <li><a href="{% url 'aviso_list' %}">{% bootstrap_icon 'envelope' %} Avisos</a></li>
                     </ul>
                 </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">{% bootstrap_icon 'pencil' %} Inscrições <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'inscricao_list' %}">Todas</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="">Minhas inscrições</a></li>
-                    </ul>
-                </li>
-
+                <li><a href="{% url 'inscricao_list' %}">{% bootstrap_icon 'pencil' %} Inscrições</a></li>
                 <li><a href="{% url 'frequencia_list' %}">{% bootstrap_icon 'check' %} Frequências</a></li>
             </ul>
 
