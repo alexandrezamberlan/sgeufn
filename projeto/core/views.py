@@ -8,7 +8,7 @@ from aviso.models import Aviso
 
 from utils.decorators import LoginRequiredMixin,  CoordenadorRequiredMixin
 
-class HomeRedirectView(LoginRequiredMixin, RedirectView):
+class HomeRedirectView(LoginRequiredMixin, CoordenadorRequiredMixin, RedirectView):
     def get_redirect_url(self, **kwargs):
         return reverse('home')
     
@@ -20,7 +20,7 @@ class HomeRedirectView(LoginRequiredMixin, RedirectView):
             return reverse('appmembro_home')   
         
         
-class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(LoginRequiredMixin, CoordenadorRequiredMixin, TemplateView):
     template_name = 'core/home.html'
     
     def get_context_data(self, **kwargs):
