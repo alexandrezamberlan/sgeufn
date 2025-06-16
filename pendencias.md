@@ -12,7 +12,6 @@
 
 12) app usuário inserir pesquisa livre
 
-13) no app aviso, trocar membro para participante
 
 14) implementar minhas inscrições para coordenador de evento
 
