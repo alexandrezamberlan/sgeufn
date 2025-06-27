@@ -24,18 +24,20 @@ class CoordenadorAtivoManager(UserManager):
         return super().get_queryset().filter(Q(tipo='COORDENADOR') | Q(tipo='ADMINISTRADOR'), is_active=True)
     
 
-class MembroAtivoManager(UserManager):
-    def get_queryset(self):
-        return super().get_queryset().filter(tipo='MEMBRO', is_active=True)
-
-
 class UsuarioAtivoManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
     
-class AvaliadorAtivoManager(UserManager):
+
+class MinistranteAtivoManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(eh_avaliador=True, is_active=True)
+        return super().get_queryset().filter(tipo='MINISTRANTE', is_active=True)
+    
+
+class ParticipanteAtivoManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(tipo='PARTICIPANTE', is_active=True)
+
 
 class Usuario(AbstractBaseUser):
     #1 campo da tupla fica no banco de dados
@@ -44,11 +46,12 @@ class Usuario(AbstractBaseUser):
         ('ADMINISTRADOR', 'Administrador'),
         ('COORDENADOR', 'Coordenador de Evento' ),
         ('PARTICIPANTE', 'Participante' ),        
+        ('MINISTRANTE', 'Ministrante' ),    
     )
    
     USERNAME_FIELD = 'email'
 
-    tipo = models.CharField('Tipo do usuário *', max_length=15, choices=TIPOS_USUARIOS, default='MEMBRO', help_text='* Campos obrigatórios')
+    tipo = models.CharField('Tipo do usuário *', max_length=15, choices=TIPOS_USUARIOS, default='PARTICIPANTE', help_text='* Campos obrigatórios')
     nome = models.CharField('Nome completo *', max_length=100)
    
     instituicao = models.CharField('Instituição a que pertence *', max_length=50, help_text='Registre a instituição, ou universidade, ou empresa')
@@ -63,8 +66,8 @@ class Usuario(AbstractBaseUser):
     objects = UserManager()
     administradores = AdministradorAtivoManager()
     coordenadores = CoordenadorAtivoManager()
-    membros = MembroAtivoManager()
-    avaliadores = AvaliadorAtivoManager()
+    participantes = ParticipanteAtivoManager()
+    lista_ministrantes = MinistranteAtivoManager()
     usuarios_ativos = UsuarioAtivoManager()
 
     class Meta:

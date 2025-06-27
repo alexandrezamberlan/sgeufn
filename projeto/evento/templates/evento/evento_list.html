@@ -44,7 +44,8 @@
 					<tr>
 						<td>
 							{{ evento.nome }}<br>
-							<small>{{ evento.tipo }} | 
+							<small>
+								<b>Tipo: </b>{{ evento.tipo }} | 
 								{% if evento.instituicao.sigla %}
 									{{ evento.instituicao.sigla }}
 								{% else %}
@@ -57,7 +58,11 @@
 									<span class="label label-warning">
 										Não informado
 									</span>
-								{% endif %}
+								{% endif %}<br>
+								<b>Ministrantes: </b>
+								{% for ministrante in evento.ministrantes.all %}
+									{{ ministrante.nome }}, 
+								{% endfor %}
 							</small>
 						</td>
 						<td>

@@ -34,13 +34,14 @@ class CoordenadorRequiredMixin(object):
     """
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.tipo == 'COORDENADOR' and not request.user.tipo == 'ADMINISTRADOR':
+        if not request.user.tipo == 'MINISTRANTE' and not request.user.tipo == 'COORDENADOR' and not request.user.tipo == 'ADMINISTRADOR':
             messages.error(
                 request,
                 'Você não tem permissão para acessar esta área ou'
                 ' realizar esta operação.')
             return redirect('home')
         return super(CoordenadorRequiredMixin, self).dispatch(request, *args, **kwargs)
+    
 
 class MembroRequiredMixin(object):
     """
@@ -49,7 +50,7 @@ class MembroRequiredMixin(object):
     """
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.tipo == 'PARTICIPANTE' and not request.user.tipo == 'COORDENADOR' and not request.user.tipo == 'ADMINISTRADOR':
+        if not request.user.tipo == 'PARTICIPANTE' and not request.user.tipo == 'MINISTRANTE' and not request.user.tipo == 'COORDENADOR' and not request.user.tipo == 'ADMINISTRADOR':
             messages.error(
                 request,
                 'Você não tem permissão para acessar esta área ou'

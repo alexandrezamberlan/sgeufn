@@ -14,7 +14,7 @@ class HomeRedirectView(LoginRequiredMixin, CoordenadorRequiredMixin, RedirectVie
     
 class HomeRedirectView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, **kwargs):
-        if self.request.user.tipo == 'ADMINISTRADOR' or self.request.user.tipo == 'COORDENADOR':
+        if self.request.user.tipo == 'ADMINISTRADOR' or self.request.user.tipo == 'COORDENADOR' or self.request.user.tipo == 'MINISTRANTE':
             return reverse('home')
         elif self.request.user.tipo == 'PARTICIPANTE':
             return reverse('appmembro_home')   

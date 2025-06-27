@@ -17,7 +17,7 @@
 {% block bootstrap3_content %}
     {% if user.tipo == 'PARTICIPANTE' %}
         {% include 'appmembro/includes/_menu_principal.html' %}
-    {% elif user.tipo == 'COORDENADOR' or user.tipo == 'ADMINISTRADOR' %}
+    {% elif user.tipo == 'COORDENADOR' or user.tipo == 'ADMINISTRADOR' or user.tipo == 'MINISTRANTE'%}
         {% include 'core/includes/_menu_principal.html' %}
     {% endif %}
     

@@ -66,6 +66,7 @@ class DadosMembroUpdateView(LoginRequiredMixin, MembroRequiredMixin ,UpdateView)
     def get_success_url(self):
         messages.success(self.request, 'Seus dados foram alterados com sucesso!')
         return reverse(self.success_url)
+    
 
 class EventoListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
     model = Evento

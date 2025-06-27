@@ -21,9 +21,6 @@
 16) no app frequencia, cadastro frequencia adm, melhorar o listbox.... ordenar por nome e depois evento - customizar
 
 
-19) na visão do coordenador, rever geral.... readonly do update de evento - problema em listbox
-    - quando salve, o atributo ativo é desmarcado.... REVER....
+22) no atestado colocar os nomes dos ministrantes... deve ser um for
 
-20) quando logado com participante....http://localhost:8000/membro/home se trocar para http://localhost:8000/home, troca para a área do administrador.... REVER
-
-21) o evento nao tem palestrante ou instrutor? nome completo e email para atestado
+23) gerar o atestado para o ministrante

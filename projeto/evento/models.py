@@ -24,8 +24,9 @@ class EventoAtivoComDataAbertaManager(models.Manager):
 
 class Evento(models.Model):       
     nome = models.CharField('Nome do evento *', db_index=True, max_length=150, help_text='* Campo obrigatório')
-    descricao = models.TextField('Descrição do evento', null=True, blank=True, max_length=500 ,help_text='Coque aqui uma descrição do evento para ajudar os autores a submeterem seus trabalhos')
+    descricao = models.TextField('Descrição do evento', null=True, blank=True, max_length=500 ,help_text='Coloque aqui uma descrição do evento para ajudar os autores a submeterem seus trabalhos')
     tipo = models.ForeignKey('tipo_evento.TipoEvento', verbose_name= 'Tipo do evento *', on_delete=models.PROTECT, related_name='tipo_evento')
+    ministrantes = models.ManyToManyField('usuario.Usuario', verbose_name='Ministrante(s)', help_text='Para selecionar mais de um ministrante, pressione CTRL e selecione com o mouse', related_name='ministrantes')
     site = models.URLField('Site do evento', max_length=100, help_text='Informe o site oficial do evento', null=True, blank=True)   
     grupo = models.CharField('Departamento ou Setor ou Grupo responsável pelo evento *', null=True, blank=False, max_length=150, help_text='* Campo obrigatório')
     instituicao = models.ForeignKey('instituicao.Instituicao', verbose_name= 'Instituição responsável pelo evento *', on_delete=models.PROTECT, related_name='instituicao')
@@ -35,7 +36,7 @@ class Evento(models.Model):
     email = models.EmailField('Email oficial da organização', max_length=100,help_text='Campo opcional, caso o evento seja de submissão de trabalhos.', null=True, blank=True)
     
     data_inscricao = models.DateField('Data limite de inscrição ao evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
-    carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(12)], null=True, blank=False, default = 1)    
+    carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1)    
     local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
     lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=False)    
     

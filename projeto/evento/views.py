@@ -32,9 +32,11 @@ class EventoListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
         return context
 
     def get_queryset(self):                
-        qs = super().get_queryset().all()        
+        if self.request.user.tipo == 'ADMINISTRADOR':
+            qs = super().get_queryset().all()        
 
-        if self.request.user.tipo == 'COORDENADOR':
+        if self.request.user.tipo == 'COORDENADOR' or self.request.user.tipo == 'MINISTRANTE':
+            qs = super().get_queryset().all()
             qs = qs.filter(coordenador=self.request.user)
 
         if self.request.GET:
@@ -48,7 +50,8 @@ class EventoListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
             pesquisa = form.cleaned_data.get('pesquisa')            
                         
             if pesquisa:
-                qs = qs.filter(Q(coordenador__nome__icontains=pesquisa) | Q(nome__icontains=pesquisa) | Q(descricao__icontains=pesquisa) | Q(tipo__descricao__icontains=pesquisa) | Q(local__icontains=pesquisa) | Q(instituicao__nome__icontains=pesquisa))
+                qs = qs.filter(Q(coordenador__nome__icontains=pesquisa) | Q(nome__icontains=pesquisa) | Q(descricao__icontains=pesquisa) | 
+                               Q(tipo__descricao__icontains=pesquisa) | Q(local__icontains=pesquisa) | Q(instituicao__nome__icontains=pesquisa))
             
         return qs
  

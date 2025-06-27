@@ -32,9 +32,11 @@ class FrequenciaListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView)
         return context
 
     def get_queryset(self):                
-        qs = super().get_queryset().all()       
+        if self.request.user.tipo == 'ADMINISTRADOR':
+            qs = super().get_queryset().all()       
         
-        if self.request.user.tipo == 'COORDENADOR':
+        if self.request.user.tipo == 'COORDENADOR' or self.request.user.tipo == 'MINISTRANTE':
+            qs = super().get_queryset().all()
             qs = qs.filter(inscricao__evento__coordenador=self.request.user)
          
         

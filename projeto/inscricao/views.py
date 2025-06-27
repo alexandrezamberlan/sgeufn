@@ -34,12 +34,13 @@ class InscricaoListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
             context['form'] = BuscaInscricaoForm()
         return context
 
-    def get_queryset(self):                
-        qs = Inscricao.objects.all() #trouxe todas as inscrições
-        qs = qs.filter(Q(evento__is_active=True))
+    def get_queryset(self):               
+        if self.request.user.tipo == 'ADMINISTRADOR':
+            qs = Inscricao.objects.all()
 
-        if self.request.user.tipo == 'COORDENADOR':
-            qs = qs.filter(evento__coordenador=self.request.user) 
+        if self.request.user.tipo == 'COORDENADOR' or self.request.user.tipo == 'MINISTRANTE':
+            qs = Inscricao.objects.filter(Q(evento__is_active=True))
+            qs = qs.filter(evento__coordenador=self.request.user)                
         
         if self.request.GET:
             #quando ja tem dados filtrando
