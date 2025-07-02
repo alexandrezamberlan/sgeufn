@@ -11,6 +11,7 @@ urlpatterns = [
     
     path('participante/', include('appmembro.urls')), 
     
+    path('atestado_manual/', include('atestado_manual.urls')), 
     path('aviso/', include('aviso.urls')), 
     path('evento/', include('evento.urls')), 
     path('frequencia/', include('frequencia.urls')), 
