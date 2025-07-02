@@ -4,19 +4,14 @@
 
 6) quando administrador/coordenador cadastrar usuário, no primeiro acesso desse usuário, validar termo de aceite... PENSAR NUMA FORMA DO COORDENADOR CADASTRAR USUÁRIO DO TIPO PARTICIPANTE - quando criado pelo administrador um participante, gerar email com link para ele entrar na atualização de meus dados e aceitar os termos
 
-12) app usuário inserir pesquisa livre
-
-14) implementar minhas inscrições para coordenador de evento
-
 15) uma vez que o evento tem a frequencia liberada:
     - temporizar e fechar frequencia depois de 1h
     - depois de um tempo, avisar o coordenador do evento por email / whatsapp
 
-16) no app frequencia, cadastro frequencia adm, melhorar o listbox.... ordenar por nome e depois evento - customizar
 
-
-22) no atestado colocar os nomes dos ministrantes... deve ser um for
+22) no atestado colocar os nomes dos ministrantes... deve ser um for (GUILHERME HENRIQUES)
 
 23) gerar o atestado para o ministrante
 
-24) tipo de evento: trabalho voluntário, 
+24) app atestadoManual: crud (nome, atividade, data_inicio, data_fim, carga_horaria, responsavel, codigo_validacao, instituicao)
+    - create e no update -> gerar o atestado

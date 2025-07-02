@@ -8,10 +8,11 @@ from .models import Evento
 class EventoForm(forms.ModelForm):
     coordenador = forms.ModelChoiceField(label='Coordenador responsável *', queryset=Usuario.coordenadores.all())
     ministrantes = forms.ModelMultipleChoiceField(
-        label='Ministrantes*',
+        label='Ministrantes',
         queryset=Usuario.lista_ministrantes.all(),  # certifique-se de que isso retorna um queryset válido
         #widget=forms.CheckboxSelectMultiple,  # ou forms.SelectMultiple se preferir
-        #required=True
+        required=False,
+        help_text='Para selecionar mais de um ministrante, pressione CTRL e selecione com o mouse'
     )
     
     class Meta:
