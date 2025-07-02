@@ -11,7 +11,7 @@
 		<form class="form">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-					{% bootstrap_field form.tipo  %}
+					{% bootstrap_field form.pesquisa  %}
 				</div>	
 					  				
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -42,7 +42,10 @@
 			<tbody>
 				{% for usuario in object_list %}				
 					<tr>
-						<td>{{ usuario.nome }}</td> 
+						<td>
+							{{ usuario.nome }}<br>
+							<small>{{ usuario.instituicao|default_if_none:"" }}</small>
+						</td> 
 						<td>
 							{{ usuario.tipo }}<br>
 							{% if usuario.eh_avaliador %}

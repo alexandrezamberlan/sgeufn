@@ -18,6 +18,16 @@ class EventoForm(forms.ModelForm):
         model = Evento
         fields = ['nome', 'tipo', 'ministrantes', 'descricao', 'carga_horaria', 'local', 'lotacao', 'site', 'grupo', 'instituicao', 'coordenador', 'email', 'data_inicio', 'hora_inicio', 'data_inscricao', 'frequencia_liberada', 'codigo_frequencia', 'is_active']
 
+    def clean_data_inscricao(self):
+        data_inicio = self.cleaned_data.get('data_inicio')
+        data_inscricao = self.cleaned_data.get('data_inscricao')
+        
+        if data_inicio:
+            if (data_inscricao > data_inicio):
+                raise forms.ValidationError('Data de inscrição deve ser menor ou igual a data do evento!')            
+
+        return data_inscricao
+
 class EventoCoordenadorForm(forms.ModelForm):
     class Meta:
         model = Evento

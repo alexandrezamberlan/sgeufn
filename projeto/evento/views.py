@@ -65,6 +65,17 @@ class EventoCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
         messages.success(self.request, 'Evento cadastrado com sucesso na plataforma!')
         return reverse(self.success_url)
 
+    def form_valid(self, form):
+        formulario = form.save(commit=False)
+        
+        if formulario.data_inscricao > formulario.data_inicio:
+            messages.error(self.request,"Data de inscrição deve ser menor ou igual a data do evento!")  
+            return super().form_invalid(form)
+        
+        formulario.save()
+
+        return super().form_valid(form)   
+
 
 class EventoUpdateView(LoginRequiredMixin, CoordenadorRequiredMixin, UpdateView):
     model = Evento

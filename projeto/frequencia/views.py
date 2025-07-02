@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView, DeleteView
 
 from django.urls import reverse
 
-from utils.decorators import LoginRequiredMixin, CoordenadorRequiredMixin
+from utils.decorators import LoginRequiredMixin, CoordenadorRequiredMixin, StaffRequiredMixin
 
 from .models import Frequencia
 
@@ -70,7 +70,7 @@ class FrequenciaCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateV
         return reverse(self.success_url)
 
 
-class FrequenciaDeleteView(LoginRequiredMixin, CoordenadorRequiredMixin, DeleteView):
+class FrequenciaDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
     model = Frequencia
     success_url = 'frequencia_list'
 

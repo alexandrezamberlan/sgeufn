@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 
+from django.db.models import Q
+
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -45,10 +47,10 @@ class UsuarioListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
             form = BuscaUsuarioForm()
 
         if form.is_valid():            
-            tipo = form.cleaned_data.get('tipo')
+            pesquisa = form.cleaned_data.get('pesquisa')
                        
-            if tipo:
-                qs = qs.filter(tipo=tipo)
+            if pesquisa:
+                qs = qs.filter(Q(nome__icontains=pesquisa) | Q(email__icontains=pesquisa) | Q(celular__icontains=pesquisa) | Q(cpf__icontains=pesquisa) | Q(instituicao__icontains=pesquisa))            
             
         return qs
 

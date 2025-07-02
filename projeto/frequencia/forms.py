@@ -10,7 +10,7 @@ class BuscaFrequenciaForm(forms.Form):
 
 class FrequenciaForm(forms.ModelForm):
     # fields = ['inscricao']
-    inscricao = forms.ModelChoiceField(label='Inscrição ', queryset=Inscricao.objects.all())
+    inscricao = forms.ModelChoiceField(label='Inscrição ', queryset=Inscricao.objects.filter(participante__is_active=True, evento__is_active=True))
    
 
     class Meta:
