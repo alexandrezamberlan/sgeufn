@@ -15,3 +15,5 @@
 
 24) app atestadoManual: crud (nome, atividade, data_inicio, data_fim, carga_horaria, responsavel, codigo_validacao, instituicao)
     - create e no update -> gerar o atestado
+
+25) trazer os inscritos da palestra da robotica
