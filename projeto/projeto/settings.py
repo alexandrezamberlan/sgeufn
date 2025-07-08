@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'gmailapi_backend',
     
     'appmembro',
-    
+
+    'atestado_manual',
     'aviso',
     'evento',
     'frequencia',

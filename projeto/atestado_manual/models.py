@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import os
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.dispatch import receiver
@@ -10,23 +8,18 @@ from django.utils import timezone
 
 from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
-from inscricao.models import Inscricao
-
-
-
 class AtestadoManual(models.Model):       
-    nome = models.CharField('Nome do atestado_manual *', db_index=True, max_length=150, help_text='* Campo obrigatório')
-    atividade = models.TextField('Descrição do atestado_manual', null=True, blank=True, max_length=500 ,help_text='Coloque aqui uma descrição do atestado_manual para ajudar os autores a submeterem seus trabalhos')
+    nome = models.CharField('Nome do participante *', db_index=True, max_length=150, help_text='* Campo obrigatório')
+    atividade = models.TextField('Descrição da atividade', null=True, blank=True, max_length=500 ,help_text='Coloque aqui uma descrição do atestado_manual para ajudar os autores a submeterem seus trabalhos')
     
-    instituicao = models.CharField('Departamento ou Setor ou Grupo responsável pelo evento *', null=True, blank=False, max_length=150, help_text='* Campo obrigatório')
+    instituicao = models.CharField('Departamento ou Setor ou Grupo responsável pela atividade *', null=True, blank=False, max_length=150, help_text='* Campo obrigatório')
     
-    data_inicio = models.DateField('Data do evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
-    data_fim = models.DateField('Data limite de inscrição ao evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
+    data_inicio = models.DateField('Data do início *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
+    data_fim = models.DateField('Data do fim *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
     
-    responsavel = models.ForeignKey('usuario.Usuario', verbose_name= 'Coordenador responsável *', on_delete=models.PROTECT, related_name='coordenador')
-    
-    
-    carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1)    
+    responsavel = models.CharField('Coordenador responsável *', max_length=150, help_text='* Campo obrigatório')
+
+    carga_horaria = models.DecimalField('Carga horária da atividade ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1)
     
     
     codigo_matricula = models.CharField('Código matrícula gerado por hash *', max_length=20)
@@ -52,7 +45,7 @@ class AtestadoManual(models.Model):
         self.nome = self.nome.upper()    
         self.instituicao = self.instituicao.upper()         
         self.responsavel = self.responsavel.upper()     
-        self.codigo_matricula = gerar_chave_codigo_matricula(self.nome + self.atividade)    
+        self.codigo_matricula = gerar_chave_codigo_matricula(self.nome + self.atividade)
         super(AtestadoManual, self).save(*args, **kwargs)
         
     @property
