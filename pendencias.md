@@ -13,7 +13,7 @@
 
 28) Disponibilizar na area do participante 
 
-29) Atestado manual pode ser feito por coordenador do evento
+29) Atestado manual pode ser feito por coordenador do evento ????
 
 30) um coordenador de evento, ao término do seu evento coordenado, deveria voltar a ser participante ??????
 
