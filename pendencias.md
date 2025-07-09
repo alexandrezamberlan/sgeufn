@@ -17,6 +17,8 @@
 
 30) um coordenador de evento, ao término do seu evento coordenado, deveria voltar a ser participante ??????
 
-31) o nome do participante do atestado manual deve ser selecionado como foreign key de usuario.... query??????
+31) o nome do participante do atestado manual deve ser selecionado como foreign key de usuario.... 
 
-32) arrumar o atestado do ministrante na visualização do ministrante
+32) arrumar o atestado do ministrante na visualização do ministrante -> outros atestados
+
+33) disponibilizar na visao do participante esse tipo de atestado -> outros atestados
