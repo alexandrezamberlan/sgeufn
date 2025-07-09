@@ -19,7 +19,7 @@ class AtestadoManual(models.Model):
     
     responsavel = models.CharField('Coordenador responsável *', max_length=150, help_text='* Campo obrigatório')
 
-    carga_horaria = models.DecimalField('Carga horária da atividade ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1)
+    carga_horaria = models.DecimalField('Carga horária da atividade ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(180)], null=True, blank=False, default = 1)
     
     
     codigo_matricula = models.CharField('Código matrícula gerado por hash *', max_length=20)
