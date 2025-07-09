@@ -7,8 +7,10 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
@@ -174,6 +176,7 @@ class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
         # Formatação das datas e horários
         data_inicio = atestado_manual.data_inicio.strftime('%d/%m/%Y') if atestado_manual.data_inicio else 'N/A'
         data_fim = atestado_manual.data_fim.strftime('%d/%m/%Y') if atestado_manual.data_fim else 'N/A'
+        data_atual = timezone.now().date()
 
         texto_atestado = f"""
                 Atestamos que <b>{atestado_manual.nome}</b> participou da atividade <b>{atestado_manual.atividade}</b>, 
@@ -188,7 +191,7 @@ class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
         story.append(Paragraph(texto_atestado, justify_style))
         story.append(Spacer(1, 40))
 
-        data_texto = f"Santa Maria, {atestado_manual.data_inicio.strftime('%d de %B de %Y')}."
+        data_texto = f"Santa Maria, {data_atual.strftime('%d de %B de %Y')}."
         story.append(Paragraph(data_texto, right_style))
         story.append(Spacer(1, 50))
 

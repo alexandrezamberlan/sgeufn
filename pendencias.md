@@ -9,9 +9,14 @@
     - depois de um tempo, avisar o coordenador do evento por email / whatsapp
 
 
-23) gerar o atestado para o ministrante
-
-24) app atestadoManual: crud (nome, atividade, data_inicio, data_fim, carga_horaria, responsavel, codigo_validacao, instituicao)
-    - create e no update -> gerar o atestado
-
 25) trazer os inscritos da palestra da robotica
+
+28) Disponibilizar na area do participante 
+
+29) Atestado manual pode ser feito por coordenador do evento
+
+30) um coordenador de evento, ao término do seu evento coordenado, deveria voltar a ser participante ??????
+
+31) o nome do participante do atestado manual deve ser selecionado como foreign key de usuario.... query??????
+
+32) arrumar o atestado do ministrante na visualização do ministrante
