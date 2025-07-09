@@ -304,12 +304,24 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         hora_inicio = getattr(inscricao.evento, 'hora_inicio', None)
         hora_inicio_str = hora_inicio.strftime('%H:%M') if hora_inicio else 'N/A'
 
+        #Ministrantes for
+        ministrantes = inscricao.evento.ministrantes.all()
+        if ministrantes.exists():
+            if ministrantes.count() > 1:
+                ministrantes_lista = [ministrante.nome for ministrante in ministrantes]
+                ministrantes_texto = ", ".join(ministrantes_lista[:-1]) + f" e {ministrantes_lista[-1]}"
+            else:
+                ministrantes_texto = ministrantes.first().nome
+        else:
+            ministrantes_texto = "N/A"
+
         texto_atestado = f"""
         Atestamos que <b>{inscricao.participante.nome}</b> participou do evento <b>{evento_titulo}</b>, 
         realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b> horas, 
         no local <b>{inscricao.evento.local}</b>, situado em <b>{inscricao.evento.instituicao}</b>. 
         O referido evento teve carga horária total de <b>{ inscricao.evento.carga_horaria }</b> 
-        hora(s) e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>.
+        hora(s) e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>,
+         ministrado por <b>{ministrantes_texto}</b>.
         <br/>
         O código de inscrição para validação do atestado é <b>{ inscricao.codigo_matricula }</b>.
         """

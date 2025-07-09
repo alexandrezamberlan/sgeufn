@@ -9,8 +9,6 @@
     - depois de um tempo, avisar o coordenador do evento por email / whatsapp
 
 
-22) no atestado colocar os nomes dos ministrantes... deve ser um for (GUILHERME HENRIQUES)
-
 23) gerar o atestado para o ministrante
 
 24) app atestadoManual: crud (nome, atividade, data_inicio, data_fim, carga_horaria, responsavel, codigo_validacao, instituicao)
