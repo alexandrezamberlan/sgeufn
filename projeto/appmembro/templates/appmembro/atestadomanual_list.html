@@ -1,12 +1,12 @@
-{% extends 'core/base.html' %}
+{% extends 'appmembro/base.html' %}
 {% load bootstrap3 %}
 
 {% block title %}
-    {% bootstrap_icon 'print' %} Atestados Manuais
+    {% bootstrap_icon 'print' %} Atestados em atividades
 {% endblock %}
 
 {% block content %}
-    <div class="panel panel-default">
+    {% comment %} <div class="panel panel-default">
         <div class="panel-body">
             <form class="form">
                 <div class="row">
@@ -19,42 +19,30 @@
                                 style="width: 100%;">{% bootstrap_icon 'search' %} Buscar
                         </button>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <br>
-                        <a href="{% url 'atestado_manual_create' %}" class="btn btn-md btn-primary"
-                           style="width: 100%;">{% bootstrap_icon 'plus' %} Cadastrar Atestado Manual</a>
-                    </div>
+                    
                 </div>
             </form>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
-            <th>Pessoa</th>
+            <th>Atividade</th>
             <th>Responsável</th>
-            <th>Carga Horária</th>
-            <th>Período</th>
-            <th class="text-center">Ativo</th>
-            <th class="text-center">Atestado</th>
-            <th class="text-center">Editar</th>
-            <th class="text-center">Excluir</th>
+            <th>Período</th>            
+            <th class="text-center">Atestado</th>            
             </thead>
             <tbody>
             {% for atestado in object_list %}
                 <tr>
                     <td>
-                        <b>{{ atestado.pessoa }}</b>
-                        <br>
-                        <small>Código de matrícula: {{ atestado.codigo_matricula }}</small>
+                        {{ atestado.atividade }} | Carga horária: {{ atestado.carga_horaria }} h<br>
+                        <small>Código de matrícula: {{ atestado.codigo_matricula }}</small
                     </td>
                     <td>
                         {{ atestado.responsavel }}<br>
                         <small>{{ atestado.instituicao }}</small>
-                    </td>
-                    <td>
-                        {{ atestado.carga_horaria }} h
                     </td>
                     <td>
                         <b>Início:</b> {{ atestado.data_inicio|date:'d/m/Y' }}<br>
@@ -62,29 +50,17 @@
                             <b>Fim:</b> {{ atestado.data_fim|date:'d/m/Y' }}
                         {% endif %}
                     </td>
-                    <td class="text-center">
-                        {% if atestado.is_active %}
-                            <span class="label label-success">SIM</span>
-                        {% else %}
-                            <span class="label label-danger">NÃO</span>
-                        {% endif %}
-                    </td>
+                    
                     <td class="text-center">
                         <a href="{% url 'atestado_manual_pdf' slug=atestado.slug %}" class="btn btn-success btn-sm">
                             {% bootstrap_icon 'print' %}
                         </a>
-                    </td>
-                    <td class="text-center">
-                        {% bootstrap_button content='' href=atestado.get_absolute_url button_type='link' icon='edit' button_class='btn btn-primary' size='sm' %}
-                    </td>
-                    <td class="text-center">
-                        {% bootstrap_button content='' href=atestado.get_delete_url button_type='link' icon='trash' button_class='btn btn-danger' size='sm' %}
-                    </td>
+                    </td>                    
                 </tr>
             {% endfor %}
             </tbody>
             <tfoot>
-            <th colspan="8">
+            <th colspan="4">
                 Total de registros: {{ object_list|length }}
             </th>
             </tfoot>

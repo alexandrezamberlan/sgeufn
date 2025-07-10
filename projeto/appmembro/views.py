@@ -31,6 +31,7 @@ from mail_templated import EmailMessage
 
 from utils.decorators import LoginRequiredMixin, MembroRequiredMixin
 
+from atestado_manual.models import AtestadoManual
 from aviso.models import Aviso
 from evento.models import Evento
 from frequencia.models import Frequencia
@@ -483,3 +484,38 @@ class AutenticaListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
                 qs = qs.filter(codigo_matricula=pesquisa)   
             
         return qs
+    
+    
+class AtestadoManualListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
+    model = AtestadoManual
+    template_name = 'appmembro/atestadomanual_list.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     if self.request.GET:
+    #         # quando ja tem dados filtrando
+    #         context['form'] = BuscaAtestadoManualForm(data=self.request.GET)
+    #     else:
+    #         # quando acessa sem dados filtrando
+    #         context['form'] = BuscaAtestadoManualForm()
+    #     return context
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(pessoa=self.request.user)
+
+        # if self.request.GET:
+        #     # quando ja tem dados filtrando
+        #     form = BuscaAtestadoManualForm(data=self.request.GET)
+        # else:
+        #     # quando acessa sem dados filtrando
+        #     form = BuscaAtestadoManualForm()
+
+        # if form.is_valid():
+        #     pesquisa = form.cleaned_data.get('pesquisa')
+
+        #     if pesquisa:
+        #         qs = qs.filter(
+        #             Q(pessoa__nome__icontains=pesquisa) | Q(atividade__icontains=pesquisa) | Q(responsavel__icontains=pesquisa))
+
+        return qs
+

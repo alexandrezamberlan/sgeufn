@@ -5,7 +5,7 @@ from core.views import HomeRedirectView
 
 from .views import (DadosMembroUpdateView, FrequenciaCreateView, InscricaoPdfView, InscricaoDetailView,
                     EventoListView,  InscricaoListView, InscricaoCreateView, InscricaoDeleteView,
-                    HomeView, AboutView, AutenticaListView)
+                    HomeView, AboutView, AutenticaListView, AtestadoManualListView)
 
 urlpatterns = [
    path('home', HomeView.as_view(), name='appmembro_home'), 
@@ -26,5 +26,7 @@ urlpatterns = [
    path('eventos/', EventoListView.as_view(), name='appmembro_evento_list'),
    
    path('autenticacao', AutenticaListView.as_view(), name='appmembro_autentica'),
+   
+   path('meus-atestados/list/', AtestadoManualListView.as_view(), name='appmembro_atestado_manual_list'),
 
 ]

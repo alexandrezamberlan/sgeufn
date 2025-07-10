@@ -8,8 +8,8 @@ from django.utils import timezone
 
 from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
-class AtestadoManual(models.Model):       
-    nome = models.CharField('Nome do participante *', db_index=True, max_length=150, help_text='* Campo obrigatório')
+class AtestadoManual(models.Model):        
+    pessoa = models.ForeignKey('usuario.Usuario', verbose_name= 'Nome *', on_delete=models.PROTECT, related_name='pessoa', null=True, blank=False)
     atividade = models.TextField('Descrição da atividade', null=True, blank=True, max_length=500 ,help_text='Coloque aqui uma descrição do atestado_manual para ajudar os autores a submeterem seus trabalhos')
     
     instituicao = models.CharField('Departamento ou Setor ou Grupo responsável pela atividade *', null=True, blank=False, max_length=150, help_text='* Campo obrigatório')
@@ -19,8 +19,7 @@ class AtestadoManual(models.Model):
     
     responsavel = models.CharField('Coordenador responsável *', max_length=150, help_text='* Campo obrigatório')
 
-    carga_horaria = models.DecimalField('Carga horária da atividade ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(180)], null=True, blank=False, default = 1)
-    
+    carga_horaria = models.DecimalField('Carga horária da atividade ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(180)], null=True, blank=False, default = 1, help_text='* Campo obrigatório. Use apenas números inteiros, sem ponto ou vírgula. Carga máxima de 180 dez horas.')
     
     codigo_matricula = models.CharField('Código matrícula gerado por hash *', max_length=20)
     
@@ -31,21 +30,20 @@ class AtestadoManual(models.Model):
     
 
     class Meta:
-        unique_together     =   ['nome', 'data_inicio']
-        ordering            =   ['-is_active','nome', 'data_inicio']
+        unique_together     =   ['pessoa', 'codigo_matricula']
+        ordering            =   ['-is_active','pessoa', 'data_inicio']
         verbose_name        =   'atestado'
         verbose_name_plural =   'atestados'
 
     def __str__(self):
-        return '%s | %s ' % (self.nome, self.atividade)
+        return '%s | %s ' % (self.pessoa.nome, self.atividade)
 
     def save(self, *args, **kwargs):        
         if not self.slug:
-            self.slug = gerar_hash()
-        self.nome = self.nome.upper()    
+            self.slug = gerar_hash()   
         self.instituicao = self.instituicao.upper()         
         self.responsavel = self.responsavel.upper()     
-        self.codigo_matricula = gerar_chave_codigo_matricula(self.nome + self.atividade)
+        self.codigo_matricula = gerar_chave_codigo_matricula(self.pessoa.nome + self.atividade)
         super(AtestadoManual, self).save(*args, **kwargs)
         
     @property

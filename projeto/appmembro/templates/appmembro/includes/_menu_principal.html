@@ -22,13 +22,15 @@
         <li class=""><a href="{% url 'appmembro_home' %}"> {% bootstrap_icon 'home' %} Home <span class="sr-only">(current)</span></a></li>
         <li class=""><a href="{% url 'appmembro_dados_update' %}">{% bootstrap_icon 'user' %} Meus dados</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'pencil' %} Minhas Participações <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'pencil' %} Minhas Participações em Eventos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class=""><a href="{% url 'appmembro_evento_list' %}">Eventos disponíveis<span class="sr-only">(current)</span></a></li>
             <li class=""><a href="{% url 'appmembro_inscricao_list' %}">Inscrições e Atestados <span class="sr-only">(current)</span></a></li>
           </ul>
         </li>
         
+        <li class=""><a href="{% url 'appmembro_atestado_manual_list' %}"> {% bootstrap_icon 'print' %} Atestados em atividades/trabalhos <span class="sr-only">(current)</span></a></li>
+
         <li class=""><a href="{% url 'appmembro_autentica' %}"> {% bootstrap_icon 'check' %} Autenticar Atestado <span class="sr-only">(current)</span></a></li>
       </ul>
       

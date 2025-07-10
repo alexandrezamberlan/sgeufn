@@ -36,7 +36,7 @@ class Evento(models.Model):
     email = models.EmailField('Email oficial da organização', max_length=100,help_text='Campo opcional, caso o evento seja de submissão de trabalhos.', null=True, blank=True)
     
     data_inscricao = models.DateField('Data limite de inscrição ao evento *', max_length=10, help_text='Use dd/mm/aaaa', null=True, blank=False)
-    carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1)    
+    carga_horaria = models.DecimalField('Carga horária do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(20)], null=True, blank=False, default = 1, help_text='* Campo obrigatório. Use apenas números inteiros, sem ponto ou vírgula. Carga máxima de 20 horas.')    
     local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
     lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=False)    
     

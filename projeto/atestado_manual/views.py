@@ -52,14 +52,14 @@ class AtestadoManualListView(LoginRequiredMixin, StaffRequiredMixin, ListView):
 
             if pesquisa:
                 qs = qs.filter(
-                    Q(nome__icontains=pesquisa) | Q(atividade__icontains=pesquisa) | Q(responsavel__icontains=pesquisa))
+                    Q(pessoa__nome__icontains=pesquisa) | Q(atividade__icontains=pesquisa) | Q(responsavel__icontains=pesquisa))
 
         return qs
 
 
 class AtestadoManualCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
     model = AtestadoManual
-    fields = ['nome', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
+    fields = ['pessoa', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
               'is_active']
     success_url = 'atestado_manual_list'
 
@@ -70,7 +70,7 @@ class AtestadoManualCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateVie
 
 class AtestadoManualUpdateView(LoginRequiredMixin, StaffRequiredMixin, UpdateView):
     model = AtestadoManual
-    fields = ['nome', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
+    fields = ['pessoa', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
               'is_active']
     success_url = 'atestado_manual_list'
 
@@ -100,7 +100,7 @@ class AtestadoManualDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteVie
         return redirect(self.success_url)
 
 
-class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
+class AtestadoManualPdfView(LoginRequiredMixin, DetailView):
     model = AtestadoManual
 
     def get(self, request, *args, **kwargs):
@@ -109,7 +109,7 @@ class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
 
         response = HttpResponse(content_type='application/pdf')
         response[
-            'Content-Disposition'] = f'attachment; filename="atestado_participacao_{atestado_manual.nome}_{atestado_manual.instituicao}.pdf"'
+            'Content-Disposition'] = f'attachment; filename="atestado_participacao_{atestado_manual.pessoa.nome}_{atestado_manual.instituicao}.pdf"'
 
         doc = SimpleDocTemplate(response, pagesize=A4,
                                 topMargin=1 * inch, bottomMargin=1 * inch,
@@ -179,7 +179,7 @@ class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
         data_atual = timezone.now().date()
 
         texto_atestado = f"""
-                Atestamos que <b>{atestado_manual.nome}</b> participou da atividade <b>{atestado_manual.atividade}</b>, 
+                Atestamos que <b>{atestado_manual.pessoa.nome}</b> participou da atividade <b>{atestado_manual.atividade}</b>, 
                 realizada no período de <b>{data_inicio}</b> a <b>{data_fim}</b>, 
                 promovida pelo(a) <b>{atestado_manual.instituicao}</b>. 
                 A referida atividade teve carga horária total de <b>{atestado_manual.carga_horaria}</b> 
@@ -198,7 +198,7 @@ class AtestadoManualPdfView(LoginRequiredMixin, StaffRequiredMixin, DetailView):
         # Texto final explicativo
         texto_final = """
         <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos (SGEUFN), 
-        no momento em que o participante confirma sua presença no evento. Para validar a autenticidade
+        no momento em que o pessoa finaliza sua atividade. Para validar a autenticidade
         deste atestado, utilize o código de inscrição fornecido acima no formulário de validação do SGEUFN.</i>
         """
 
