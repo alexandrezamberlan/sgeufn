@@ -31,7 +31,7 @@ class AtestadoManual(models.Model):
 
     class Meta:
         unique_together     =   ['pessoa', 'codigo_matricula']
-        ordering            =   ['-is_active','pessoa', 'data_inicio']
+        ordering            =   ['-is_active','pessoa', '-data_inicio']
         verbose_name        =   'atestado'
         verbose_name_plural =   'atestados'
 

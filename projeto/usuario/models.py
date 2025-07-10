@@ -71,7 +71,7 @@ class Usuario(AbstractBaseUser):
     usuarios_ativos = UsuarioAtivoManager()
 
     class Meta:
-        ordering            =   ['-is_active', '-tipo','nome']
+        ordering            =   ['-is_active', 'nome']
         verbose_name        =   ('usuário')
         verbose_name_plural =   ('usuários')
 
