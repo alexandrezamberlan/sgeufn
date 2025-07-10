@@ -19,4 +19,6 @@
 
 32) arrumar o atestado do ministrante na visualização do ministrante -> outros atestados
 
+33) o processo de autenticar atestado não está funcionando para atestados gerados manualmente... estudar e arrumar
+
 
