@@ -24,47 +24,66 @@
 	<div class="table-responsive">
 		<table class="table table-hover">
 	  		<thead>
-				<th>Evento</th>
+				<th>Atividade ou Evento</th>
 				<th>Participante</th>
 				<th class="text-center">Baixar Atestado</th>
-				<th class="text-center">Atestado Autenticado</th>
 	  		</thead>
 	  		<tbody>
-	  			{% for inscricao in object_list %}
+	  			{% for atestado in object_list %}
 					<tr>
 						<td>
-							{{ inscricao.evento.nome }}<br>
-							<small>
-								Instituição: {{ inscricao.evento.instituicao }} | Data: {{ inscricao.evento.data_inicio|date:"d/m/Y" }} |
-								Carga horária: {{ inscricao.evento.carga_horaria }} hora(s)
-							</small>
+							{% if atestado.evento %}
+								{{ atestado.evento.nome }}<br>
+								<small>
+									Instituição: {{ atestado.evento.instituicao }} | Data: {{ atestado.evento.data_inicio|date:"d/m/Y" }} |
+									Carga horária: {{ atestado.evento.carga_horaria }} hora(s)
+								</small>
+							{% else %}
+								{{ atestado.atividade }}
+								<small>
+									| Instituição: {{ atestado.instituicao }}<br>
+									Início: {{ atestado.data_inicio|date:"d/m/Y" }} |
+									Fim: {{ atestado.data_fim|date:"d/m/Y" }}<br>
+									Carga horária: {{ atestado.carga_horaria }} hora(s)
+								</small>
+							{% endif %}
 						</td>
 						<td>
-							{{ inscricao.participante }}<br>
-							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
+							{% if atestado.evento %}
+								{{ atestado.participante }}
+							{% else %}
+								{{ atestado.pessoa }}
+							{% endif %}
+							<br>
+							<b>Código inscrição:</b> {{ atestado.codigo_matricula }}
 						</td>
 						<td class="text-center">
-							{% if inscricao.frequencia %}
+							{% comment %} se o atestado for uma inscrição e tiver frequencia {% endcomment %}
+							{% if atestado.evento and atestado.frequencia %}
 								<span data-toggle="tooltip" title="Imprimir PDF">
-									{% bootstrap_button content='' href=inscricao.get_gera_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+									{% bootstrap_button content='' href=atestado.get_gera_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
 								</span>
-							{% else %}
+								<br>
+								<small class="text-success">Autenticado</small>
+							{% comment %} se o atestado for uma inscrição e NAO tiver frequencia {% endcomment %}
+							{% elif atestado.evento and not atestado.frequencia %}
 								<a href="" class="btn btn-sm btn-warning" title="Frequência não realizada">
 									{% bootstrap_icon 'print' %}
 								</a>
-							{% endif %}
-						</td>
-						<td  class="text-center">
-							{% if inscricao.frequencia %}
-								<a href="" class="btn btn-sm btn-success">
-									SIM
+								<br>
+								<small class="text-danger">Não autenticado</small>
+							{% comment %} se o atestado for um atestado manual {% endcomment %}
+							{% elif atestado.responsavel %}
+								<a href="{% url 'atestado_manual_pdf' slug=atestado.slug %}" class="btn btn-success btn-sm">
+									{% bootstrap_icon 'print' %}
 								</a>
-							{% else %}
-								<a href="" class="btn btn-sm btn-danger">
-									NÃO
-								</a>
+								 {% comment %} <span data-toggle="tooltip" title="Imprimir PDF">
+									{% bootstrap_button content='' href=atestado.get_gera_atestado_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+								</span> {% endcomment %}
+								<br>
+								<small class="text-success">Autenticado</small>
 							{% endif %}
-						</td>
+						</td>						
 					</tr>
 				{% empty %}
 					{% if request.GET %}

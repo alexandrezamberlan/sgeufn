@@ -2,6 +2,9 @@ from __future__ import unicode_literals
 
 import locale
 
+from itertools import chain
+from operator import attrgetter
+
 from django.contrib.staticfiles import finders
 
 from django.conf import settings
@@ -480,8 +483,12 @@ class AutenticaListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
             pesquisa = form.cleaned_data.get('pesquisa')            
                         
             if pesquisa:
-                qs = super().get_queryset().filter()
-                qs = qs.filter(codigo_matricula=pesquisa)   
+                '''
+                Aqui, vamos buscar tanto as inscrições quanto os atestados manuais
+                que correspondem ao código de matrícula informado.'''
+                inscricoes = Inscricao.objects.filter(codigo_matricula=pesquisa)
+                atestados_manuais = AtestadoManual.objects.filter(codigo_matricula=pesquisa)
+                qs = list(chain(inscricoes, atestados_manuais))                   
             
         return qs
     
