@@ -31,7 +31,7 @@ class UsuarioAtivoManager(UserManager):
 
 class MinistranteAtivoManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(tipo='MINISTRANTE', is_active=True)
+        return super().get_queryset().filter(Q(tipo='MINISTRANTE') | Q(tipo='COORDENADOR') | Q(tipo='ADMINISTRADOR'), is_active=True)
     
 
 class ParticipanteAtivoManager(UserManager):
