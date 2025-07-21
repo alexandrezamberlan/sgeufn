@@ -18,23 +18,6 @@
 
   <div class="row">
     <br>
-    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 box-arredondado">
-      <h3 align='center'><b>Sistema de Gestão de Eventos</b></h3>
-      <h4>Use o sistema de forma gratuita!</h4>
-      <p align="justify">
-        Simplifique a organização e o gerenciamento de eventos acadêmicos com o nosso sistema! Desenvolvido com a colaboração de estudantes e voluntários do <a href='https://www.lapinf.ufn.edu.br' target='__blank'>Laboratório de Práticas UFN</a>, em parceria com a <a href='http://erclinic.com.br/' target='blank'>ER Clinic</a>, nossa plataforma foi criada para tornar a gestão de palestras, workshops e oficinas mais eficiente e acessível. Com ela, você pode acompanhar inscrições, controlar a frequência dos participantes e até gerar atestados de participação de forma rápida e sem complicação. 
-        {% comment %} <b>Deixe a tecnologia trabalhar por você e torne seus eventos mais organizados e dinâmicos!</b> {% endcomment %}
-      </p>
-      <h4>Autentique os atestados!</h4>
-      <p align="justify">
-        A autenticação dos atestados é feita através do código de verificação presente no documento. Basta acessar o sistema (necessário criar conta, caso não tenha), clicar na opção "Autenticar Atestado" e inserir o código. O sistema irá verificar a validade do atestado e confirmar sua autenticidade.
-      </p>
-      <p align='justify'>
-        Contate <b>lapinf@ufn.edu.br para informações</b>.
-      </p>
-    </div> 
-    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
-    </div> 
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 box-arredondado">
       <div class="text-center">
         <img src="{% static 'core/img/logoSGE_transparente.png' %}"
@@ -55,9 +38,31 @@
             <a class="btn btn-info" style="width:49%;" href="{% url 'usuario_register' %}">{% bootstrap_icon 'glyphicon glyphicon-user' %} Criar conta</a>
             <a class="btn btn-warning" style="width:49%;" href="{% url 'password_reset' %}">{% bootstrap_icon 'glyphicon glyphicon-flag' %} Resetar senha</a>
           </p>
+          <br>
+          <p align='center'>
+            Dúvidas e/ou sugestões, contate: <b>lapinf@ufn.edu.br</b>.
+          </p>
+          <br>
           </form>
         </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
+    </div> 
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 box-arredondado">
+      <h3 align='center'><b>SGE UFN</b></h3>
+      <h4>Gestão de eventos e atestados</h4>
+      <p align="justify">
+        Simplifique a organização e o gerenciamento de eventos acadêmicos com SGE UFN! Desenvolvido com a colaboração de estudantes e voluntários do <a href='https://www.lapinf.ufn.edu.br' target='__blank'>Laboratório de Práticas UFN</a>, em parceria com a <a href='http://erclinic.com.br/' target='blank'>ER Clinic</a>, nossa plataforma foi criada para tornar a gestão de palestras, workshops e oficinas mais eficiente e acessível. Com ela, você pode acompanhar inscrições, controlar a frequência dos participantes e até gerar atestados de participação de forma rápida e sem complicação. 
+      </p>
+      <hr>
+      <h4>Autentique os atestados</h4>
+      <p align="justify">
+        A autenticação dos atestados é feita através do código de verificação presente no documento gerado. Basta acessar o sistema (necessário criar conta, caso não tenha), clicar na opção "Autenticar Atestado" e inserir o código. O sistema irá verificar a validade do atestado e confirmar sua autenticidade.
+      </p>
+      <hr>
+      <h4>Avisos</h4>
+      <iframe style="border:0px; width:100%;" src="{% url 'aviso_list_iframe' %}"></iframe>
+    </div> 
   </div>
   <div class="text-center">
     <hr>

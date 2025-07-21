@@ -4,7 +4,11 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h4><span class="badge badge-default">{{ aviso.data|date:'d/m/Y' }}</span> <small>{{ aviso.titulo }}</small></h4>
+					{% if user.is_authenticated %}
+						<h4><span class="badge badge-default">{{ aviso.data|date:'d/m/Y' }}</span> <small>{{ aviso.titulo }}</small></h4>
+					{% else %}
+						<p>{{ aviso.titulo }}</p>
+					{% endif %}
 				</div>
 				<div class="panel-body text-justify">					
 					{{ aviso.texto|linebreaks }}
@@ -14,11 +18,11 @@
 		</div>
 	{% empty %}
         {% if user.is_authenticated %}
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			{% bootstrap_alert 'Nenhum aviso' 'info' %}
-		</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				{% bootstrap_alert 'Nenhum aviso' 'info' %}
+			</div>
         {% else %}
-            <center><small><i>Nenhum aviso!</i></small></center>
+            <small><i>Nenhum aviso!</i></small>
         {% endif %}
 	{% endfor %}
 </div>
