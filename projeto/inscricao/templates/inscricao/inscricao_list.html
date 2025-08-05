@@ -31,10 +31,11 @@
 		<table class="table table-hover">
 			<thead>
 				<th>Evento</th>
-				<th>Participante</th>								
+				<th>Participante</th>	
+				<th class="text-center">Gerar frequência</th>								
 				<th class="text-center">Atestado gerado</th>
 				<th>Data e hora inscrição</th>							
-				<th class="text-center">Ativo</th>
+				{% comment %} <th class="text-center">Ativo</th> {% endcomment %}
 				{% comment %} <th class="text-center">Editar</th> {% endcomment %}
 				<th class="text-center">Excluir</th>
 			</thead>
@@ -49,6 +50,17 @@
 						<td>
 							{{ inscricao.participante }}<br>
 							Código matrícula: <small><b> {{ inscricao.codigo_matricula }} </b></small>
+						</td>
+						<td class="text-center">
+							{% if not inscricao.frequencia %}								
+								<span data-toggle="tooltip" title="Gerar frequência">
+									{% bootstrap_button content='' href=inscricao.get_frequencia_via_inscricao_create_url button_type='link' icon='record' button_class='btn btn-primary' size='sm' %}
+								</span>
+							{% else %}
+								<a href="" class="btn btn-sm btn-warning" title="Frequência gerada">
+									{% bootstrap_icon 'record' %}
+								</a>
+							{% endif %}
 						</td>
 						<td class="text-center">
 							{% if inscricao.frequencia %}								
@@ -67,13 +79,13 @@
 							{{ inscricao.data_hora_inscricao|date:'d/m/Y' }} | 
 							{{ inscricao.data_hora_inscricao|date:'H:i' }}
 						</td>																		
-						<td class="text-center">
+						{% comment %} <td class="text-center">
 							{% if inscricao.is_active %}
 								<span class="label label-success">SIM</span>
 							{% else %}
 								<span class="label label-danger">NÃO</span>
 							{% endif %}
-						</td>
+						</td> {% endcomment %}
 						{% comment %} <td class="text-center">
 							{% bootstrap_button content='' href=inscricao.get_absolute_url button_type='link' icon='edit' button_class='btn btn-primary' size='sm' %}
 						</td> {% endcomment %}

@@ -14,8 +14,9 @@ from django.urls import reverse
 from utils.decorators import LoginRequiredMixin, CoordenadorRequiredMixin, StaffRequiredMixin
 
 from .models import Frequencia
+from inscricao.models import Inscricao
 
-from .forms import BuscaFrequenciaForm, FrequenciaForm
+from .forms import BuscaFrequenciaForm, FrequenciaForm, FrequenciaViaInscricaoForm
 
 
 class FrequenciaListView(LoginRequiredMixin, CoordenadorRequiredMixin, ListView):
@@ -68,6 +69,45 @@ class FrequenciaCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateV
     def get_success_url(self):
         messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
         return reverse(self.success_url)
+    
+    
+class FrequenciaViaInscricaoCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateView):
+    model = Frequencia
+    template_name = 'frequencia/frequencia_via_inscricao_form.html'
+    form_class = FrequenciaViaInscricaoForm
+    success_url = 'inscricao_list'
+    
+    def get_initial(self):
+        initials = super().get_initial()
+        initials['inscricao'] = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+        return initials
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inscricao'] = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+        return context
+
+    # def form_valid(self, form):
+    #     try:
+    #         formulario = form.save(commit=False)
+    #         formulario.inscricao = Inscricao.objects.get(slug=self.request.GET.get('inscricao_slug'))
+            
+    #         if formulario.inscricao.evento.codigo_frequencia != formulario.codigo_frequencia:
+    #             messages.error(self.request, 'Código de frequência inválido. Verifique o código informado!')
+    #             return super().form_invalid(form)
+            
+    #         formulario.save()
+
+    #         return super().form_valid(form)
+
+    #     except Exception as e:
+    #         messages.error(self.request, 'Erro ao registrar frequência. Verifique se você já não realizaou a frequência neste evento!')
+    #         return super().form_invalid(form)
+    
+    def get_success_url(self):
+        messages.success(self.request, 'Frequência realizada com sucesso na plataforma!')
+        return reverse(self.success_url)
+
 
 
 class FrequenciaDeleteView(LoginRequiredMixin, StaffRequiredMixin, DeleteView):

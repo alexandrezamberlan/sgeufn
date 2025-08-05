@@ -22,3 +22,9 @@ class FrequenciaForm(forms.ModelForm):
         if usuario_logado and usuario_logado.tipo == 'COORDENADOR':
             self.fields['inscricao'].queryset = Inscricao.objects.filter(evento__coordenador=usuario_logado)
         
+        
+class FrequenciaViaInscricaoForm(forms.ModelForm):
+    
+    class Meta:
+        model = Frequencia
+        fields = ['inscricao']

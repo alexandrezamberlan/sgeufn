@@ -54,6 +54,10 @@ class Inscricao(models.Model):
         return '%s?inscricao_slug=%s' % (reverse('appmembro_frequencia_create'), self.slug)
     
     @property
+    def get_frequencia_via_inscricao_create_url(self):
+        return '%s?inscricao_slug=%s' % (reverse('frequencia_via_inscricao_create'), self.slug)
+    
+    @property
     def frequencia(self):
         try:
             return Frequencia.objects.get(inscricao=self).data_hora_frequencia

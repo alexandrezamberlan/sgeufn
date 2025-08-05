@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load bootstrap3 %}
+
+{% block actions %}
+{% endblock %}
+
+{% block title %}
+{% bootstrap_icon 'check' %} Confirma frequência
+{% endblock %}
+
+{% block content %}
+<form class="form" role="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% for error in form.non_field_errors %}
+      {% bootstrap_alert error 'danger' %}
+    {% endfor %}
+    
+    {% comment %} {% bootstrap_form form %} {% endcomment %}
+
+  <br>
+  <h4>
+    Você está fazendo realizando a frequência de {{ object.inscricao.participante.nome }} {{ inscricao.participante.nome }} no evento: <small> {{ object.inscricao.evento }} {{ inscricao.evento }} </small>
+  </h4>
+  <br>
+    
+
+    <div class="hidden">
+      {% bootstrap_field form.inscricao %}
+    </div>
+
+    {% buttons submit='Confirmar' %}
+       <a href="javascript:history.go(-1);" class="btn btn-warning" role="button">Voltar</a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}
+
