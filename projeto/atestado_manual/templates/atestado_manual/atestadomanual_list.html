@@ -34,7 +34,7 @@
             <thead>
             <th>Pessoa</th>
             <th>Responsável</th>
-            <th>Carga Horária</th>
+            <th>Atividade | Carga Horária</th>
             <th>Período</th>
             <th class="text-center">Ativo</th>
             <th class="text-center">Atestado</th>
@@ -50,11 +50,12 @@
                         <small>Código de matrícula: {{ atestado.codigo_matricula }}</small>
                     </td>
                     <td>
-                        {{ atestado.responsavel }}<br>
-                        <small>{{ atestado.instituicao }}</small>
+                        <small>{{ atestado.responsavel }}<br>
+                        {{ atestado.instituicao }}</small>
                     </td>
                     <td>
-                        {{ atestado.carga_horaria }} h
+                        {{ atestado.atividade }}<br>
+                        <small>{{ atestado.carga_horaria }} h </small>
                     </td>
                     <td>
                         <b>Início:</b> {{ atestado.data_inicio|date:'d/m/Y' }}<br>
