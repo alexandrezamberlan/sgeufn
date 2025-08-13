@@ -8,7 +8,14 @@ from django.utils import timezone
 
 from utils.gerador_hash import gerar_hash, gerar_chave_codigo_matricula
 
-class AtestadoManual(models.Model):        
+class AtestadoManual(models.Model):
+    TIPOS_USUARIOS = (
+        ('PARTICIPANTE', 'Participante'),
+        ('MINISTRANTE', 'Ministrante'),
+    )
+
+    papel = models.CharField('Papel na atividade *', max_length=20, choices=TIPOS_USUARIOS, default='PARTICIPANTE', help_text='* Campo obrigatório. Se não tiver certeza, escolha Participante.')
+
     pessoa = models.ForeignKey('usuario.Usuario', verbose_name= 'Nome *', on_delete=models.PROTECT, related_name='pessoa', null=True, blank=False)
     atividade = models.TextField('Descrição da atividade', null=True, blank=True, max_length=500 ,help_text='Coloque aqui uma descrição do atestado_manual para ajudar os autores a submeterem seus trabalhos')
     
