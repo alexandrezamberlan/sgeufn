@@ -59,7 +59,7 @@ class AtestadoManualListView(LoginRequiredMixin, StaffRequiredMixin, ListView):
 
 class AtestadoManualCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateView):
     model = AtestadoManual
-    fields = ['pessoa', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
+    fields = ['papel','pessoa', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
               'is_active']
     success_url = 'atestado_manual_list'
 
@@ -70,7 +70,7 @@ class AtestadoManualCreateView(LoginRequiredMixin, StaffRequiredMixin, CreateVie
 
 class AtestadoManualUpdateView(LoginRequiredMixin, StaffRequiredMixin, UpdateView):
     model = AtestadoManual
-    fields = ['pessoa', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
+    fields = ['pessoa','papel', 'atividade', 'responsavel', 'instituicao', 'carga_horaria', 'data_inicio', 'data_fim',
               'is_active']
     success_url = 'atestado_manual_list'
 
@@ -169,24 +169,36 @@ class AtestadoManualPdfView(LoginRequiredMixin, DetailView):
         # story.append(imagem)
         story.append(imagem_lap)
 
-        # Título do documento
-        story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", title_style))
-        story.append(Spacer(1, 20))
-
         # Formatação das datas e horários
         data_inicio = atestado_manual.data_inicio.strftime('%d/%m/%Y') if atestado_manual.data_inicio else 'N/A'
         data_fim = atestado_manual.data_fim.strftime('%d/%m/%Y') if atestado_manual.data_fim else 'N/A'
         data_atual = timezone.now().date()
 
-        texto_atestado = f"""
-                Atestamos que <b>{atestado_manual.pessoa.nome}</b> participou da atividade <b>{atestado_manual.atividade}</b>, 
-                realizada no período de <b>{data_inicio}</b> a <b>{data_fim}</b>, 
-                promovida pelo(a) <b>{atestado_manual.instituicao}</b>. 
-                A referida atividade teve carga horária total de <b>{atestado_manual.carga_horaria}</b> 
-                hora(s) e foi coordenada por <b>{atestado_manual.responsavel}</b>.
-                <br/><br/>
-                O código de verificação para validação do atestado é <b>{atestado_manual.codigo_matricula}</b>.
-                """
+        if atestado_manual.papel == 'MINISTRANTE':
+            story.append(Paragraph("ATESTADO DE MINISTRANTE", title_style))
+            story.append(Spacer(1, 20))
+            texto_atestado = f"""
+                        Atestamos que <b>{atestado_manual.pessoa.nome}</b> ministrou o evento <b>{atestado_manual.atividade}</b>,
+                        realizada no período de <b>{data_inicio}</b> a <b>{data_fim}</b>,
+                        promovida pelo(a) <b>{atestado_manual.instituicao}</b>.
+                        A referida atividade teve carga horária total de <b>{atestado_manual.carga_horaria}</b>
+                        hora(s) e foi coordenada por <b>{atestado_manual.responsavel}</b>.
+                        """
+        else:
+            story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", title_style))
+            story.append(Spacer(1, 20))
+            texto_atestado = f"""
+                        Atestamos que <b>{atestado_manual.pessoa.nome}</b> participou da atividade <b>{atestado_manual.atividade}</b>,
+                        realizada no período de <b>{data_inicio}</b> a <b>{data_fim}</b>,
+                        promovida pelo(a) <b>{atestado_manual.instituicao}</b>.
+                        A referida atividade teve carga horária total de <b>{atestado_manual.carga_horaria}</b>
+                        hora(s) e foi coordenada por <b>{atestado_manual.responsavel}</b>.
+                        """
+
+        texto_atestado += f"""
+                    <br/><br/>
+                    O código de verificação para validação do atestado é <b>{atestado_manual.codigo_matricula}</b>.
+                    """
 
         story.append(Paragraph(texto_atestado, justify_style))
         story.append(Spacer(1, 40))
