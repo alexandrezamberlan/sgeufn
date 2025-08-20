@@ -112,7 +112,16 @@ class InscricaoListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super(InscricaoListView, self).get_queryset()
         return queryset.filter(participante = self.request.user)
-    
+
+
+class EventoMinistradoListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
+    model = Evento
+    template_name = 'appmembro/eventoministrado_list.html'
+   
+    def get_queryset(self):
+        queryset = super(EventoMinistradoListView, self).get_queryset()
+        return queryset.filter(ministrantes = self.request.user).distinct()
+        
     
 class InscricaoCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
     model = Inscricao
@@ -228,6 +237,9 @@ class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
         return reverse(self.success_url)
     
 
+class MinistrantePdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
+    pass
+
 class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
     model = Inscricao
   
@@ -280,66 +292,6 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         alignment=TA_RIGHT,
         fontName='Helvetica'
     )
-
-    @staticmethod
-    def parte_ministrante(inscricao):
-        # colocar logo da UFN ao lado do logo do LAP
-        # story.append(imagem)
-        InscricaoPdfView.story.append(InscricaoPdfView.imagem_lap)
-        
-        # Título do documento
-        InscricaoPdfView.story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", InscricaoPdfView.title_style))
-        InscricaoPdfView.story.append(Spacer(1, 20))
-        
-        # Texto principal do atestado
-        evento_titulo = getattr(inscricao.evento, 'titulo', inscricao.evento.nome)  # Usar titulo se existir, senão nome
-        
-        # Formatação das datas e horários
-        data_inicio = inscricao.evento.data_inicio.strftime('%d/%m/%Y') if inscricao.evento.data_inicio else 'N/A'
-        hora_inicio = getattr(inscricao.evento, 'hora_inicio', None)
-        hora_inicio_str = hora_inicio.strftime('%H:%M') if hora_inicio else 'N/A'
-
-        #Ministrantes for
-        ministrantes = inscricao.evento.ministrantes.all()
-        if ministrantes.exists():
-            if ministrantes.count() > 1:
-                ministrantes_lista = [ministrante.nome for ministrante in ministrantes]
-                ministrantes_texto = ", ".join(ministrantes_lista[:-1]) + f" e {ministrantes_lista[-1]}"
-            else:
-                ministrantes_texto = ministrantes.first().nome
-        else:
-            ministrantes_texto = "N/A"
-
-        texto_atestado = f"""
-        Atestamos que <b>{inscricao.participante.nome}</b> ministrou no evento <b>{evento_titulo}</b>, 
-        realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b> horas, 
-        no local <b>{inscricao.evento.local}</b>, situado em <b>{inscricao.evento.instituicao}</b>. 
-        O referido evento teve carga horária total de <b>{ inscricao.evento.carga_horaria }</b> 
-        hora(s) e foi promovido e coordenado pelo(a) <b>{ inscricao.evento.grupo }</b>.
-        <br/>
-        O código de inscrição para validação do atestado é <b>{ inscricao.codigo_matricula }</b>.
-        """
-        
-        InscricaoPdfView.story.append(Paragraph(texto_atestado, InscricaoPdfView.justify_style))
-        InscricaoPdfView.story.append(Spacer(1, 40))
-
-        data_texto = f"Santa Maria, { inscricao.evento.data_inicio.strftime('%d de %B de %Y')}."
-        InscricaoPdfView.story.append(Paragraph(data_texto, InscricaoPdfView.right_style))
-        InscricaoPdfView.story.append(Spacer(1, 50))
-        
-        # Texto final explicativo
-        texto_final = """
-        <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos (SGEUFN), 
-        no momento em que o participante confirma sua presença no evento. Para validar a autenticidade
-        deste atestado, utilize o código de inscrição fornecido acima no formulário de validação do SGEUFN.</i>
-        """
-        
-        InscricaoPdfView.story.append(Paragraph(texto_final, InscricaoPdfView.justify_style))
-        InscricaoPdfView.story.append(Spacer(1, 40))
-        
-        # Rodapé com informações do sistema
-        InscricaoPdfView.story.append(Spacer(1, 20))
-            
 
     @staticmethod
     def parte_participante(inscricao):
@@ -418,12 +370,7 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
                     topMargin=1*inch, bottomMargin=1*inch,
                     leftMargin=1*inch, rightMargin=1*inch)
         
-
-        if self.request.user.tipo == 'MINISTRANTE' and self.request.user in inscricao.evento.ministrantes.all():
-            InscricaoPdfView.parte_ministrante(inscricao)
-
-        else:
-            InscricaoPdfView.parte_participante(inscricao)
+        InscricaoPdfView.parte_participante(inscricao)
 
         footer_style = ParagraphStyle(
             'FooterStyle',
@@ -445,6 +392,155 @@ class InscricaoPdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
         
         # Constrói o PDF
         doc.build(InscricaoPdfView.story)
+        
+        return response
+    
+class MinistrantePdfView(LoginRequiredMixin, MembroRequiredMixin, DetailView):
+    model = Evento
+  
+    caminho_imagem = finders.find('core/img/logoUFN_hor.jpg')
+    caminho_imagem_lap = finders.find('core/img/logo_lapinf_hor.png')
+
+    imagem = Image(caminho_imagem, width=220,height=100)
+    imagem_lap = Image(caminho_imagem_lap, width=220,height=75)
+    story = []
+
+    styles = getSampleStyleSheet()
+
+    # Estilo do título
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=20,
+        spaceAfter=40,
+        spaceBefore=40,
+        alignment=TA_CENTER,
+        fontName='Helvetica-Bold'
+    )
+    
+    # Estilo para texto justificado
+    justify_style = ParagraphStyle(
+        'JustifyStyle',
+        parent=styles['Normal'],
+        fontSize=12,
+        spaceAfter=10,
+        alignment=TA_JUSTIFY,
+        fontName='Helvetica',
+        leading=18
+    )
+    
+    # Estilo para texto centralizado
+    center_style = ParagraphStyle(
+        'CenterStyle',
+        parent=styles['Normal'],
+        fontSize=12,
+        spaceAfter=10,
+        alignment=TA_CENTER,
+        fontName='Helvetica'
+    )
+
+    right_style = ParagraphStyle(
+        'RightStyle',
+        parent=styles['Normal'],
+        fontSize=12,
+        spaceAfter=10,
+        alignment=TA_RIGHT,
+        fontName='Helvetica'
+    )
+
+    @staticmethod
+    def parte_ministrante(evento):
+        # colocar logo da UFN ao lado do logo do LAP
+        # story.append(imagem)
+        MinistrantePdfView.story.append(MinistrantePdfView.imagem_lap)
+        
+        # Título do documento
+        MinistrantePdfView.story.append(Paragraph("ATESTADO DE PARTICIPAÇÃO", MinistrantePdfView.title_style))
+        MinistrantePdfView.story.append(Spacer(1, 20))
+        
+        # Texto principal do atestado
+        evento_titulo = getattr(evento, 'titulo', evento.nome)  # Usar titulo se existir, senão nome
+        
+        # Formatação das datas e horários
+        data_inicio = evento.data_inicio.strftime('%d/%m/%Y') if evento.data_inicio else 'N/A'
+        hora_inicio = getattr(evento, 'hora_inicio', None)
+        hora_inicio_str = hora_inicio.strftime('%H:%M') if hora_inicio else 'N/A'
+
+        #Ministrantes for
+        ministrantes = evento.ministrantes.all()
+        if ministrantes.exists():
+            if ministrantes.count() > 1:
+                ministrantes_lista = [ministrante.nome for ministrante in ministrantes]
+                ministrantes_texto = ", ".join(ministrantes_lista[:-1]) + f" e {ministrantes_lista[-1]}"
+            else:
+                ministrantes_texto = ministrantes.first().nome
+        else:
+            ministrantes_texto = "N/A"
+
+        texto_atestado = f"""
+        Atestamos que <b> {ministrantes_texto}</b> ministrou(ram) no evento <b>{evento_titulo}</b>, 
+        realizado no dia <b>{data_inicio}</b>, às <b>{hora_inicio_str}</b> horas, 
+        no local <b>{evento.local}</b>, situado em <b>{evento.instituicao}</b>. 
+        O referido evento teve carga horária total de <b>{evento.carga_horaria }</b> 
+        hora(s) e foi promovido e coordenado pelo(a) <b>{evento.grupo }</b>.
+        <br/>
+        O código hash para validação do atestado é <b>{evento.slug}</b>.
+        """
+        
+        MinistrantePdfView.story.append(Paragraph(texto_atestado, MinistrantePdfView.justify_style))
+        MinistrantePdfView.story.append(Spacer(1, 40))
+
+        data_texto = f"Santa Maria, {evento.data_inicio.strftime('%d de %B de %Y')}."
+        MinistrantePdfView.story.append(Paragraph(data_texto, MinistrantePdfView.right_style))
+        MinistrantePdfView.story.append(Spacer(1, 50))
+        
+        # Texto final explicativo
+        texto_final = """
+        <i>O atestado de participação é gerado automaticamente pelo Sistema de Gestão de Eventos (SGEUFN). 
+        Para validar a autenticidade
+        deste atestado, utilize o código hash fornecido acima no formulário de validação do SGEUFN.</i>
+        """
+        
+        MinistrantePdfView.story.append(Paragraph(texto_final, MinistrantePdfView.justify_style))
+        MinistrantePdfView.story.append(Spacer(1, 40))
+        
+        # Rodapé com informações do sistema
+        MinistrantePdfView.story.append(Spacer(1, 20))
+            
+
+    def get(self, request, *args, **kwargs):
+        locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+        evento = self.get_object()
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="atestado_ministrante_{evento.nome}.pdf"'
+  
+        doc = SimpleDocTemplate(response, pagesize=A4, 
+                    topMargin=1*inch, bottomMargin=1*inch,
+                    leftMargin=1*inch, rightMargin=1*inch)
+        
+        MinistrantePdfView.parte_ministrante(evento)
+
+        footer_style = ParagraphStyle(
+            'FooterStyle',
+            parent=MinistrantePdfView.styles['Normal'],
+            fontSize=9,
+            alignment=TA_LEFT,
+            fontName='Helvetica-Oblique',
+            textColor=colors.grey
+        )
+        
+        rodape_texto = f"""
+        ___________________________________________________<br/>
+        Laboratório de Práticas Computação UFN<br/>
+        Rua dos Andradas, 1614 – Santa Maria – RS<br/>
+        CEP 97010-032 - https://sge.lapinf.ufn.edu.br
+        """
+        
+        MinistrantePdfView.story.append(Paragraph(rodape_texto, footer_style))
+        
+        # Constrói o PDF
+        doc.build(MinistrantePdfView.story)
         
         return response
 
@@ -484,11 +580,13 @@ class AutenticaListView(LoginRequiredMixin, MembroRequiredMixin, ListView):
                         
             if pesquisa:
                 '''
-                Aqui, vamos buscar tanto as inscrições quanto os atestados manuais
+                Aqui, vamos buscar tanto as inscrições quanto os atestados manuais e eventos
                 que correspondem ao código de matrícula informado.'''
                 inscricoes = Inscricao.objects.filter(codigo_matricula=pesquisa)
                 atestados_manuais = AtestadoManual.objects.filter(codigo_matricula=pesquisa)
-                qs = list(chain(inscricoes, atestados_manuais))                   
+                eventos = Evento.objects.filter(slug=pesquisa)
+                qs = list(chain(inscricoes, atestados_manuais, eventos))
+                                   
             
         return qs
     

@@ -1,0 +1,39 @@
+{% extends 'appmembro/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+	{% bootstrap_icon 'print' %} Meus eventos ministrados
+{% endblock %}
+
+
+{% block content %}
+	<div class="table-responsive">
+		<table class="table table-hover">
+	  		<thead>
+				<th>Evento</th>
+				<th class="text-center">Atestado</th>
+	  		</thead>
+	  		<tbody>
+	  			{% for evento_ministrado in object_list %}
+					<tr>
+						<td>
+							{{ evento_ministrado }}
+						</td>
+						<td  class="text-center">
+							{% if evento_ministrado.ja_tem_frequencia %}
+								<span data-toggle="tooltip" title="Imprimir PDF">
+									{% bootstrap_button content='' href=evento_ministrado.get_gera_atestado_ministrante_url button_type='link' icon='print' button_class='btn btn-success' size='sm' %}
+								</span>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+	  		</tbody>
+			<tfoot>
+				<th colspan="2">
+					Total de registros: {{ object_list|length }}
+				</th>
+			</tfoot>
+		</table>
+	</div>
+{% endblock %}

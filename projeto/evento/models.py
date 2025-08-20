@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from utils.gerador_hash import gerar_hash
 
+from frequencia.models import Frequencia
 from inscricao.models import Inscricao
 
 
@@ -17,6 +18,7 @@ class EventoAtivoManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
     
+
 class EventoAtivoComDataAbertaManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True, data_inscricao__gte=timezone.now().date())
@@ -50,6 +52,7 @@ class Evento(models.Model):
     eventos_ativos = EventoAtivoManager()
     eventos_ativos_data_aberta = EventoAtivoComDataAbertaManager()
 
+    
     class Meta:
         unique_together     =   ['nome', 'data_inicio']
         ordering            =   ['-is_active','-data_inscricao','nome']
@@ -91,14 +94,15 @@ class Evento(models.Model):
     @property
     def pode_inscrever_se(self): 
         return self.data_inscricao >= self.get_data_atual and self.quantidade_vagas > 0
-    
-    
-    # def pode_inscrever_se(self, usuario):
-    #     inscrito = self.inscricao_set.filter(usuario=usuario).exists()
-    #     prazo_valido = self.data_inscricao >= self.get_data_atual()
-    #     vagas_disponiveis = self.quantidade_vagas > 0
-    #     return prazo_valido and vagas_disponiveis and not inscrito
 
     @property
     def get_inscricao_create_url(self):
         return '%s?evento_slug=%s' % (reverse('appmembro_inscricao_create'), self.slug)
+    
+    @property
+    def get_gera_atestado_ministrante_url(self):
+        return reverse('appmembro_ministrante_pdf', kwargs={'slug': self.slug})
+    
+    @property
+    def ja_tem_frequencia(self):     
+        return Frequencia.objects.filter(inscricao__evento=self).exists()
