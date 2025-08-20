@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load bootstrap3 %}
+
+{% block actions %}
+{% endblock %}
+
+{% block title %}
+	{% bootstrap_icon 'print' %} Gera relatório
+{% endblock %}
+
+{% block content %}
+
+<script>
+  function conectarLLM(){
+      $("#btnConectar").html('Aguarde...').attr('disabled', true);
+      $("#formRelatorio").submit();
+  }
+</script>
+
+<form id="formRelatorio" class="form" role="form" method="POST">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  {% bootstrap_form form %}
+  
+  <button id="btnConectar" type="button" class="btn btn-default" onclick="conectarLLM();">Gravar</button>
+  <a href="javascript:history.go(-1);" class="btn btn-warning" role="button">Voltar</a>
+  
+</form>
+{% endblock %}

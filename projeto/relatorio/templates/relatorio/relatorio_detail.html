@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<b>Titulo:</b> {{ object.titulo }}
+		</div>
+		<table class="table table-hover">
+			<tbody>
+				<tr>
+					<td>Data:</td>
+					<td>{{ object.data|date:'d/m/Y' }}</td>
+				</tr>
+				<tr>
+					<td>Descritivo:</td>
+					<td>{{ object.descricao }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<a href="{% url 'relatorio_list' %}" class="btn btn-md btn-warning">{% bootstrap_icon 'circle-arrow-up' %} Voltar </a>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Respostas do processo
+		</div>
+		<div class="panel-body">
+			{% if object.resposta %}
+				{{ object.resposta|safe }}			
+			{% else %}
+				<span class="label label-warning" >
+					Resposta não disponível
+				</span>
+			{% endif %}
+			<br>
+			{% comment %} Arquivo em Anexo<br>
+			<span  data-toggle="tooltip"  title='Arquivo Anexo da Ata'>
+				{% if ata.arquivo_anexo1 %}
+					<a href="{{ ata.arquivo_anexo1.url }}" target="_blank" class="btn btn-sm btn-success">
+						{% bootstrap_icon 'download' %}
+					</a>
+				{% else %}
+					<a href="" target="_blank" class="btn btn-sm btn-warning disabled">
+						{% bootstrap_icon 'download' %}
+					</a>
+				{% endif %}
+			</span> {% endcomment %}
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Script SQL
+		</div>
+		<div class="panel-body">
+			{% if object.script_sql %}
+				{{ object.script_sql|linebreaks }}			
+			{% else %}
+				<span class="label label-warning" >
+					Script SQL não disponível
+				</span>
+			{% endif %}
+			<br>
+		</div>
+	</div>
+{% endblock %}

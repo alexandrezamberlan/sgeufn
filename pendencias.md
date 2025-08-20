@@ -8,6 +8,8 @@
 
 30) um coordenador de evento, ao término do seu evento coordenado, deveria voltar a ser participante ??????
 
+33) criar um app relatorio que deve ser chamado no menu Gestão Básica do Administrador. 
+    
 
 
 
