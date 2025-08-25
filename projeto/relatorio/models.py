@@ -5,10 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.urls import reverse
 
-from avaliacao.models import Avaliacao
-from submissao.models import Submissao
 from utils.gerador_hash import gerar_hash
-
 
 class Relatorio(models.Model):
     titulo = models.CharField('Titulo *', max_length=200, unique=True)

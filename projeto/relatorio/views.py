@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from utils.decorators import LoginRequiredMixin
 
 from .models import Relatorio
-from .conecta_llm import Conecta
+# from .conecta_llm import Conecta
 
 
 class RelatorioListView(LoginRequiredMixin, ListView):
@@ -31,10 +31,10 @@ class RelatorioCreateView(LoginRequiredMixin, CreateView):
         #relatorio.resposta = Conecta.gera_dataframe()
         
         # aplicar conexao rpc - llm - trabalho Luiz
-        relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
+        # relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
         
         # aplicar script sql
-        relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
+        # relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
         
         relatorio.save()
         return super(RelatorioCreateView, self).form_valid(form)
@@ -56,9 +56,9 @@ class RelatorioUpdateView(LoginRequiredMixin, UpdateView):
         #relatorio.resposta = Conecta.gera_dataframe()
         
         # aplicar conexao rpc - llm - trabalho Luiz
-        relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
+        # relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
         # aplicar script sql
-        relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
+        # relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
         
         relatorio.save()
         return super(RelatorioUpdateView, self).form_valid(form)

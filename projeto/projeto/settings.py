@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'frequencia',
     'instituicao',
     'inscricao',
+    'relatorio',
     'tipo_evento',
     'usuario',
     
