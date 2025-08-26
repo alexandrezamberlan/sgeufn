@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+from datetime import datetime, timedelta
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -42,7 +43,7 @@ class Evento(models.Model):
     local = models.CharField('Local do evento', max_length=300, help_text='Informe detalhes do local, como sala, prédio, conjunto, etc.', null=True, blank=True)
     lotacao = models.DecimalField('Lotação máxima do local do evento ', max_digits=4, decimal_places=0, validators=[MinValueValidator(1), MaxValueValidator(9999)], null=True, blank=False)    
     
-    frequencia_liberada = models.BooleanField('Libera a frequência', default=False, help_text='Se liberada, o evento permite que os participantes solicitem a frequência')    
+    frequencia_liberada = models.BooleanField('Libera a frequência', default=True, help_text='Se liberada, o evento permite que os participantes solicitem a frequência desde que o horário do registro esteja dentro da carga horária do evento.')
     codigo_frequencia = models.CharField('Código de frequência', max_length=20, null=True, blank=False, help_text='Código que será utilizado para solicitar a frequência do evento. Deve ser informado ao participante no final do evento.')
     
     is_active = models.BooleanField('Ativo', default=True, help_text='Se ativo, o evento está liberado para chamada de artigos')    
@@ -106,3 +107,15 @@ class Evento(models.Model):
     @property
     def ja_tem_frequencia(self):     
         return Frequencia.objects.filter(inscricao__evento=self).exists()
+
+    @property
+    def data_hora_limite_registro_frequencia(self):
+        data_hora_evento = datetime.combine(self.data_inicio, self.hora_inicio)
+        horas = int(round(self.carga_horaria) or 0)
+        return data_hora_evento + timedelta(hours=horas)
+
+    @property
+    def pode_registrar_frequencia(self):
+        if self.frequencia_liberada:
+            return timezone.now() <= self.data_hora_limite_registro_frequencia and timezone.now() >= datetime.combine(self.data_inicio, self.hora_inicio)
+        return False

@@ -20,7 +20,8 @@
 					<tr>
 						<td>
 							{{ inscricao.evento }}<br>
-							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}
+							<b>Código inscrição:</b> {{ inscricao.codigo_matricula }}<br>
+                            <b class="{% if inscricao.evento.pode_registrar_frequencia %}text-success{% else %}text-danger{% endif %}">Limite registro frequência: De {{ inscricao.evento.data_inicio|date:'d/m/Y' }} {{ inscricao.evento.hora_inicio|date:'H:i' }} até {{ inscricao.evento.data_hora_limite_registro_frequencia|date:'d/m/Y H:i' }}</b>
 						</td>
 						<td  class="text-center">
 							{% if inscricao.frequencia %}
@@ -39,7 +40,7 @@
 							{% endif %}
 						</td>
 						<td  class="text-center">
-							{% if inscricao.evento.frequencia_liberada and not inscricao.frequencia %}
+							{% if inscricao.evento.pode_registrar_frequencia and not inscricao.frequencia %}
 								{% bootstrap_button content='' href=inscricao.get_frequencia_create_url button_type='link' icon='record' button_class='btn btn-primary' size='sm' %}			
 							{% else %}
 								<a href="" class="btn btn-sm btn-warning" title="Aguarde liberação de frequência e código de acesso">

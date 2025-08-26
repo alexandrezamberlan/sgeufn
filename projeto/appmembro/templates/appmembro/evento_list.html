@@ -47,7 +47,9 @@
 						<td>							
 							<b>Data evento: </b>{{ evento.data_inicio|date:'d/m/Y' }}<br>
 							<b>Hora evento: </b>{{ evento.hora_inicio|time:'H:i' }}<br>
-							<b>Data inscrição: </b>{{ evento.data_inscricao|date:'d/m/Y' }}
+							<b>Data inscrição: </b>{{ evento.data_inscricao|date:'d/m/Y' }}<br>
+                            <b class="{% if evento.pode_registrar_frequencia %}text-success{% else %}text-danger{% endif %}">Limite registro frequência: De {{ evento.data_inicio|date:'d/m/Y' }} {{ evento.hora_inicio|date:'H:i' }} até {{ evento.data_hora_limite_registro_frequencia|date:'d/m/Y H:i' }}</b>
+
 						</td>
 						<td  class="text-center">
 							{% if evento.site %}

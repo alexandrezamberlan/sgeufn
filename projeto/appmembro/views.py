@@ -223,6 +223,10 @@ class FrequenciaCreateView(LoginRequiredMixin, MembroRequiredMixin, CreateView):
             if formulario.inscricao.evento.codigo_frequencia != formulario.codigo_frequencia:
                 messages.error(self.request, 'Código de frequência inválido. Verifique o código informado!')
                 return super().form_invalid(form)
+
+            if not formulario.inscricao.evento.pode_registrar_frequencia:
+                messages.error(self.request, f"Não é possível registrar frequência para este evento. Passou da data limite {formulario.inscricao.evento.data_hora_limite_registro_frequencia.strftime('%d%m%Y %H:%M')}!")
+                return super().form_invalid(form)
             
             formulario.save()
 

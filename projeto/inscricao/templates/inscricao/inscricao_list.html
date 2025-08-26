@@ -45,7 +45,9 @@
 					<tr>
 						<td>
 							{{ inscricao.evento.nome }}<br>
-							<small>Data: {{ inscricao.evento.data_inicio }} | Local: {{ inscricao.evento.instituicao.nome }} </small>							
+							<small>Data: {{ inscricao.evento.data_inicio }} | Local: {{ inscricao.evento.instituicao.nome }} </small>
+                            <br>
+                            <small class="{% if inscricao.evento.pode_registrar_frequencia %}text-success{% else %}text-danger{% endif %}">Limite registro frequência: {{ inscricao.evento.data_hora_limite_registro_frequencia|date:'d/m/Y H:i' }}</small>
 						</td>
 						<td>
 							{{ inscricao.participante }}<br>
