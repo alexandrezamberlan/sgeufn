@@ -18,6 +18,8 @@ Este projeto faz parte do Laboratório de Práticas da Computação UFN, em que 
     - Professor Ricardo Frohlich da Silva
     - Professor Sylvio Vieira
 
+    - Consultor da Empresa parceira ER Clinic - Robertson Ebling dos Santos
+
 ## Estruturação
 
 - apps
