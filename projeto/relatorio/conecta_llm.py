@@ -119,6 +119,7 @@ class Conecta:
             5. SEMPRE selecione campos completos (ex: u.nome, não SUBSTRING ou similar)
             6. NÃO use funções que dividem strings em caracteres
             7. Máximo 5 colunas no SELECT
+            8. Ignore campos padroes do django
 
             PERGUNTA: {pergunta}
 

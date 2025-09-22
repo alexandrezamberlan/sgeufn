@@ -1,545 +1,98 @@
 {
-  "metadata": {
-    "version": "1.0",
-    "generated_at": "2025-09-18T21:37:21.084151",
-    "source_file": "schema.json",
-    "description": "Schema de banco de dados aprimorado para análise de IA."
-  },
-  "models": {
     "atestado_manual_atestadomanual": {
-      "description": "Representa a entidade 'atestado manual atestadomanual'.",
-      "table_name": "atestado_manual_atestadomanual",
-      "fields": {
-        "atividade": {
-          "type": "TextField",
-          "description": "Campo para armazenar atividade.",
-          "required": true,
-          "unique": false
-        },
-        "instituicao": {
-          "type": "CharField(150)",
-          "description": "Campo para armazenar instituicao.",
-          "required": true,
-          "unique": false
-        },
-        "data_inicio": {
-          "type": "DateField",
-          "description": "Campo para armazenar data inicio.",
-          "required": true,
-          "unique": false
-        },
-        "data_fim": {
-          "type": "DateField",
-          "description": "Campo para armazenar data fim.",
-          "required": true,
-          "unique": false
-        },
-        "carga_horaria": {
-          "type": "DecimalField(10,5)",
-          "description": "Campo para armazenar carga horaria.",
-          "required": true,
-          "unique": false
-        },
-        "codigo_matricula": {
-          "type": "CharField(20)",
-          "description": "Campo para armazenar codigo matricula.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        },
-        "responsavel": {
-          "type": "CharField(150)",
-          "description": "Campo para armazenar responsavel.",
-          "required": true,
-          "unique": false
-        },
-        "pessoa": {
-          "type": "ForeignKey(UsuarioUsuario)",
-          "description": "Relacionamento ForeignKey com o modelo 'UsuarioUsuario'.",
-          "required": true,
-          "unique": false,
-          "related_model": "UsuarioUsuario"
-        },
-        "papel": {
-          "type": "CharField(20)",
-          "description": "Campo para armazenar papel.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "atividade": "TextField",
+        "instituicao": "CharField(150)",
+        "data_inicio": "DateField",
+        "data_fim": "DateField",
+        "carga_horaria": "DecimalField(10,5)",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "responsavel": "CharField(150)",
+        "pessoa": "ForeignKey(UsuarioUsuario)",
+        "papel": "CharField(20)"
     },
     "aviso_aviso": {
-      "description": "Representa a entidade 'aviso aviso'.",
-      "table_name": "aviso_aviso",
-      "fields": {
-        "titulo": {
-          "type": "CharField(100, unique)",
-          "description": "Campo para armazenar titulo.",
-          "required": true,
-          "unique": true
-        },
-        "texto": {
-          "type": "TextField",
-          "description": "Campo para armazenar texto.",
-          "required": true,
-          "unique": false
-        },
-        "data": {
-          "type": "DateField",
-          "description": "Campo para armazenar data.",
-          "required": true,
-          "unique": false
-        },
-        "destinatario": {
-          "type": "CharField(20)",
-          "description": "Campo para armazenar destinatario.",
-          "required": true,
-          "unique": false
-        },
-        "enviado": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar enviado.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "titulo": "CharField(100, unique)",
+        "texto": "TextField",
+        "data": "DateField",
+        "destinatario": "CharField(20)",
+        "enviado": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
     },
     "evento_evento": {
-      "description": "Representa a entidade 'evento evento'.",
-      "table_name": "evento_evento",
-      "fields": {
-        "nome": {
-          "type": "CharField(150)",
-          "description": "Campo para armazenar nome.",
-          "required": true,
-          "unique": false
-        },
-        "descricao": {
-          "type": "TextField",
-          "description": "Campo para armazenar descricao.",
-          "required": true,
-          "unique": false
-        },
-        "site": {
-          "type": "CharField(100)",
-          "description": "Campo para armazenar site.",
-          "required": true,
-          "unique": false
-        },
-        "grupo": {
-          "type": "CharField(150)",
-          "description": "Campo para armazenar grupo.",
-          "required": true,
-          "unique": false
-        },
-        "data_inicio": {
-          "type": "DateField",
-          "description": "Campo para armazenar data inicio.",
-          "required": true,
-          "unique": false
-        },
-        "hora_inicio": {
-          "type": "TimeField",
-          "description": "Campo para armazenar hora inicio.",
-          "required": true,
-          "unique": false
-        },
-        "email": {
-          "type": "CharField(100)",
-          "description": "Campo para armazenar email.",
-          "required": true,
-          "unique": false
-        },
-        "data_inscricao": {
-          "type": "DateField",
-          "description": "Campo para armazenar data inscricao.",
-          "required": true,
-          "unique": false
-        },
-        "carga_horaria": {
-          "type": "DecimalField(10,5)",
-          "description": "Campo para armazenar carga horaria.",
-          "required": true,
-          "unique": false
-        },
-        "local": {
-          "type": "CharField(300)",
-          "description": "Campo para armazenar local.",
-          "required": true,
-          "unique": false
-        },
-        "lotacao": {
-          "type": "DecimalField(10,5)",
-          "description": "Campo para armazenar lotacao.",
-          "required": true,
-          "unique": false
-        },
-        "frequencia_liberada": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar frequencia liberada.",
-          "required": true,
-          "unique": false
-        },
-        "codigo_frequencia": {
-          "type": "CharField(20)",
-          "description": "Campo para armazenar codigo frequencia.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        },
-        "coordenador": {
-          "type": "ForeignKey(UsuarioUsuario)",
-          "description": "Relacionamento ForeignKey com o modelo 'UsuarioUsuario'.",
-          "required": true,
-          "unique": false,
-          "related_model": "UsuarioUsuario"
-        },
-        "instituicao": {
-          "type": "ForeignKey(InstituicaoInstituicao)",
-          "description": "Relacionamento ForeignKey com o modelo 'InstituicaoInstituicao'.",
-          "required": true,
-          "unique": false,
-          "related_model": "InstituicaoInstituicao"
-        },
-        "tipo": {
-          "type": "ForeignKey(TipoEventoTipoevento)",
-          "description": "Relacionamento ForeignKey com o modelo 'TipoEventoTipoevento'.",
-          "required": true,
-          "unique": false,
-          "related_model": "TipoEventoTipoevento"
-        }
-      },
-      "relationships": {}
+        "nome": "CharField(150)",
+        "descricao": "TextField",
+        "site": "CharField(100)",
+        "grupo": "CharField(150)",
+        "data_inicio": "DateField",
+        "hora_inicio": "TimeField",
+        "email": "CharField(100)",
+        "data_inscricao": "DateField",
+        "carga_horaria": "DecimalField(10,5)",
+        "local": "CharField(300)",
+        "lotacao": "DecimalField(10,5)",
+        "frequencia_liberada": "BooleanField",
+        "codigo_frequencia": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "coordenador": "ForeignKey(UsuarioUsuario)",
+        "instituicao": "ForeignKey(InstituicaoInstituicao)",
+        "tipo": "ForeignKey(TipoEventoTipoevento)"
     },
     "evento_evento_ministrantes": {
-      "description": "Representa a entidade 'evento evento ministrantes'.",
-      "table_name": "evento_evento_ministrantes",
-      "fields": {
-        "evento": {
-          "type": "ForeignKey(EventoEvento)",
-          "description": "Relacionamento ForeignKey com o modelo 'EventoEvento'.",
-          "required": true,
-          "unique": false,
-          "related_model": "EventoEvento"
-        },
-        "usuario": {
-          "type": "ForeignKey(UsuarioUsuario)",
-          "description": "Relacionamento ForeignKey com o modelo 'UsuarioUsuario'.",
-          "required": true,
-          "unique": false,
-          "related_model": "UsuarioUsuario"
-        }
-      },
-      "relationships": {}
+        "evento": "ForeignKey(EventoEvento)",
+        "usuario": "ForeignKey(UsuarioUsuario)"
     },
     "frequencia_frequencia": {
-      "description": "Representa a entidade 'frequencia frequencia'.",
-      "table_name": "frequencia_frequencia",
-      "fields": {
-        "data_hora_frequencia": {
-          "type": "DateTimeField",
-          "description": "Campo para armazenar data hora frequencia.",
-          "required": false,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        },
-        "inscricao": {
-          "type": "OneToOneField(InscricaoInscricao)",
-          "description": "Relacionamento OneToOneField com o modelo 'InscricaoInscricao'.",
-          "required": true,
-          "unique": false,
-          "related_model": "InscricaoInscricao"
-        },
-        "codigo_frequencia": {
-          "type": "CharField(30)",
-          "description": "Campo para armazenar codigo frequencia.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "data_hora_frequencia": "DateTimeField",
+        "slug": "CharField(200)",
+        "inscricao": "OneToOneField(InscricaoInscricao)",
+        "codigo_frequencia": "CharField(30)"
     },
     "inscricao_inscricao": {
-      "description": "Representa a entidade 'inscricao inscricao'.",
-      "table_name": "inscricao_inscricao",
-      "fields": {
-        "data_hora_inscricao": {
-          "type": "DateTimeField",
-          "description": "Campo para armazenar data hora inscricao.",
-          "required": false,
-          "unique": false
-        },
-        "codigo_matricula": {
-          "type": "CharField(20)",
-          "description": "Campo para armazenar codigo matricula.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        },
-        "evento": {
-          "type": "ForeignKey(EventoEvento)",
-          "description": "Relacionamento ForeignKey com o modelo 'EventoEvento'.",
-          "required": true,
-          "unique": false,
-          "related_model": "EventoEvento"
-        },
-        "participante": {
-          "type": "ForeignKey(UsuarioUsuario)",
-          "description": "Relacionamento ForeignKey com o modelo 'UsuarioUsuario'.",
-          "required": true,
-          "unique": false,
-          "related_model": "UsuarioUsuario"
-        }
-      },
-      "relationships": {}
+        "data_hora_inscricao": "DateTimeField",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "evento": "ForeignKey(EventoEvento)",
+        "participante": "ForeignKey(UsuarioUsuario)"
     },
     "instituicao_instituicao": {
-      "description": "Representa a entidade 'instituicao instituicao'.",
-      "table_name": "instituicao_instituicao",
-      "fields": {
-        "nome": {
-          "type": "CharField(100, unique)",
-          "description": "Campo para armazenar nome.",
-          "required": true,
-          "unique": true
-        },
-        "sigla": {
-          "type": "CharField(10)",
-          "description": "Campo para armazenar sigla.",
-          "required": true,
-          "unique": false
-        },
-        "pais": {
-          "type": "CharField(30)",
-          "description": "Campo para armazenar pais.",
-          "required": true,
-          "unique": false
-        },
-        "estado": {
-          "type": "CharField(30)",
-          "description": "Campo para armazenar estado.",
-          "required": true,
-          "unique": false
-        },
-        "cidade": {
-          "type": "CharField(100)",
-          "description": "Campo para armazenar cidade.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "nome": "CharField(100, unique)",
+        "sigla": "CharField(10)",
+        "pais": "CharField(30)",
+        "estado": "CharField(30)",
+        "cidade": "CharField(100)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
     },
     "relatorio_relatorio": {
-      "description": "Representa a entidade 'relatorio relatorio'.",
-      "table_name": "relatorio_relatorio",
-      "fields": {
-        "titulo": {
-          "type": "CharField(200, unique)",
-          "description": "Campo para armazenar titulo.",
-          "required": true,
-          "unique": true
-        },
-        "descricao": {
-          "type": "TextField",
-          "description": "Campo para armazenar descricao.",
-          "required": true,
-          "unique": false
-        },
-        "script_sql": {
-          "type": "TextField",
-          "description": "Campo para armazenar script sql.",
-          "required": true,
-          "unique": false
-        },
-        "resposta": {
-          "type": "TextField",
-          "description": "Campo para armazenar resposta.",
-          "required": true,
-          "unique": false
-        },
-        "data": {
-          "type": "DateField",
-          "description": "Campo para armazenar data.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "titulo": "CharField(200, unique)",
+        "descricao": "TextField",
+        "script_sql": "TextField",
+        "resposta": "TextField",
+        "data": "DateField",
+        "slug": "CharField(200)"
     },
     "tipo_evento_tipoevento": {
-      "description": "Representa a entidade 'tipo evento tipoevento'.",
-      "table_name": "tipo_evento_tipoevento",
-      "fields": {
-        "descricao": {
-          "type": "CharField(100, unique)",
-          "description": "Campo para armazenar descricao.",
-          "required": true,
-          "unique": true
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "descricao": "CharField(100, unique)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
     },
     "usuario_usuario": {
-      "description": "Representa a entidade 'usuario usuario'.",
-      "table_name": "usuario_usuario",
-      "fields": {
-        "password": {
-          "type": "CharField(128)",
-          "description": "Campo para armazenar password.",
-          "required": true,
-          "unique": false
-        },
-        "last_login": {
-          "type": "DateTimeField",
-          "description": "Campo para armazenar last login.",
-          "required": false,
-          "unique": false
-        },
-        "nome": {
-          "type": "CharField(100)",
-          "description": "Campo para armazenar nome.",
-          "required": true,
-          "unique": false
-        },
-        "instituicao": {
-          "type": "CharField(50)",
-          "description": "Campo para armazenar instituicao.",
-          "required": true,
-          "unique": false
-        },
-        "email": {
-          "type": "CharField(100, unique)",
-          "description": "Campo para armazenar email.",
-          "required": true,
-          "unique": true
-        },
-        "celular": {
-          "type": "CharField(14)",
-          "description": "Campo para armazenar celular.",
-          "required": true,
-          "unique": false
-        },
-        "cpf": {
-          "type": "CharField(14)",
-          "description": "Campo para armazenar cpf.",
-          "required": true,
-          "unique": false
-        },
-        "aceita_termo": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar aceita termo.",
-          "required": true,
-          "unique": false
-        },
-        "eh_avaliador": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar eh avaliador.",
-          "required": true,
-          "unique": false
-        },
-        "is_active": {
-          "type": "BooleanField",
-          "description": "Campo para armazenar is active.",
-          "required": true,
-          "unique": false
-        },
-        "slug": {
-          "type": "CharField(200)",
-          "description": "Campo para armazenar slug.",
-          "required": true,
-          "unique": false
-        },
-        "tipo": {
-          "type": "CharField(15)",
-          "description": "Campo para armazenar tipo.",
-          "required": true,
-          "unique": false
-        }
-      },
-      "relationships": {}
+        "password": "CharField(128)",
+        "last_login": "DateTimeField",
+        "nome": "CharField(100)",
+        "instituicao": "CharField(50)",
+        "email": "CharField(100, unique)",
+        "celular": "CharField(14)",
+        "cpf": "CharField(14)",
+        "aceita_termo": "BooleanField",
+        "eh_avaliador": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "tipo": "CharField(15)"
     }
-  }
 }
