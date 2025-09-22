@@ -30,11 +30,11 @@ class RelatorioCreateView(LoginRequiredMixin, CreateView):
         # aplicar conexao pandas - trabalho Pedro
         #relatorio.resposta = Conecta.gera_dataframe()
         
-        # aplicar conexao rpc - llm - trabalho Luiz
-        # relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
+        # aplicar conexao gemini api - llm
+        relatorio.script_sql = Conecta.gera_sql(relatorio.descricao)
         
         # aplicar script sql
-        # relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
+        relatorio.resposta = Conecta.executa_sql(relatorio.script_sql)
         
         relatorio.save()
         return super(RelatorioCreateView, self).form_valid(form)
