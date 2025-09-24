@@ -1,0 +1,98 @@
+{
+    "atestado_manual_atestadomanual": {
+        "atividade": "TextField",
+        "instituicao": "CharField(150)",
+        "data_inicio": "DateField",
+        "data_fim": "DateField",
+        "carga_horaria": "DecimalField(10,5)",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "responsavel": "CharField(150)",
+        "pessoa": "ForeignKey(UsuarioUsuario)",
+        "papel": "CharField(20)"
+    },
+    "aviso_aviso": {
+        "titulo": "CharField(100, unique)",
+        "texto": "TextField",
+        "data": "DateField",
+        "destinatario": "CharField(20)",
+        "enviado": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
+    },
+    "evento_evento": {
+        "nome": "CharField(150)",
+        "descricao": "TextField",
+        "site": "CharField(100)",
+        "grupo": "CharField(150)",
+        "data_inicio": "DateField",
+        "hora_inicio": "TimeField",
+        "email": "CharField(100)",
+        "data_inscricao": "DateField",
+        "carga_horaria": "DecimalField(10,5)",
+        "local": "CharField(300)",
+        "lotacao": "DecimalField(10,5)",
+        "frequencia_liberada": "BooleanField",
+        "codigo_frequencia": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "coordenador": "ForeignKey(UsuarioUsuario)",
+        "instituicao": "ForeignKey(InstituicaoInstituicao)",
+        "tipo": "ForeignKey(TipoEventoTipoevento)"
+    },
+    "evento_evento_ministrantes": {
+        "evento": "ForeignKey(EventoEvento)",
+        "usuario": "ForeignKey(UsuarioUsuario)"
+    },
+    "frequencia_frequencia": {
+        "data_hora_frequencia": "DateTimeField",
+        "slug": "CharField(200)",
+        "inscricao": "OneToOneField(InscricaoInscricao)",
+        "codigo_frequencia": "CharField(30)"
+    },
+    "inscricao_inscricao": {
+        "data_hora_inscricao": "DateTimeField",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "evento": "ForeignKey(EventoEvento)",
+        "participante": "ForeignKey(UsuarioUsuario)"
+    },
+    "instituicao_instituicao": {
+        "nome": "CharField(100, unique)",
+        "sigla": "CharField(10)",
+        "pais": "CharField(30)",
+        "estado": "CharField(30)",
+        "cidade": "CharField(100)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
+    },
+    "relatorio_relatorio": {
+        "titulo": "CharField(200, unique)",
+        "descricao": "TextField",
+        "script_sql": "TextField",
+        "resposta": "TextField",
+        "data": "DateField",
+        "slug": "CharField(200)"
+    },
+    "tipo_evento_tipoevento": {
+        "descricao": "CharField(100, unique)",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)"
+    },
+    "usuario_usuario": {
+        "password": "CharField(128)",
+        "last_login": "DateTimeField",
+        "nome": "CharField(100)",
+        "instituicao": "CharField(50)",
+        "email": "CharField(100, unique)",
+        "celular": "CharField(14)",
+        "cpf": "CharField(14)",
+        "aceita_termo": "BooleanField",
+        "eh_avaliador": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "CharField(200)",
+        "tipo": "CharField(15)"
+    }
+}

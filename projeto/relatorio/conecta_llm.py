@@ -1,7 +1,11 @@
 import datetime
+import os
+import re
+import json
 # import pandas
 import sqlite3
-import xmlrpc.client
+
+import google.generativeai as genai
 
 from decouple import config
 
@@ -9,6 +13,7 @@ from django.db import connection
 from django.db import connections
 from django.template import Template, Context
 from django.db.migrations.executor import MigrationExecutor
+from django.conf import settings
 
 # from utils.extrai_esquemaBD import extrai_esquema_mysql
 
@@ -39,43 +44,111 @@ class Conecta:
             return False
 
     @staticmethod
-    def conecta_rpc(): #cponecta com api contatada
-        # Realiza a conexão com o serivor RPC pela URL.
-        url_servidor = config('GERADORSQL_URL')
+    def conecta_api(): #conecta com api gemini
+        # Configura o Gemini API
         try:
             # Verifica se houve alteração pelo migrations
             if Conecta.houve_alteracao_banco():
                 Conecta.atualiza_contexto()
 
-            proxy = xmlrpc.client.ServerProxy(url_servidor)
-            return proxy
+            # Configura a chave da API do Gemini
+            try:
+                api_key = config('GEMINI_API_KEY')
+            except:
+                api_key = os.getenv('GEMINI_API_KEY')
+
+            if not api_key:
+                raise Exception("Chave API do Google não encontrada. Configure GOOGLE_API_KEY nas variáveis de ambiente ou no .env")
+
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel('gemini-2.5-flash')
+            return model
         except Exception as e:
             erro = f"Erro de conexão, contate o administrador. \nCódigo: {str(e)}"
             return erro
 
     @staticmethod
     def atualiza_contexto():
-        # Cria o arquivo JSON pelo método implementado no Utils
-        # extrai_esquema_mysql()
-        # Envia o arquivo JSON para o servidor via RPC
+        # Lê o arquivo schema.json para entender o banco de dados
         try:
-            proxy = Conecta.conecta_rpc()
-            with open("esquema_banco.json", "r") as file:
-                #Lê o arquivo Json e envia para o servidor
-                json_data = file.read()
-                resposta = proxy.atualiza_contexto(json_data)
-                return resposta
+            schema_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'schema.json')
+
+            with open(schema_path, "r", encoding='utf-8') as file:
+                schema_data = json.load(file)
+                return f"Contexto atualizado com sucesso. Schema carregado com {len(schema_data.get('models', {}))} modelos."
         except Exception as e:
             return f"Erro ao atualizar contexto. Exceção: {str(e)}"
 
     @staticmethod
+    def carrega_schema():
+        # Carrega o esquema do banco de dados do arquivo schema.json
+        try:
+            schema_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'schema.json')
+
+            with open(schema_path, "r", encoding='utf-8') as file:
+                schema_data = json.load(file)
+                return schema_data
+        except Exception as e:
+            print(f"Erro ao carregar schema: {str(e)}")
+            return None
+
+    @staticmethod
     def gera_sql(pergunta):
         try:
-            proxy = Conecta.conecta_rpc()# vai na api
-            resposta = proxy.gera_resposta(pergunta) #vai na api com a pergunta e retorna o sql
-            return resposta
+            model = Conecta.conecta_api()# conecta com gemini api
+            if isinstance(model, str):  # Se retornou erro
+                return model
+
+            # Carrega o schema do banco de dados
+            schema_data = Conecta.carrega_schema()
+            if not schema_data:
+                return "Erro ao carregar o esquema do banco de dados."
+
+            # Constrói o prompt com o contexto do schema
+            context_prompt = f"""
+            Você é um especialista em SQL para Django. Gere UMA consulta SQL válida baseada nas tabelas disponíveis.
+
+            O Schema é:
+            {schema_data}
+
+            REGRAS CRÍTICAS:
+            1. Retorne APENAS UMA instrução SELECT válida
+            2. NÃO use ponto e vírgula (;)
+            3. FAÇA SOMENTE SELEÇÃO de dados (SELECT). NÃO use INSERT, UPDATE, DELETE, DROP, ALTER, CREATE, EXEC, MERGE ou TRUNCATE
+            4. Para buscar por nome use: WHERE nome LIKE '%parte_do_nome%'
+            5. SEMPRE selecione campos completos (ex: u.nome, não SUBSTRING ou similar)
+            6. NÃO use funções que dividem strings em caracteres
+            7. Máximo 5 colunas no SELECT
+            8. Ignore campos padroes do django
+
+            PERGUNTA: {pergunta}
+
+            SQL:
+            """
+
+            response = model.generate_content(context_prompt)
+            sql_resposta = response.text.strip()
+
+            # Remove possíveis marcadores de código markdown
+            if sql_resposta.startswith('```sql'):
+                sql_resposta = sql_resposta[6:]
+            if sql_resposta.startswith('```'):
+                sql_resposta = sql_resposta[3:]
+            if sql_resposta.endswith('```'):
+                sql_resposta = sql_resposta[:-3]
+
+            # Remove ponto e vírgula no final e quebras de linha extras
+            sql_limpo = sql_resposta.strip()
+            if sql_limpo.endswith(';'):
+                sql_limpo = sql_limpo[:-1]
+
+            # Se houver múltiplas instruções separadas por ';', pega apenas a primeira
+            if ';' in sql_limpo:
+                sql_limpo = sql_limpo.split(';')[0].strip()
+
+            return sql_limpo
         except Exception as e:
-            erro = f"Não foi possível conectar no servidor para gerar a consulta. Por favor, tente novamente mais tarde."
+            erro = f"Não foi possível conectar no servidor para gerar a consulta. Por favor, tente novamente mais tarde. Erro: {str(e)}"
             return erro
 
     @staticmethod
@@ -114,16 +187,25 @@ class Conecta:
 
                 # Se não houver resultados, retorna a mensagem
                 if not resultados:
-                    resultados = "Nenhum resultado relevante foi encontrado."
+                    return "Nenhum resultado relevante foi encontrado."
 
                 # Obtém os nomes dos campos
                 nomes_campos = [i[0].upper() for i in cursor.description]
 
-                cursor.close()
+            # Verifica se resultados é string (mensagem de erro)
+            if isinstance(resultados, str):
+                return resultados
 
-            # Se não houver "order by" na consulta, ordena a lista de listas
-            if "order by" not in sql.lower():
-                lista_dados = sorted(resultados, key=lambda x: x[0])
+            # Se não houver "order by" na consulta, ordena a lista de listas (com proteção)
+            if "order by" not in sql.lower() and resultados:
+                try:
+                    # Verifica se os resultados têm pelo menos um elemento para ordenar
+                    if len(resultados) > 0 and len(resultados[0]) > 0:
+                        lista_dados = sorted(resultados, key=lambda x: x[0] if x and len(x) > 0 else '')
+                    else:
+                        lista_dados = resultados
+                except (IndexError, TypeError, AttributeError):
+                    lista_dados = resultados
             else:
                 lista_dados = resultados
 
@@ -195,40 +277,3 @@ class Conecta:
         return template.render(context)
 
     #-------------------------------------------------------------------------
-    # metodo do trabalho do Pedro
-    @staticmethod
-    def gera_dataframe():
-        # Conexão com o SQLite
-        conexao = sqlite3.connect('projeto/db.sqlite3')
-        # Query para tabela de usuário
-        consulta_usuario = """
-        SELECT
-            usuario.id AS usuario_id, usuario.nome, usuario.area_conhecimento_cnpq, usuario.curso_graduacao_vinculado,
-            usuario.curso_pos_graduacao, usuario.grupo_pesquisa
-        FROM
-            usuario_usuario as usuario
-        """
-        # Query para tabela de submissao
-        consulta_submissao = """
-        SELECT
-            submissao.edital_id, submissao.responsavel_id, submissao.area, submissao.curso_graduacao_vinculado,
-            submissao.curso_pos_graduacao, submissao.grupo_pesquisa, submissao.titulo, submissao.resumo
-        FROM
-            submissao_submissao AS submissao
-        """
-        # Carrega os dados no pandas DataFrame, para as duas consultas
-        data_frame_usuario = pandas.read_sql_query(consulta_usuario, conexao)
-        data_frame_submissao = pandas.read_sql_query(consulta_submissao, conexao)
-        # Feche a conexão
-        conexao.close()
-        # Mescla os dois DataFrames
-        data_frame_merge = data_frame_submissao.merge(data_frame_usuario, left_on='responsavel_id', right_on='usuario_id', how='left')
-
-        # Colunas do DataFrame mesclado
-        # ['edital_id', 'responsavel_id', 'area', 'curso_graduacao_vinculado_x', 'curso_pos_graduacao_x', 'grupo_pesquisa_x', 'titulo',
-        # 'resumo', 'usuario_id', 'nome', 'area_conhecimento_cnpq', 'curso_graduacao_vinculado_y', 'curso_pos_graduacao_y', 'grupo_pesquisa_y']
-
-        # Seleciona as colunas do descritivo
-        colunas_selecionadas = data_frame_merge[['nome', 'curso_graduacao_vinculado_x', 'titulo', 'curso_graduacao_vinculado_y']]
-        # Retorna o DataFrame
-        return colunas_selecionadas
