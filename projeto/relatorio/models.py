@@ -30,6 +30,7 @@ class Relatorio(models.Model):
         if not self.slug:
             self.slug = gerar_hash()
         self.titulo = self.titulo.upper()
+        
         super(Relatorio, self).save(*args, **kwargs)
 
     @property
