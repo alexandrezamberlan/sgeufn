@@ -120,6 +120,7 @@ class Conecta:
             6. NÃO use funções que dividem strings em caracteres
             7. Máximo 5 colunas no SELECT
             8. Ignore campos padroes do django
+            9. Sinônimos comuns: usuario = participante = estudante = aluno; participação = frequência = presença;
 
             PERGUNTA: {pergunta}
 
