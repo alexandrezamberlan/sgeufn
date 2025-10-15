@@ -37,7 +37,7 @@ packaging==24.1
 paramiko==3.4.0
 pillow==10.4.0
 proto-plus==1.26.1
-protobuf==6.31.1
+protobuf
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pycparser==2.22
