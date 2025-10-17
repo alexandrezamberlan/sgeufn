@@ -1,0 +1,121 @@
+{
+    "admin_logentry": {
+        "action_time": "DateTimeField",
+        "user": "ForeignKey(UsuarioUsuario)",
+        "content_type": "ForeignKey(ContenttypesContenttype)",
+        "object_id": "TextField",
+        "object_repr": "CharField(200)",
+        "action_flag": "PositiveSmallIntegerField",
+        "change_message": "TextField"
+    },
+    "auth_permission": {
+        "name": "CharField(255)",
+        "content_type": "ForeignKey(ContenttypesContenttype)",
+        "codename": "CharField(100)"
+    },
+    "auth_group": {
+        "name": "CharField(150, unique)",
+        "permissions": "ManyToManyField(AuthPermission)"
+    },
+    "contenttypes_contenttype": {
+        "app_label": "CharField(100)",
+        "model": "CharField(100)"
+    },
+    "sessions_session": {
+        "session_key": "CharField(40)",
+        "session_data": "TextField",
+        "expire_date": "DateTimeField"
+    },
+    "atestado_manual_atestadomanual": {
+        "pessoa": "ForeignKey(UsuarioUsuario)",
+        "atividade": "TextField(500)",
+        "instituicao": "CharField(150)",
+        "data_inicio": "DateField(10)",
+        "data_fim": "DateField(10)",
+        "responsavel": "CharField(150)",
+        "carga_horaria": "DecimalField(4,0)",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    },
+    "aviso_aviso": {
+        "titulo": "CharField(100, unique)",
+        "texto": "TextField(500)",
+        "data": "DateField",
+        "destinatario": "CharField(20)",
+        "enviado": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    },
+    "evento_evento": {
+        "nome": "CharField(150)",
+        "descricao": "TextField(500)",
+        "tipo": "ForeignKey(Tipo_eventoTipoevento)",
+        "site": "URLField(100)",
+        "grupo": "CharField(150)",
+        "instituicao": "ForeignKey(InstituicaoInstituicao)",
+        "data_inicio": "DateField(10)",
+        "hora_inicio": "TimeField",
+        "coordenador": "ForeignKey(UsuarioUsuario)",
+        "email": "EmailField(100)",
+        "data_inscricao": "DateField(10)",
+        "carga_horaria": "DecimalField(4,0)",
+        "local": "CharField(300)",
+        "lotacao": "DecimalField(4,0)",
+        "frequencia_liberada": "BooleanField",
+        "codigo_frequencia": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)",
+        "ministrantes": "ManyToManyField(UsuarioUsuario)"
+    },
+    "frequencia_frequencia": {
+        "inscricao": "OneToOneField(InscricaoInscricao)",
+        "data_hora_frequencia": "DateTimeField",
+        "codigo_frequencia": "CharField(30)",
+        "slug": "SlugField(200)"
+    },
+    "instituicao_instituicao": {
+        "nome": "CharField(100, unique)",
+        "sigla": "CharField(10)",
+        "pais": "CharField(30)",
+        "estado": "CharField(30)",
+        "cidade": "CharField(100)",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    },
+    "inscricao_inscricao": {
+        "participante": "ForeignKey(UsuarioUsuario)",
+        "evento": "ForeignKey(EventoEvento)",
+        "data_hora_inscricao": "DateTimeField",
+        "codigo_matricula": "CharField(20)",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    },
+    "relatorio_relatorio": {
+        "titulo": "CharField(200, unique)",
+        "descricao": "TextField",
+        "script_sql": "TextField",
+        "resposta": "TextField",
+        "data": "DateField",
+        "slug": "SlugField(200)"
+    },
+    "tipo_evento_tipoevento": {
+        "descricao": "CharField(100, unique)",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    },
+    "usuario_usuario": {
+        "password": "CharField(128)",
+        "last_login": "DateTimeField",
+        "tipo": "CharField(15)",
+        "nome": "CharField(100)",
+        "instituicao": "CharField(50)",
+        "email": "EmailField(100, unique)",
+        "celular": "CharField(14)",
+        "cpf": "CharField(14)",
+        "aceita_termo": "BooleanField",
+        "eh_avaliador": "BooleanField",
+        "is_active": "BooleanField",
+        "slug": "SlugField(200)"
+    }
+}
